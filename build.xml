@@ -7,24 +7,26 @@
                    
      LinkWu                                                             
      ====================================================================== -->
-<project name="anyway" default="default" basedir=".">
-    <description>
+<project name="anyway" default="help" basedir=".">
+	<description>
             my as 3D engine
     </description>
-	
-	<property name="jvmarg.compc" value="-Dfile.encoding=${file.encoding} -Xmx384m -Dsun.io.useCanonCaches=false"/>
-	
+
+	<property name="jvmarg.compc" value="-Dfile.encoding=${file.encoding} -Xmx384m -Dsun.io.useCanonCaches=false" />
+	<property name="jvmarg.mxmlc" value="-Dfile.encoding=${file.encoding} -Xmx384m -Dsun.io.useCanonCaches=false" />
+	<property name="jvmarg.asdoc" value="-Dfile.encoding=${file.encoding} -Xmx1024m -Dsun.io.useCanonCaches=false" />
+
 	<property name="FLEX_HOME" location="D:/Adobe/Adobe Flash Builder 4.7 (64 Bit)/sdks/4.6.0" />
-	
-	<property name="config.locale" value="en_US"/>
-	<property name="config.optimize" value="true"/>
-	<property name="config.player.version" value="12.0"/>
-	<property name="config.swf.version" value="23"/>
-	<property name="config.incremental" value="true"/>
-	<property name="config.accessible" value="false"/>
-	<property name="config.debug" value="false"/>
-	<property name="config.debug_password" value="123456"/>
-	
+
+	<property name="config.locale" value="en_US" />
+	<property name="config.optimize" value="true" />
+	<property name="config.player.version" value="12.0" />
+	<property name="config.swf.version" value="23" />
+	<property name="config.incremental" value="true" />
+	<property name="config.accessible" value="false" />
+	<property name="config.debug" value="false" />
+	<property name="config.debug_password" value="123456" />
+
 	<path id="ant.flex.classpath">
 		<fileset dir="${FLEX_HOME}/ant">
 			<include name="**/*.jar" />
@@ -32,46 +34,64 @@
 	</path>
 	<taskdef resource="flexTasks.tasks" classpathref="ant.flex.classpath" />
 	
-	<property name="const.project.name" value="aw_const"/>
-	<property name="const.dir" value="${basedir}/${const.project.name}"/>
-	<property name="const.src.dir" value="${const.dir}/src"/>
-	<property name="const.bin.dir" value="${const.dir}/bin"/>
+	<property name="config.doc.dir" value="${basedir}/doc" />
 	
-	
-	<property name="core.project.name" value="aw_core"/>
-	<property name="core.dir" value="${basedir}/${core.project.name}"/>
-	<property name="core.src.dir" value="${core.dir}/src"/>
-	<property name="core.bin.dir" value="${core.dir}/bin"/>
+	<property name="core.project.name" value="aw_core" />
+	<property name="core.dir" value="${basedir}/${core.project.name}" />
+	<property name="core.src.dir" value="${core.dir}/src" />
+	<property name="core.bin.dir" value="${core.dir}/bin" />
 
-    <!-- ================================= 
+	<property name="test.project.name" value="aw_test" />
+	<property name="test.dir" value="${basedir}/${test.project.name}" />
+	<property name="test.src.dir" value="${test.dir}/src" />
+	<property name="test.bin.dir" value="${test.dir}/bin" />
+	<property name="test.lib.dir" value="${test.dir}/libs" />
+
+	<!-- ================================= 
           target: default              
          ================================= -->
-    <target name="default" depends="compile_core" description="my as 3D engine">
-    </target>
+	<target name="help" description="my as 3D engine">
+	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
-          target: compile_const                      
-         - - - - - - - - - - - - - - - - - -->
-    <target name="compile_const">
-		<compc output="${const.bin.dir}/${const.project.name}.swc" debug="${config.debug}" debug-password="${config.debug_password}" optimize="${config.optimize}" incremental="${config.incremental}" locale="${config.locale}" target-player="${config.player.version}" swf-version="${config.swf.version}" accessible="${config.accessible}" fork="true">
-			<include-sources dir="${const.src.dir}" includes="*" />
-
-			<jvmarg line="${jvmarg.compc}" />
-		</compc>
-    </target>
-
-	
-    <!-- - - - - - - - - - - - - - - - - - 
           target: compile_core                      
          - - - - - - - - - - - - - - - - - -->
-	<target name="compile_core" depends="compile_const">
+	<target name="compile_core">
 		<compc output="${core.bin.dir}/${core.project.name}.swc" debug="${config.debug}" debug-password="${config.debug_password}" optimize="${config.optimize}" incremental="${config.incremental}" locale="${config.locale}" target-player="${config.player.version}" swf-version="${config.swf.version}" accessible="${config.accessible}" fork="true">
 			<include-sources dir="${core.src.dir}" includes="*" />
 
-			<library-path dir="${const.bin.dir}" includes="**/*.swc" append="true" />
-			
 			<jvmarg line="${jvmarg.compc}" />
 		</compc>
 	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: compile_test                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="compile_test" depends="compile_core">
+		<mxmlc file="${test.src.dir}/AWMain.as" output="${test.bin.dir}/AWMain.swf" debug="${config.debug}" debug-password="${config.debug_password}" optimize="${config.optimize}" incremental="${config.incremental}" locale="${config.locale}" target-player="${config.player.version}" swf-version="${config.swf.version}" accessible="${config.accessible}" static-rsls="true" fork="true">
+			<source-path path-element="${test.src.dir}" />
+
+			<library-path dir="${core.bin.dir}" includes="**/*.swc" append="true" />
+			<library-path dir="${test.lib.dir}" includes="**/*.swc" append="true" />
+
+			<jvmarg line="${jvmarg.mxmlc}" />
+		</mxmlc>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: doc                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="doc">
+		<asdoc output="${config.doc.dir}" package-description-file="${basedir}/package.xml" lenient="true" debug="${config.debug}" debug-password="${config.debug_password}" optimize="${config.optimize}" incremental="${config.incremental}" locale="${config.locale}" target-player="${config.player.version}" swf-version="${config.swf.version}" fork="true">
+
+			<doc-sources path-element="${core.src.dir}" />
+			
+			<library-path dir="${test.lib.dir}" includes="**/*.swc" append="true" />
+
+			<jvmarg line="${jvmarg.asdoc}" />
+		</asdoc>
+	</target>
+
+
 
 </project>

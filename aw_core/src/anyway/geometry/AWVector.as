@@ -1,4 +1,5 @@
-package anyway.geometry{
+package anyway.geometry {
+
 	import anyway.utils.format;
 
 	public class AWVector {
@@ -9,11 +10,15 @@ package anyway.geometry{
 			_raw_data[3] = 0.0;
 		}
 
+		private const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
+
 		public function get length():Number {
 			var result:Number = 0.0;
-			for each (var component:Number in _raw_data) {
+
+			for each(var component:Number in _raw_data) {
 				result += Math.pow(component, 2);
 			}
+
 			return Math.sqrt(result);
 		}
 
@@ -32,7 +37,8 @@ package anyway.geometry{
 
 		public function dotProduct(target:AWVector):Number {
 			var result:Number = 0.0;
-			for (var i:int = 0; i < _raw_data.length; ++i) {
+
+			for(var i:int = 0; i < _raw_data.length; ++i) {
 				result += _raw_data[i] * target._raw_data[i];
 			}
 			return result;
@@ -45,7 +51,5 @@ package anyway.geometry{
 		public function toString():String {
 			return "<" + format(_raw_data[0]) + ", " + format(_raw_data[1]) + ", " + format(_raw_data[2]) + ">";
 		}
-		
-		private const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
 	}
 }
