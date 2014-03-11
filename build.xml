@@ -33,13 +33,14 @@
 		</fileset>
 	</path>
 	<taskdef resource="flexTasks.tasks" classpathref="ant.flex.classpath" />
-	
+
 	<property name="config.doc.dir" value="${basedir}/doc" />
-	
+
 	<property name="core.project.name" value="aw_core" />
 	<property name="core.dir" value="${basedir}/${core.project.name}" />
 	<property name="core.src.dir" value="${core.dir}/src" />
 	<property name="core.bin.dir" value="${core.dir}/bin" />
+	<property name="core.lib.dir" value="${core.dir}/libs" />
 
 	<property name="test.project.name" value="aw_test" />
 	<property name="test.dir" value="${basedir}/${test.project.name}" />
@@ -59,6 +60,8 @@
 	<target name="compile_core">
 		<compc output="${core.bin.dir}/${core.project.name}.swc" debug="${config.debug}" debug-password="${config.debug_password}" optimize="${config.optimize}" incremental="${config.incremental}" locale="${config.locale}" target-player="${config.player.version}" swf-version="${config.swf.version}" accessible="${config.accessible}" fork="true">
 			<include-sources dir="${core.src.dir}" includes="*" />
+
+			<library-path dir="${core.lib.dir}" includes="**/*.swc" append="true" />
 
 			<jvmarg line="${jvmarg.compc}" />
 		</compc>
@@ -83,15 +86,11 @@
          - - - - - - - - - - - - - - - - - -->
 	<target name="doc">
 		<asdoc output="${config.doc.dir}" package-description-file="${basedir}/package.xml" lenient="true" debug="${config.debug}" debug-password="${config.debug_password}" optimize="${config.optimize}" incremental="${config.incremental}" locale="${config.locale}" target-player="${config.player.version}" swf-version="${config.swf.version}" fork="true">
-
 			<doc-sources path-element="${core.src.dir}" />
-			
-			<library-path dir="${test.lib.dir}" includes="**/*.swc" append="true" />
+
+			<library-path dir="${core.lib.dir}" includes="**/*.swc" append="true" />
 
 			<jvmarg line="${jvmarg.asdoc}" />
 		</asdoc>
 	</target>
-
-
-
 </project>

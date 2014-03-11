@@ -45,7 +45,10 @@ package anyway.geometry {
 		}
 
 		public function crossProduct(target:AWVector):AWVector {
-			return new AWVector(_raw_data[1] * target._raw_data[2] - target._raw_data[1] * _raw_data[2], -_raw_data[0] * target._raw_data[2] + target._raw_data[0] * _raw_data[2], _raw_data[0] * target._raw_data[1] - target._raw_data[0] * _raw_data[1]);
+			return new AWVector(
+				_raw_data[1] * target._raw_data[2] - target._raw_data[1] * _raw_data[2], 
+				-_raw_data[0] * target._raw_data[2] + target._raw_data[0] * _raw_data[2], 
+				_raw_data[0] * target._raw_data[1] - target._raw_data[0] * _raw_data[1]);
 		}
 
 		public function toString():String {

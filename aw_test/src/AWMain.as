@@ -1,7 +1,5 @@
 package {
 
-	import com.adobe.utils.AGALMiniAssembler;
-	
 	import flash.display.Sprite;
 	import flash.display.Stage3D;
 	import flash.display.StageAlign;
@@ -9,17 +7,11 @@ package {
 	import flash.display.StageScaleMode;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProfile;
-	import flash.display3D.Context3DProgramType;
 	import flash.display3D.Context3DRenderMode;
 	import flash.display3D.Context3DVertexBufferFormat;
 	import flash.display3D.IndexBuffer3D;
-	import flash.display3D.Program3D;
 	import flash.display3D.VertexBuffer3D;
 	import flash.events.Event;
-	
-	import anyway.constant.AWCoordinateConst;
-	import anyway.geometry.AWMatrix;
-	import anyway.utils.AWMatrixUtil;
 
 	[SWF(width="500", height="500", frameRate="24")]
 	public class AWMain extends Sprite {
@@ -84,21 +76,21 @@ package {
 			var ib:IndexBuffer3D = _context3D.createIndexBuffer(ib_raw.length);
 			ib.uploadFromVector(ib_raw, 0, ib_raw.length);
 
-			var vp:AGALMiniAssembler = new AGALMiniAssembler();
-			vp.assemble(Context3DProgramType.VERTEX,
-						"mov op, va0 \n" +
-						"mov v0, va1");
-
-			var fp:AGALMiniAssembler = new AGALMiniAssembler();
-			fp.assemble(Context3DProgramType.FRAGMENT, "mov oc, v0");
-
-			var p:Program3D = _context3D.createProgram();
-			p.upload(vp.agalcode, fp.agalcode);
-			_context3D.setProgram(p);
-
-			_context3D.clear(1, 1, 1);
-			_context3D.drawTriangles(ib);
-			_context3D.present();
+//			var vp:AGALMiniAssembler = new AGALMiniAssembler();
+//			vp.assemble(Context3DProgramType.VERTEX,
+//						"mov op, va0 \n" +
+//						"mov v0, va1");
+//
+//			var fp:AGALMiniAssembler = new AGALMiniAssembler();
+//			fp.assemble(Context3DProgramType.FRAGMENT, "mov oc, v0");
+//
+//			var p:Program3D = _context3D.createProgram();
+//			p.upload(vp.agalcode, fp.agalcode);
+//			_context3D.setProgram(p);
+//
+//			_context3D.clear(1, 1, 1);
+//			_context3D.drawTriangles(ib);
+//			_context3D.present();
 		}
 
 		private function onEnterFrame(event:Event):void {

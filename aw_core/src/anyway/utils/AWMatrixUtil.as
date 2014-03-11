@@ -6,14 +6,14 @@ package anyway.utils {
 
 	public class AWMatrixUtil {
 		/**
-		 * <p>1, 0, 0, tx</p>
-		 * <p>0, 1, 0, ty</p>
-		 * <p>0, 0, 1, tz</p>
-		 * <p>0, 0, 0,  1</p>
+		 * <p> 1, 0, 0, tx</p>
+		 * <p> 0, 1, 0, ty</p>
+		 * <p> 0, 0, 1, tz</p>
+		 * <p> 0, 0, 0, 1 </p>
 		 * @param tx
 		 * @param ty
 		 * @param tz
-		 * @return 返回平移矩阵
+		 * @return 平移矩阵
 		 */
 		public static function makeTranslateMatrix(tx:Number = 0.0, ty:Number = 0.0, tz:Number = 0.0):AWMatrix {
 			var result:AWMatrix = new AWMatrix();
@@ -26,14 +26,14 @@ package anyway.utils {
 		}
 
 		/**
-		 * <p>sx, 	0, 	0, 	0</p>
-		 * <p>0, 	sy, 0, 	0</p>
-		 * <p>0, 	0, 	sz, 0</p>
-		 * <p>0, 	0, 	0, 	1</p>
+		 * <p>sx, 0 , 0 , 0</p>
+		 * <p>0 , sy, 0 , 0</p>
+		 * <p>0 , 0 , sz, 0</p>
+		 * <p>0 , 0 , 0 , 1</p>
 		 * @param sx
 		 * @param sy
 		 * @param sz
-		 * @return 返回缩放矩阵
+		 * @return 缩放矩阵
 		 */
 		public static function makeScaleMatrix(sx:Number = 1.0, sy:Number = 1.0, sz:Number = 1.0):AWMatrix {
 			var result:AWMatrix = new AWMatrix();
@@ -48,7 +48,7 @@ package anyway.utils {
 		/**
 		 * @param deg 角度
 		 * @param axis 旋转轴
-		 * @return 返回旋转矩阵
+		 * @return 旋转矩阵
 		 * @see anyway.constant.AWCoordinateConst
 		 */
 		public static function makeRotateMatrix(deg:Number = 0, axis:uint = 1):AWMatrix {
@@ -84,14 +84,12 @@ package anyway.utils {
 		}
 
 		/**
-		 *
 		 * @param width
 		 * @param height
 		 * @param zNear
 		 * @param zFar
 		 * @return
 		 * @private
-		 *
 		 */
 		public static function makePerspectiveMatrix(width:Number,
 													 height:Number,
@@ -108,14 +106,12 @@ package anyway.utils {
 		}
 
 		/**
-		 *
 		 * @param width
 		 * @param height
 		 * @param zNear
 		 * @param zFar
 		 * @return
 		 * @private
-		 *
 		 */
 		public static function makeOrthoMatrix(width:Number,
 											   height:Number,

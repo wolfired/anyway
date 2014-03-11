@@ -33,7 +33,7 @@ package anyway.geometry {
 		 * <p>1, 0, 0, 0</p>
 		 * <p>0, 1, 0, 0</p>
 		 * <p>0, 0, 1, 0</p>
-		 * <p> 0, 0, 0, 1</p>
+		 * <p>0, 0, 0, 1</p>
 		 */
 		public function identity():void {
 			this.copyRawData(Vector.<Number>([
