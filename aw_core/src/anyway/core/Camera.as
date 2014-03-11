@@ -1,9 +1,7 @@
-package anyway.core
-{
-	public class Camera
-	{
-		public function Camera()
-		{
+package anyway.core {
+
+	public class Camera {
+		public function Camera() {
 		}
 	}
 }
