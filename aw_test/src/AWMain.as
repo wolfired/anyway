@@ -5,7 +5,7 @@ package {
 	
 	import anyway.core.Anyway;
 	import anyway.events.AWEventRouter;
-	import anyway.utils.AWAssetsUtil;
+	import anyway.manager.AWAssetsManager;
 
 	[SWF(width="800", height="800", frameRate="24")]
 	public class AWMain extends Sprite {
@@ -31,7 +31,7 @@ package {
 		}
 
 		private function startup():void {
-			new AWAssetsUtil();
+			new AWAssetsManager();
 			new AWEventRouter();
 			new Anyway().boot(this.stage);
 		}

@@ -17,7 +17,7 @@ package anyway.events {
 		private var _event_map:Object;
 
 		public function addEventListener(eventType:String, listener:Function):void {
-			if(_event_map[eventType] == null) {
+			if(null == _event_map[eventType]) {
 				_event_map[eventType] = new Vector.<Function>();
 			}
 
@@ -25,13 +25,13 @@ package anyway.events {
 
 			var idx:int = listener_vec.indexOf(listener);
 
-			if(idx == -1) {
+			if(-1 == idx) {
 				listener_vec.push(listener);
 			}
 		}
 
 		public function delEventListener(eventType:String, listener:Function):void {
-			if(_event_map[eventType] == null) {
+			if(null == _event_map[eventType]) {
 				return;
 			}
 
@@ -39,7 +39,7 @@ package anyway.events {
 
 			var idx:int = listener_vec.indexOf(listener);
 
-			if(idx == -1) {
+			if(-1 == idx) {
 				return;
 			}
 
@@ -47,7 +47,7 @@ package anyway.events {
 		}
 
 		public function delEventListeners(eventType:String):void {
-			if(_event_map[eventType] == null) {
+			if(null == _event_map[eventType]) {
 				return;
 			}
 
@@ -55,7 +55,7 @@ package anyway.events {
 		}
 
 		public function routeEvent(event:AWEvent):void {
-			if(_event_map[event.eventType] == null) {
+			if(null == _event_map[event.eventType]) {
 				return;
 			}
 

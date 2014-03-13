@@ -15,8 +15,8 @@ package anyway.core {
 	import flash.display3D.Program3D;
 	import flash.display3D.VertexBuffer3D;
 	import flash.events.Event;
-	import anyway.utils.AWAssetsUtil;
-	import anyway.utils.AWTask;
+	import anyway.manager.AWAssetsManager;
+	import anyway.manager.AWAssets;
 	import anyway.utils.string2json;
 
 	public class Anyway {
@@ -50,9 +50,9 @@ package anyway.core {
 		}
 
 		private function onEnterFrame(event:Event):void {
-			var t:AWTask = AWAssetsUtil.instance.fetch("./res/box.def");
+			var t:AWAssets = AWAssetsManager.instance.fetch("./res/box.def");
 
-			if(t.data == null) {
+			if(!t.isDone) {
 				return;
 			}
 
