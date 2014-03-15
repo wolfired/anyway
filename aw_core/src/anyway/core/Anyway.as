@@ -1,6 +1,7 @@
 package anyway.core {
 
 	import com.adobe.utils.AGALMiniAssembler;
+	
 	import flash.display.Stage;
 	import flash.display.Stage3D;
 	import flash.display.StageAlign;
@@ -15,8 +16,9 @@ package anyway.core {
 	import flash.display3D.Program3D;
 	import flash.display3D.VertexBuffer3D;
 	import flash.events.Event;
-	import anyway.manager.AWAssetsManager;
-	import anyway.manager.AWAssets;
+	
+	import anyway.manager.asset.AWAsset;
+	import anyway.manager.asset.AWAssetManager;
 	import anyway.utils.string2json;
 
 	public class Anyway {
@@ -46,17 +48,18 @@ package anyway.core {
 			_stage3D.removeEventListener(Event.CONTEXT3D_CREATE, onContext3DCreate);
 
 			_context3D = _stage3D.context3D;
-			_context3D.configureBackBuffer(800, 800, 2);
+			_context3D.configureBackBuffer(500, 500, 2);
+			
+			_asset = AWAssetManager.instance.fetch("./res/box.def");
 		}
 
+		private var _asset:AWAsset;
 		private function onEnterFrame(event:Event):void {
-			var t:AWAssets = AWAssetsManager.instance.fetch("./res/box.def");
-
-			if(!t.isDone) {
+			if(!_asset.isFull) {
 				return;
 			}
 
-			var def:Object = string2json(t.data as String);
+			var def:Object = string2json(_asset.data as String);
 
 			var vb_raw:Vector.<Number> = Vector.<Number>(def.vertex_raw);
 			var vb_wide:int = def.coord_wide + def.color_wide;
@@ -81,7 +84,7 @@ package anyway.core {
 			p.upload(vp.agalcode, fp.agalcode);
 			_context3D.setProgram(p);
 
-			_context3D.clear(1, 1, 1);
+			_context3D.clear(1.0, 1.0, 1.0);
 			_context3D.drawTriangles(ib);
 			_context3D.present();
 		}
