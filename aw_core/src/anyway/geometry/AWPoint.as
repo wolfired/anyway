@@ -1,16 +1,19 @@
 package anyway.geometry {
 
+	import anyway.core.aw_ns_private;
 	import anyway.utils.format;
 
+	use namespace aw_ns_private;
+	
 	public class AWPoint {
-		public function AWPoint(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0, w:Number = 1.0) {
+		public function AWPoint(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0) {
 			_raw_data[0] = x;
 			_raw_data[1] = y;
 			_raw_data[2] = z;
-			_raw_data[3] = w;
+			_raw_data[3] = 1.0;
 		}
 
-		private const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
+		aw_ns_private const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
 
 		public function copyFrom(raw_data:Vector.<Number>):void {
 			for(var i:int = 0; i < 4; ++i) {
@@ -19,7 +22,7 @@ package anyway.geometry {
 		}
 
 		public function toString():String {
-			return "(" + format(_raw_data[0]) + ", " + format(_raw_data[1]) + ", " + format(_raw_data[2]) + ", " + format(_raw_data[3]) + ")";
+			return "(" + format(_raw_data[0]) + ", " + format(_raw_data[1]) + ", " + format(_raw_data[2]) + ")";
 		}
 
 		public function get x():Number {

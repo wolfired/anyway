@@ -1,6 +1,9 @@
 package anyway.geometry {
 
+	import anyway.core.aw_ns_private;
 	import anyway.utils.format;
+	
+	use namespace aw_ns_private;
 
 	public class AWVector {
 		public function AWVector(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0) {
@@ -10,7 +13,7 @@ package anyway.geometry {
 			_raw_data[3] = 0.0;
 		}
 
-		private const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
+		aw_ns_private const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
 
 		public function get length():Number {
 			var result:Number = 0.0;

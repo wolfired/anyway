@@ -48,9 +48,5 @@ package anyway.manager.asset {
 			
 			return asset;
 		}
-		
-		public function touch(target:AWAsset):void{
-			
-		}
 	}
 }

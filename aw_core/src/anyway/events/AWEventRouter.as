@@ -61,8 +61,8 @@ package anyway.events {
 
 			var listener_vec:Vector.<Function> = _event_map[event.eventType] as Vector.<Function>;
 
-			for(var i:int = 0; i < listener_vec.length; ++i) {
-				listener_vec[i](event);
+			for each (var listener:Function in listener_vec){
+				listener(event);
 			}
 		}
 	}

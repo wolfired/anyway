@@ -2,9 +2,14 @@ package anyway.utils {
 
 	import anyway.constant.AWCoordinateConst;
 	import anyway.constant.AWMathConst;
+	import anyway.core.aw_ns_private;
 	import anyway.geometry.AWMatrix;
+	import anyway.geometry.AWPoint;
+	import anyway.geometry.AWVector;
+	
+	use namespace aw_ns_private;
 
-	public class AWMatrixUtil {
+	public class AWMathUtil {
 		/**
 		 * <p> 1, 0, 0, tx</p>
 		 * <p> 0, 1, 0, ty</p>
@@ -83,48 +88,8 @@ package anyway.utils {
 			return result;
 		}
 
-		/**
-		 * @param width
-		 * @param height
-		 * @param zNear
-		 * @param zFar
-		 * @return
-		 * @private
-		 */
-		public static function makePerspectiveMatrix(width:Number,
-													 height:Number,
-													 zNear:Number,
-													 zFar:Number):AWMatrix {
-			var result:AWMatrix = new AWMatrix();
-			result.copyRawData(Vector.<Number>([
-											   2.0 * zNear / width, 0.0, 0.0, 0.0,
-											   0.0, 2.0 * zNear / height, 0.0, 0.0,
-											   0.0, 0.0, zFar / (zFar - zNear), 1.0,
-											   0.0, 0.0, zNear * zFar / (zNear - zFar), 0.0
-											   ]));
-			return result;
-		}
-
-		/**
-		 * @param width
-		 * @param height
-		 * @param zNear
-		 * @param zFar
-		 * @return
-		 * @private
-		 */
-		public static function makeOrthoMatrix(width:Number,
-											   height:Number,
-											   zNear:Number,
-											   zFar:Number):AWMatrix {
-			var result:AWMatrix = new AWMatrix();
-			result.copyRawData(Vector.<Number>([
-											   2.0 / width, 0.0, 0.0, 0.0,
-											   0.0, 2.0 / height, 0.0, 0.0,
-											   0.0, 0.0, 1.0 / (zFar - zNear), 0.0,
-											   0.0, 0.0, zNear / (zNear - zFar), 1.0
-											   ]));
-			return result;
+		public static function makeVector(from:AWPoint, to:AWPoint):AWVector{
+			return new AWVector(to._raw_data[0] - from._raw_data[0], to._raw_data[1] - from._raw_data[1], to._raw_data[2] - from._raw_data[2]);
 		}
 	}
 }

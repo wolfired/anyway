@@ -36,8 +36,10 @@ package anyway.manager.asset {
 		public function get url():String{
 			return _url;
 		}
-		
-		public function get urlRequest():URLRequest {
+		/**
+		 * @private
+		 */	
+		internal function get urlRequest():URLRequest {
 			return new URLRequest(_url);
 		}
 		
@@ -66,7 +68,6 @@ package anyway.manager.asset {
 		 */	
 		internal function emptyCallbacks():void{
 			_callback_vec.length = 0;
-			_callback_vec = null;
 		}
 		
 		public function get data():*{

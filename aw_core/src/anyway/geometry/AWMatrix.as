@@ -1,14 +1,17 @@
 package anyway.geometry {
 
-	import anyway.utils.AWMatrixUtil;
+	import anyway.core.aw_ns_private;
+	import anyway.utils.AWMathUtil;
 	import anyway.utils.format;
+	
+	use namespace aw_ns_private;
 
 	public class AWMatrix {
 		public function AWMatrix() {
 			this.identity();
 		}
 
-		private const _raw_data:Vector.<Number> = new Vector.<Number>(16, true);
+		aw_ns_private const _raw_data:Vector.<Number> = new Vector.<Number>(16, true);
 
 		public function multiply(target:AWMatrix):AWMatrix {
 			var temp:Vector.<Number> = new Vector.<Number>();
@@ -67,7 +70,7 @@ package anyway.geometry {
 		 * @param tz
 		 */
 		public function translate(tx:Number = 0.0, ty:Number = 0.0, tz:Number = 0.0):void {
-			this.copyRawData(this.multiply(AWMatrixUtil.makeTranslateMatrix(tx, ty, tz))._raw_data);
+			this.copyRawData(this.multiply(AWMathUtil.makeTranslateMatrix(tx, ty, tz))._raw_data);
 		}
 
 		/**
@@ -77,7 +80,7 @@ package anyway.geometry {
 		 * @param sz
 		 */
 		public function scale(sx:Number = 1.0, sy:Number = 1.0, sz:Number = 1.0):void {
-			this.copyRawData(this.multiply(AWMatrixUtil.makeScaleMatrix(sx, sy, sz))._raw_data);
+			this.copyRawData(this.multiply(AWMathUtil.makeScaleMatrix(sx, sy, sz))._raw_data);
 		}
 
 		/**
@@ -87,7 +90,7 @@ package anyway.geometry {
 		 * @see anyway.constant.AWCoordinateConst
 		 */
 		public function rotate(deg:Number = 0.0, axis:uint = 1):void {
-			this.copyRawData(this.multiply(AWMatrixUtil.makeRotateMatrix(deg, axis))._raw_data);
+			this.copyRawData(this.multiply(AWMathUtil.makeRotateMatrix(deg, axis))._raw_data);
 		}
 
 		public function copyRawData(raw_data:Vector.<Number>):void {
