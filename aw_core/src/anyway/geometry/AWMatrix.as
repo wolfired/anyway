@@ -1,17 +1,25 @@
 package anyway.geometry {
 
-	import anyway.core.aw_ns_private;
+	import anyway.core.anyway_internal;
 	import anyway.utils.AWMathUtil;
 	import anyway.utils.format;
 	
-	use namespace aw_ns_private;
+	use namespace anyway_internal;
 
+	/**
+	 * 4X4矩阵使用一维数组保存，对于矩阵
+	 * <p><font color="#FFFF00">m11</font>,<font color="#FF000">m12</font>,<font color="#FF000">m13</font>,<font color="#FF000">m14</font></p>
+	 * <p><font color="#00FF00">m21</font>,m22,m23,m24</p>
+	 * <p><font color="#00FF00">m31</font>,m32,m33,m34</p>
+	 * <p><font color="#00FF00">m41</font>,m42,m43,m44</p>
+	 * <p>D3D使用行主序保存为[<font color="#FFFF00">m11</font>,<font color="#FF0000">m12</font>,<font color="#FF0000">m13</font>,<font color="#FF0000">m14</font>,m21,m22,m23,m24,m31,m32,m33,m34,m41,m42,m43,m44]<p>
+	 * <p>OGL使用列主序保存为[<font color="#FFFF00">m11</font>,<font color="#00FF00">m21</font>,<font color="#00FF00">m31</font>,<font color="#00FF00">m41</font>,m12,m22,m32,m42,m13,m23,m33,m43,m14,m24,m34,m44]<p>
+	 */
 	public class AWMatrix {
 		public function AWMatrix() {
-			this.identity();
 		}
 
-		aw_ns_private const _raw_data:Vector.<Number> = new Vector.<Number>(16, true);
+		anyway_internal const _raw_data:Vector.<Number> = new Vector.<Number>(16, true);
 
 		public function multiply(target:AWMatrix):AWMatrix {
 			var temp:Vector.<Number> = new Vector.<Number>();
@@ -20,7 +28,6 @@ package anyway.geometry {
 			for(var row:int = 0; row < 4; ++row) {
 				for(var cloumn:int = 0; cloumn < 4; ++cloumn) {
 					sum = 0.0;
-
 					for(var i:int = 0; i < 4; ++i) {
 						sum += _raw_data[row * 4 + i] * target._raw_data[cloumn + i * 4];
 					}
@@ -51,7 +58,6 @@ package anyway.geometry {
 		 */
 		public function transpose():void {
 			var temp:Number;
-
 			for(var row:int = 0; row < 4; ++row) {
 				for(var cloumn:int = 0; cloumn < 4; ++cloumn) {
 					if(row < cloumn) {
@@ -132,10 +138,6 @@ package anyway.geometry {
 			}
 
 			return result.join("\n");
-		}
-
-		public function print():void {
-			trace(this.toString());
 		}
 	}
 }

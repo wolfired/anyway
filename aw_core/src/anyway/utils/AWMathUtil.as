@@ -2,12 +2,12 @@ package anyway.utils {
 
 	import anyway.constant.AWCoordinateConst;
 	import anyway.constant.AWMathConst;
-	import anyway.core.aw_ns_private;
+	import anyway.core.anyway_internal;
 	import anyway.geometry.AWMatrix;
 	import anyway.geometry.AWPoint;
 	import anyway.geometry.AWVector;
 	
-	use namespace aw_ns_private;
+	use namespace anyway_internal;
 
 	public class AWMathUtil {
 		/**
