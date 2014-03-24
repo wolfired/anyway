@@ -5,15 +5,12 @@ package anyway.geometry {
 	import anyway.utils.format;
 	
 	use namespace anyway_internal;
-
+	
 	/**
 	 * 4X4矩阵使用一维数组保存，对于矩阵
-	 * <p><font color="#FFFF00">m11</font>,<font color="#FF000">m12</font>,<font color="#FF000">m13</font>,<font color="#FF000">m14</font></p>
-	 * <p><font color="#00FF00">m21</font>,m22,m23,m24</p>
-	 * <p><font color="#00FF00">m31</font>,m32,m33,m34</p>
-	 * <p><font color="#00FF00">m41</font>,m42,m43,m44</p>
-	 * <p>D3D使用行主序保存为[<font color="#FFFF00">m11</font>,<font color="#FF0000">m12</font>,<font color="#FF0000">m13</font>,<font color="#FF0000">m14</font>,m21,m22,m23,m24,m31,m32,m33,m34,m41,m42,m43,m44]<p>
-	 * <p>OGL使用列主序保存为[<font color="#FFFF00">m11</font>,<font color="#00FF00">m21</font>,<font color="#00FF00">m31</font>,<font color="#00FF00">m41</font>,m12,m22,m32,m42,m13,m23,m33,m43,m14,m24,m34,m44]<p>
+	 * <p><img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}m_{11} %26 m_{12} %26 m_{13} %26 m_{14}\\ m_{21} %26 m_{22} %26 m_{23} %26 m_{24}\\ m_{31} %26 m_{32} %26 m_{33} %26 m_{34}\\ m_{41} %26 m_{42} %26 m_{43} %26 m_{44}\end{bmatrix}"/></p>
+	 * <p>D3D使用行主序保存为<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}m_{11} %26 m_{12} %26 m_{13} %26 m_{14} %26 m_{21} %26 m_{22} %26 m_{23} %26 m_{24} %26 m_{31} %26 m_{32} %26 m_{33} %26 m_{34} %26 m_{41} %26 m_{42} %26 m_{43} %26 m_{44}\end{bmatrix}"/></p>
+	 * <p>OGL使用列主序保存为<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}m_{11} %26 m_{21} %26 m_{31} %26 m_{41} %26 m_{12} %26 m_{22} %26 m_{32} %26 m_{42} %26 m_{13} %26 m_{23} %26 m_{33} %26 m_{43} %26 m_{14} %26 m_{24} %26 m_{34} %26 m_{44}\end{bmatrix}"/></p>
 	 */
 	public class AWMatrix {
 		public function AWMatrix() {
@@ -120,6 +117,12 @@ package anyway.geometry {
 		public function copyColumnFrom(cloumn:uint, raw_data:Vector.<Number>):void {
 			for(var row:int = 0; row < 4; ++row) {
 				_raw_data[cloumn + row * 4] = raw_data[row];
+			}
+		}
+		
+		public function copyColumnTo(cloumn:uint, raw_data:Vector.<Number>):void{
+			for(var row:int = 0; row < 4; ++row) {
+				raw_data[row] = _raw_data[cloumn + row * 4];
 			}
 		}
 
