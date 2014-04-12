@@ -57,17 +57,11 @@ package anyway.core {
 		private var _asset:AWAsset;
 		private var _counter:uint = 0;
 		public function refresh():void {
-			if(!_asset.isFull) {
-				return;
+			if(++_counter % 40 == 0){
+				trace(_counter);
 			}
 			
-			if(++_counter % 100 == 0){
-				trace(_counter);
-				if(_counter == 500){
-					_context3D.dispose(false);
-				}
-			}
-			if(_context3D.driverInfo == "Disposed"){
+			if(!_asset.isFull) {
 				return;
 			}
 			

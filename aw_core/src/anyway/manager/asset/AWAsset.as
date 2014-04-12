@@ -13,6 +13,7 @@ package anyway.manager.asset {
 			_callback_vec = new Vector.<Function>();
 		}
 
+		private var _counter:uint;
 		private var _status:uint;
 		private var _url:String;
 		private var _type:String;
@@ -73,6 +74,7 @@ package anyway.manager.asset {
 		public function get data():*{
 			return _data;
 		}
+		
 		/**
 		 * @private
 		 */		

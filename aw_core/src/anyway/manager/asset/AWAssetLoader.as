@@ -3,8 +3,11 @@ package anyway.manager.asset{
 	import flash.events.ProgressEvent;
 	import flash.net.URLLoader;
 	
+	import anyway.core.anyway_internal;
 	import anyway.events.AWAssetsEvent;
 	import anyway.events.AWEventRouter;
+	
+	use namespace anyway_internal;
 
 	public class AWAssetLoader{
 		private static const STATUS_IDLE:uint = 0x1 << 0;
@@ -47,8 +50,8 @@ package anyway.manager.asset{
 		
 		private function onProgress(event:ProgressEvent):void {
 			var evt:AWAssetsEvent = new AWAssetsEvent(AWAssetsEvent.EVT_PROGRESS, _asset);
-			evt.bytesLoaded = event.bytesLoaded;
-			evt.bytesTotal = event.bytesTotal;
+			evt._bytesLoaded = event.bytesLoaded;
+			evt._bytesTotal = event.bytesTotal;
 			AWEventRouter.instance.routeEvent(evt);
 		}
 		

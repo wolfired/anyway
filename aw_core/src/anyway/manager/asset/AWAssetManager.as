@@ -35,15 +35,19 @@ package anyway.manager.asset {
 				_asset_map[url] = asset;
 			}
 			
-			if(asset.isNull && null != callback){
-				asset.pushCallback(callback);
-			}else if(asset.isFull && null != callback){
-				callback(asset);
-			}
-			
-			if(_asset_loader.isIdle){
-				_asset_loader.busy();
-				_asset_loader.load();
+			if(asset.isFull){
+				if(null != callback){
+					callback(asset);
+				}
+			}else{
+				if(null != callback){
+					asset.pushCallback(callback);
+				}
+				
+				if(_asset_loader.isIdle){
+					_asset_loader.busy();
+					_asset_loader.load();
+				}
 			}
 			
 			return asset;

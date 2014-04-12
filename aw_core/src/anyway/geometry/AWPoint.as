@@ -30,8 +30,6 @@ package anyway.geometry {
 		}
 
 		public function set x(value:Number):void {
-			if(_raw_data[0] == value)
-				return;
 			_raw_data[0] = value;
 		}
 
@@ -40,8 +38,6 @@ package anyway.geometry {
 		}
 
 		public function set y(value:Number):void {
-			if(_raw_data[1] == value)
-				return;
 			_raw_data[1] = value;
 		}
 
@@ -50,8 +46,6 @@ package anyway.geometry {
 		}
 
 		public function set z(value:Number):void {
-			if(_raw_data[2] == value)
-				return;
 			_raw_data[2] = value;
 		}
 	}

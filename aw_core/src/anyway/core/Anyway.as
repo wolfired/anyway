@@ -11,7 +11,7 @@ package anyway.core {
 	public class Anyway {
 		private var _stage:Stage;
 		
-		private var _monitor:AWMonitor;
+		private var _main_monitor:AWMonitor;
 		
 		public function Anyway() {
 		}
@@ -28,12 +28,12 @@ package anyway.core {
 			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			_stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 			
-			_monitor = new AWMonitor();
-			_monitor.poweron(_stage.stage3Ds[0]);
+			_main_monitor = new AWMonitor();
+			_main_monitor.poweron(_stage.stage3Ds[0]);
 		}
 		
 		private function onEnterFrame(event:Event):void {
-			_monitor.refresh();
+			_main_monitor.refresh();
 		}
 		private function onMouseClick(event:MouseEvent):void{
 		}

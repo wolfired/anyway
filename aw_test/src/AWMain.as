@@ -3,11 +3,11 @@ package {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
+	import anyway.core.Anyway;
 	import anyway.events.AWEventRouter;
-	import anyway.geometry.AWPoint;
-	import anyway.geometry.AWVector;
 	import anyway.manager.asset.AWAssetManager;
-	import anyway.utils.AWMathUtil;
+	import anyway.visual.AWVisualObject;
+	import anyway.visual.AWVisualObjectContainer;
 
 	[SWF(width="500", height="500", frameRate="24")]
 	public class AWMain extends Sprite {
@@ -33,9 +33,20 @@ package {
 		}
 
 		private function startup():void {
-			new AWAssetManager();
-			new AWEventRouter();
+//			new AWAssetManager();
+//			new AWEventRouter();
 //			new Anyway().boot(this.stage);
+//			var vo1:AWVisualObject = new AWVisualObject();
+//			var vo2:AWVisualObject = new AWVisualObject();
+//			var vo3:AWVisualObject = new AWVisualObject();
+//			var vo4:AWVisualObject = new AWVisualObject();
+//			var vo5:AWVisualObject = new AWVisualObject();
+//			var voc1:AWVisualObjectContainer = new AWVisualObjectContainer();
+//			voc1.addChild(vo1);
+//			voc1.addChild(vo2);
+//			voc1.addChild(vo3);
+//			voc1.addChildAt(vo4);
+//			voc1.addChildAt(vo1, 3);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 {
 coord_wide:2,
-color_wide:4,
+color_wide:3,
 vertex_raw:[
 0,0,1,0,0,
 1,0,0,1,0,
