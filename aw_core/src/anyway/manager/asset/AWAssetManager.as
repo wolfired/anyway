@@ -10,6 +10,12 @@ package anyway.manager.asset {
 		}
 
 		public function AWAssetManager() {
+			SWITCH::debug{
+				if(null != _instance){
+					throw new Error("Duplicate instance:AWAssetManager");
+				}
+			}
+			
 			_asset_queue = new Vector.<AWAsset>();
 			_asset_map = {};
 			_asset_loader = new AWAssetLoader(_asset_queue);

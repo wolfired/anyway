@@ -14,6 +14,7 @@ package anyway.geometry {
 	 */
 	public class AWMatrix {
 		public function AWMatrix() {
+			this.identity();
 		}
 
 		anyway_internal const _raw_data:Vector.<Number> = new Vector.<Number>(16, true);
