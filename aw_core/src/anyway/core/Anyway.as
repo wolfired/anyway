@@ -39,20 +39,6 @@ package anyway.core {
 			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			_stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 			
-			var p:PerspectiveMatrix3D = new PerspectiveMatrix3D();
-			p.lookAtLH(new Vector3D(1,1,1), new Vector3D(0,0,0), new Vector3D(0,1,0));
-			
-			var cm:AWCamera = new AWCamera();
-			cm.lookAtLH(new AWPoint(1,1,1), new AWPoint(0,0,0), new AWVector(0,1,0));
-//			trace(cm._cm.toString());
-			
-			var m:AWMatrix = new AWMatrix();
-			m.rotate(getTimer()/30, AWCoordinateConst.AXIS_Z);
-			m.translate(0, 0, 2);
-			
-			var r:AWMatrix = cm._cm.multiply(m);
-			r.transpose();
-			
 			_main_monitor = new AWMonitor();
 			_main_monitor.poweron(_stage.stage3Ds[0]);
 		}

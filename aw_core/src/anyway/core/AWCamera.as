@@ -1,10 +1,11 @@
 package anyway.core {
+	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.geometry.AWMatrix;
 	import anyway.geometry.AWPoint;
 	import anyway.geometry.AWVector;
 	import anyway.utils.AWMathUtil;
 	
-	use namespace anyway_internal;
+	use namespace anyway_internal_geometry;
 
 	public class AWCamera {
 		public var _cm:AWMatrix;
@@ -20,19 +21,14 @@ package anyway.core {
 			var xaxis:AWVector = AWMathUtil.vectorCrossProduct(up_vec, zaxis);
 			xaxis.normalize();
 			var yaxis:AWVector = AWMathUtil.vectorCrossProduct(zaxis, xaxis);
-			var waxis:AWVector = new AWVector(xaxis.dotProduct(eye), yaxis.dotProduct(eye), zaxis.dotProduct(eye));
+			var waxis:AWVector = new AWVector(-eye.dotProduct(xaxis), -eye.dotProduct(yaxis), -eye.dotProduct(zaxis));
 			waxis._raw_data[3] = 1;
 			
 			_cm = new AWMatrix();
-			_cm.copyColumnFrom(0, xaxis._raw_data);
-			_cm.copyColumnFrom(1, yaxis._raw_data);
-			_cm.copyColumnFrom(2, zaxis._raw_data);
-			_cm.copyColumnFrom(3, waxis._raw_data);
-//			_cm.copyRowFrom(0, xaxis._raw_data);
-//			_cm.copyRowFrom(1, yaxis._raw_data);
-//			_cm.copyRowFrom(2, zaxis._raw_data);
-//			_cm.copyRowFrom(3, waxis._raw_data);
-//			_cm.transpose();
+			_cm.copyRowFrom(0, xaxis._raw_data);
+			_cm.copyRowFrom(1, yaxis._raw_data);
+			_cm.copyRowFrom(2, zaxis._raw_data);
+			_cm.copyRowFrom(3, waxis._raw_data);
 		}
 		
 		public function perspectiveFieldOfViewLH(fieldOfViewY:Number, 
@@ -48,7 +44,6 @@ package anyway.core {
 				0.0, 0.0, zFar/(zFar-zNear), 1.0,
 				0.0, 0.0, (zNear*zFar)/(zNear-zFar), 0.0
 			]));
-			_cm.transpose();
 		}
 	}
 }

@@ -34,6 +34,12 @@ package test.anyway.geometry
 			var v3:AWVector = new AWVector(4, 4, 4);
 			v1.addition(v2);
 			assertTrue(v1.isCongruent(v3));
+			
+			v1 = new AWVector(2.1, 3.2, 4.9);
+			v2 = new AWVector(1.9, 0.8, -0.9);
+			v3 = new AWVector(4, 4, 4);
+			v1.addition(v2);
+			assertTrue(v1.isCongruent(v3));
 		}
 		
 		[Test]

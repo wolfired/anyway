@@ -1,5 +1,5 @@
 package anyway.events {
-	import anyway.core.anyway_internal;
+	import anyway.core.ns.anyway_internal;
 
 	use namespace anyway_internal;
 	

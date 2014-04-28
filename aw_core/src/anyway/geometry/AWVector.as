@@ -1,9 +1,9 @@
 package anyway.geometry {
 
-	import anyway.core.anyway_internal;
+	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.utils.format;
 	
-	use namespace anyway_internal;
+	use namespace anyway_internal_geometry;
 
 	/**
 	 * <p>向量</p>
@@ -33,6 +33,8 @@ package anyway.geometry {
 	 * <p><img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\vec{a} \cdot \vec{a} = \left | \vec{a} \right |^{2}"/></p>
 	 */	
 	public class AWVector {
+		private static const RAW_LENGTH:uint = 4;
+		
 		public function AWVector(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0) {
 			_raw_data[0] = x;
 			_raw_data[1] = y;
@@ -40,7 +42,7 @@ package anyway.geometry {
 			_raw_data[3] = 0.0;
 		}
 		
-		anyway_internal const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
+		anyway_internal_geometry const _raw_data:Vector.<Number> = new Vector.<Number>(RAW_LENGTH, true);
 
 		/**
 		 * 向量长度（模）
@@ -77,10 +79,10 @@ package anyway.geometry {
 		 * @param target
 		 * @return 
 		 */
-		public function addition(target:AWVector):void {
-			_raw_data[0] += target._raw_data[0];
-			_raw_data[1] += target._raw_data[1];
-			_raw_data[2] += target._raw_data[2];
+		public function addition(left:AWVector):void {
+			_raw_data[0] += left._raw_data[0];
+			_raw_data[1] += left._raw_data[1];
+			_raw_data[2] += left._raw_data[2];
 			return;
 		}
 		/**
@@ -91,10 +93,10 @@ package anyway.geometry {
 		 * @param target
 		 * @return 
 		 */
-		public function subtraction(target:AWVector):void {
-			_raw_data[0] -= target._raw_data[0];
-			_raw_data[1] -= target._raw_data[1];
-			_raw_data[2] -= target._raw_data[2];
+		public function subtraction(left:AWVector):void {
+			_raw_data[0] -= left._raw_data[0];
+			_raw_data[1] -= left._raw_data[1];
+			_raw_data[2] -= left._raw_data[2];
 			return;
 		}
 
@@ -105,12 +107,12 @@ package anyway.geometry {
 		 * @param target
 		 * @return 
 		 */		
-		public function dotProduct(target:AWVector):Number {
+		public function dotProduct(left:AWVector):Number {
 			var result:Number = 0.0;
 
-			result += _raw_data[0] * target._raw_data[0];
-			result += _raw_data[1] * target._raw_data[1];
-			result += _raw_data[2] * target._raw_data[2];
+			result += _raw_data[0] * left._raw_data[0];
+			result += _raw_data[1] * left._raw_data[1];
+			result += _raw_data[2] * left._raw_data[2];
 			
 			return result;
 		}
@@ -124,10 +126,10 @@ package anyway.geometry {
 		 * <p>左手坐标系中，左手四指并拢从<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\vec{a}"/>经<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\theta"/>弯向<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\vec{b}"/>时拇指伸直所指方向</p>
 		 * @param target
 		 */		
-		public function crossProduct(target:AWVector):void {
-			var x:Number = _raw_data[1] * target._raw_data[2] - target._raw_data[1] * _raw_data[2];
-			var y:Number = -_raw_data[0] * target._raw_data[2] + target._raw_data[0] * _raw_data[2];
-			var z:Number =  _raw_data[0] * target._raw_data[1] - target._raw_data[0] * _raw_data[1];
+		public function crossProduct(left:AWVector):void {
+			var x:Number = _raw_data[1] * left._raw_data[2] - left._raw_data[1] * _raw_data[2];
+			var y:Number = -_raw_data[0] * left._raw_data[2] + left._raw_data[0] * _raw_data[2];
+			var z:Number =  _raw_data[0] * left._raw_data[1] - left._raw_data[0] * _raw_data[1];
 			_raw_data[0] = x;
 			_raw_data[1] = y;
 			_raw_data[2] = z;
@@ -140,6 +142,9 @@ package anyway.geometry {
 		 * @return 
 		 */		
 		public function isCongruent(target:AWVector):Boolean{
+			if(this == target){
+				return true;
+			}
 			if(_raw_data[0] != target._raw_data[0]){
 				return false;
 			}

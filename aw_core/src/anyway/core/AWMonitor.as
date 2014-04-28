@@ -1,5 +1,7 @@
 package anyway.core {
 
+	import com.adobe.utils.PerspectiveMatrix3D;
+	
 	import flash.display.Stage3D;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProfile;
@@ -10,8 +12,13 @@ package anyway.core {
 	import flash.display3D.VertexBuffer3D;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
+	import flash.utils.getTimer;
 	
+	import anyway.constant.AWCoordinateConst;
 	import anyway.constant.AWMathConst;
+	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.geometry.AWMatrix;
 	import anyway.geometry.AWPoint;
 	import anyway.geometry.AWVector;
@@ -20,7 +27,7 @@ package anyway.core {
 	import anyway.shader.TestShader;
 	import anyway.utils.string2json;
 	
-	use namespace anyway_internal;
+	use namespace anyway_internal_geometry;
 
 	public class AWMonitor {
 		private var _stage3D:Stage3D;
@@ -78,27 +85,34 @@ package anyway.core {
 			ib.uploadFromVector(ib_raw, 0, ib_raw.length);
 			
 			var aspect:Number = 500 / 500;
-			var zNear:Number = 0.01;
+			var zNear:Number = 0.1;
 			var zFar:Number = 1000;
 			var fov:Number = 45 * AWMathConst.DEG_2_RAD;
-			var magicNumber:Number = Math.tan(fov * 0.5);
 			
 			var prjC:AWCamera = new AWCamera();
 			prjC.perspectiveFieldOfViewLH(fov, aspect, zNear, zFar);
+//			var prj:PerspectiveMatrix3D = new PerspectiveMatrix3D();
+//			prj.perspectiveFieldOfViewLH(fov, aspect, zNear, zFar);
 			
 			var lokC:AWCamera = new AWCamera();
-			lokC.lookAtLH(new AWPoint(0, 0, (500 * 0.5) / magicNumber), new AWPoint(0,0,0), new AWVector(0,1,0));
+			lokC.lookAtLH(new AWPoint(1,1,1), new AWPoint(0,0,0), new AWVector(0,1,0));
+//			var lok:PerspectiveMatrix3D = new PerspectiveMatrix3D();
+//			lok.lookAtLH(new Vector3D(1,1,1), new Vector3D(0,0,0), new Vector3D(0,1,0));
 			
 			var m:AWMatrix = new AWMatrix();
 //			m.rotate(getTimer()/30, AWCoordinateConst.AXIS_X);
 //			m.rotate(getTimer()/30, AWCoordinateConst.AXIS_Y);
 //			m.rotate(getTimer()/30, AWCoordinateConst.AXIS_Z);
-			m.translate(0, 0, 2);
+//			m.translate(-40, -40, -40);
 			
-			var r:AWMatrix = prjC._cm.multiply(m);
-//			r = prjC._cm.multiply(lokC._cm);
-//			r.transpose();
+			var r:AWMatrix = prjC._cm.multiply(lokC._cm).multiply(m);
+//			var r:PerspectiveMatrix3D = new PerspectiveMatrix3D();
+//			r.identity();
+//			r.prepend(lok);
+//			r.prepend(prj);
+			r.transpose();
 			_context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, r._raw_data);
+//			_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, r);
 			
 			var ts:TestShader = new TestShader();
 			ts.upload(_context3D);

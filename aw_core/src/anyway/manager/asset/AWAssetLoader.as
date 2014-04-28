@@ -3,7 +3,7 @@ package anyway.manager.asset{
 	import flash.events.ProgressEvent;
 	import flash.net.URLLoader;
 	
-	import anyway.core.anyway_internal;
+	import anyway.core.ns.anyway_internal;
 	import anyway.events.AWAssetsEvent;
 	import anyway.events.AWEventRouter;
 	

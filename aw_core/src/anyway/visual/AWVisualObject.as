@@ -1,5 +1,5 @@
 package anyway.visual{
-	import anyway.core.anyway_internal_visual;
+	import anyway.core.ns.anyway_internal_visual;
 	import anyway.geometry.AWPoint;
 	
 	use namespace anyway_internal_visual;
