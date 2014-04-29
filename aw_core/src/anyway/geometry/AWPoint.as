@@ -5,9 +5,7 @@ package anyway.geometry {
 
 	use namespace anyway_internal_geometry;
 	
-	public class AWPoint {
-		private static const RAW_LENGTH:uint = 4;
-		
+	public final class AWPoint {
 		public function AWPoint(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0) {
 			_raw_data[0] = x;
 			_raw_data[1] = y;
@@ -15,12 +13,34 @@ package anyway.geometry {
 			_raw_data[3] = 1.0;
 		}
 
-		anyway_internal_geometry const _raw_data:Vector.<Number> = new Vector.<Number>(RAW_LENGTH, true);
+		anyway_internal_geometry const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
 
-		public function copyFrom(raw_data:Vector.<Number>):void {
-			for(var i:int = 0; i < RAW_LENGTH; ++i) {
-				_raw_data[i] = raw_data[i];
+		public function copyRawData(raw_data:Vector.<Number>):void {
+			_raw_data[0] = raw_data[0];
+			_raw_data[1] = raw_data[1];
+			_raw_data[2] = raw_data[2];
+			_raw_data[3] = raw_data[3];
+		}
+		
+		/**
+		 * 向量是否一致
+		 * @param target
+		 * @return 
+		 */		
+		public function isCongruent(target:AWPoint):Boolean{
+			if(this == target){
+				return true;
 			}
+			if(_raw_data[0] != target._raw_data[0]){
+				return false;
+			}
+			if(_raw_data[1] != target._raw_data[1]){
+				return false;
+			}
+			if(_raw_data[2] != target._raw_data[2]){
+				return false;
+			}
+			return true;
 		}
 
 		public function toString():String {

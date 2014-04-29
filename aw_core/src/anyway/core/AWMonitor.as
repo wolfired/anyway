@@ -1,7 +1,5 @@
 package anyway.core {
 
-	import com.adobe.utils.PerspectiveMatrix3D;
-	
 	import flash.display.Stage3D;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProfile;
@@ -12,8 +10,6 @@ package anyway.core {
 	import flash.display3D.VertexBuffer3D;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
-	import flash.geom.Matrix3D;
-	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
 	
 	import anyway.constant.AWCoordinateConst;
@@ -85,9 +81,11 @@ package anyway.core {
 			ib.uploadFromVector(ib_raw, 0, ib_raw.length);
 			
 			var aspect:Number = 500 / 500;
-			var zNear:Number = 0.1;
+			var zNear:Number = 0.01;
 			var zFar:Number = 1000;
 			var fov:Number = 45 * AWMathConst.DEG_2_RAD;
+			
+			var t:int = getTimer();
 			
 			var prjC:AWCamera = new AWCamera();
 			prjC.perspectiveFieldOfViewLH(fov, aspect, zNear, zFar);
@@ -95,22 +93,22 @@ package anyway.core {
 //			prj.perspectiveFieldOfViewLH(fov, aspect, zNear, zFar);
 			
 			var lokC:AWCamera = new AWCamera();
-			lokC.lookAtLH(new AWPoint(1,1,1), new AWPoint(0,0,0), new AWVector(0,1,0));
+			lokC.lookAtLH(new AWPoint(0,0,0), new AWPoint(0,0,1), new AWVector(0,1,0));
 //			var lok:PerspectiveMatrix3D = new PerspectiveMatrix3D();
 //			lok.lookAtLH(new Vector3D(1,1,1), new Vector3D(0,0,0), new Vector3D(0,1,0));
 			
-			var m:AWMatrix = new AWMatrix();
-//			m.rotate(getTimer()/30, AWCoordinateConst.AXIS_X);
-//			m.rotate(getTimer()/30, AWCoordinateConst.AXIS_Y);
-//			m.rotate(getTimer()/30, AWCoordinateConst.AXIS_Z);
-//			m.translate(-40, -40, -40);
+			var m:AWMatrix = new AWMatrix().identity();
 			
-			var r:AWMatrix = prjC._cm.multiply(lokC._cm).multiply(m);
+//			m.rotate(t/30, AWCoordinateConst.AXIS_X);
+//			m.rotate(t/30, AWCoordinateConst.AXIS_Y);
+			m.rotate(t/30, AWCoordinateConst.AXIS_Z);
+			m.translate(0, 0, 6);
+			
+			var r:AWMatrix = prjC._cm.multiply(lokC._cm).multiply(m).transpose();
 //			var r:PerspectiveMatrix3D = new PerspectiveMatrix3D();
 //			r.identity();
 //			r.prepend(lok);
 //			r.prepend(prj);
-			r.transpose();
 			_context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, r._raw_data);
 //			_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, r);
 			

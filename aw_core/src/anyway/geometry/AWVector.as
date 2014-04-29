@@ -32,9 +32,7 @@ package anyway.geometry {
 	 * <p><img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\vec{0} \cdot \vec{a} = 0"/></p>
 	 * <p><img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\vec{a} \cdot \vec{a} = \left | \vec{a} \right |^{2}"/></p>
 	 */	
-	public class AWVector {
-		private static const RAW_LENGTH:uint = 4;
-		
+	public final class AWVector {
 		public function AWVector(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0) {
 			_raw_data[0] = x;
 			_raw_data[1] = y;
@@ -42,7 +40,7 @@ package anyway.geometry {
 			_raw_data[3] = 0.0;
 		}
 		
-		anyway_internal_geometry const _raw_data:Vector.<Number> = new Vector.<Number>(RAW_LENGTH, true);
+		anyway_internal_geometry const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
 
 		/**
 		 * 向量长度（模）
@@ -61,14 +59,14 @@ package anyway.geometry {
 		/**
 		 * 归一化
 		 */		
-		public function normalize():void {
+		public function normalize():AWVector {
 			var len:Number = this.length;
 			
 			_raw_data[0] /= len;
 			_raw_data[1] /= len;
 			_raw_data[2] /= len;
 			
-			return;
+			return this;
 		}
 
 		/**
@@ -79,11 +77,11 @@ package anyway.geometry {
 		 * @param target
 		 * @return 
 		 */
-		public function addition(left:AWVector):void {
+		public function addition(left:AWVector):AWVector {
 			_raw_data[0] += left._raw_data[0];
 			_raw_data[1] += left._raw_data[1];
 			_raw_data[2] += left._raw_data[2];
-			return;
+			return this;
 		}
 		/**
 		 * 向量减法
@@ -93,11 +91,11 @@ package anyway.geometry {
 		 * @param target
 		 * @return 
 		 */
-		public function subtraction(left:AWVector):void {
+		public function subtraction(left:AWVector):AWVector {
 			_raw_data[0] -= left._raw_data[0];
 			_raw_data[1] -= left._raw_data[1];
 			_raw_data[2] -= left._raw_data[2];
-			return;
+			return this;
 		}
 
 		/**
@@ -126,14 +124,21 @@ package anyway.geometry {
 		 * <p>左手坐标系中，左手四指并拢从<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\vec{a}"/>经<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\theta"/>弯向<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\vec{b}"/>时拇指伸直所指方向</p>
 		 * @param target
 		 */		
-		public function crossProduct(left:AWVector):void {
+		public function crossProduct(left:AWVector):AWVector {
 			var x:Number = _raw_data[1] * left._raw_data[2] - left._raw_data[1] * _raw_data[2];
 			var y:Number = -_raw_data[0] * left._raw_data[2] + left._raw_data[0] * _raw_data[2];
 			var z:Number =  _raw_data[0] * left._raw_data[1] - left._raw_data[0] * _raw_data[1];
 			_raw_data[0] = x;
 			_raw_data[1] = y;
 			_raw_data[2] = z;
-			return;
+			return this;
+		}
+		
+		public function copyRawData(raw_data:Vector.<Number>):void {
+			_raw_data[0] = raw_data[0];
+			_raw_data[1] = raw_data[1];
+			_raw_data[2] = raw_data[2];
+			_raw_data[3] = raw_data[3];
 		}
 		
 		/**
@@ -160,5 +165,29 @@ package anyway.geometry {
 		public function toString():String {
 			return "<" + format(_raw_data[0]) + ", " + format(_raw_data[1]) + ", " + format(_raw_data[2]) + ">";
 		}
+		
+		public function get x():Number {
+			return _raw_data[0];
+		}
+		
+		public function set x(value:Number):void {
+			_raw_data[0] = value;
+		}
+		
+		public function get y():Number {
+			return _raw_data[1];
+		}
+		
+		public function set y(value:Number):void {
+			_raw_data[1] = value;
+		}
+		
+		public function get z():Number {
+			return _raw_data[2];
+		}
+		
+		public function set z(value:Number):void {
+			_raw_data[2] = value;
+		}		
 	}
 }

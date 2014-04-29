@@ -12,7 +12,7 @@ package {
 		public function AWMain() {
 			super();
 
-			if(this.stage) {
+			if(null != this.stage) {
 				this.startup();
 			} else {
 				this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);

@@ -24,7 +24,7 @@ package anyway.core {
 			var waxis:AWVector = new AWVector(-eye.dotProduct(xaxis), -eye.dotProduct(yaxis), -eye.dotProduct(zaxis));
 			waxis._raw_data[3] = 1;
 			
-			_cm = new AWMatrix();
+			_cm = new AWMatrix().identity();
 			_cm.copyRowFrom(0, xaxis._raw_data);
 			_cm.copyRowFrom(1, yaxis._raw_data);
 			_cm.copyRowFrom(2, zaxis._raw_data);
@@ -37,7 +37,7 @@ package anyway.core {
 												 zFar:Number):void {
 			var yScale:Number = 1.0/Math.tan(fieldOfViewY/2.0);
 			var xScale:Number = yScale / aspectRatio; 
-			_cm = new AWMatrix();
+			_cm = new AWMatrix().identity();
 			_cm.copyRawData(Vector.<Number>([
 				xScale, 0.0, 0.0, 0.0,
 				0.0, yScale, 0.0, 0.0,

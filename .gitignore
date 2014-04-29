@@ -1,4 +1,6 @@
 /*/.*
 /*/bin*
 /*/src/FlexUnit*.mxml
+/*/src/Workers.as
+/*/workerswfs/
 /doc/

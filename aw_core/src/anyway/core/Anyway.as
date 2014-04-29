@@ -1,7 +1,5 @@
 package anyway.core {
 
-	import com.adobe.utils.PerspectiveMatrix3D;
-	
 	import flash.display.Stage;
 	import flash.display.StageAlign;
 	import flash.display.StageQuality;
@@ -9,15 +7,6 @@ package anyway.core {
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
-	import flash.geom.Matrix3D;
-	import flash.geom.Vector3D;
-	import flash.utils.getTimer;
-	
-	import anyway.constant.AWCoordinateConst;
-	import anyway.constant.AWMathConst;
-	import anyway.geometry.AWMatrix;
-	import anyway.geometry.AWPoint;
-	import anyway.geometry.AWVector;
 
 	public class Anyway {
 		private var _stage:Stage;
