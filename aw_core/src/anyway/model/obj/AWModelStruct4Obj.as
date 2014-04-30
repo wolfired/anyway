@@ -1,8 +1,8 @@
 package anyway.model.obj{
 	import anyway.geometry.AWPoint;
 
-	public class AWModelObj{
-		public function AWModelObj(){
+	public class AWModelStruct4Obj{
+		public function AWModelStruct4Obj(){
 		}
 		
 		private var _v:Vector.<AWPoint>;

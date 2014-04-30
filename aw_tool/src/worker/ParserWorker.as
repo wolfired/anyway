@@ -1,4 +1,4 @@
-package{
+package worker{
 	import flash.display.Sprite;
 	
 	public class ParserWorker extends Sprite{

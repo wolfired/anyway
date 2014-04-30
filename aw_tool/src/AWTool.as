@@ -7,6 +7,9 @@ package{
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
+	import flash.utils.ByteArray;
+	
+	import anyway.model.obj.AWModelParser4Obj;
 	
 	[SWF(width="500", height="500", frameRate="24")]
 	public class AWTool extends Sprite{
@@ -70,11 +73,9 @@ package{
 			try{
 				var fs:FileStream = new FileStream();
 				fs.open(file, FileMode.READ);
-				var file_content:String = fs.readUTFBytes(fs.bytesAvailable);
-				var file_lines:Array = file_content.split(/\r\n/g);
-				for each (var file_line:String in file_lines){
-					trace(file_line);
-				}
+				var bytes:ByteArray = new ByteArray();
+				fs.readBytes(bytes);
+				new AWModelParser4Obj().parser(bytes);
 			}catch(error:Error){
 			}
 			
