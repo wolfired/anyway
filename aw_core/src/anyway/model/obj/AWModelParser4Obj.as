@@ -17,6 +17,8 @@ package anyway.model.obj{
 		private static const SIGN_F:uint = 102;//f
 		/*------------------------------------------*/
 		
+		private const _struct:AWModelStruct4Obj = new AWModelStruct4Obj();
+		
 		public function AWModelParser4Obj(){
 		}
 		
@@ -43,16 +45,10 @@ package anyway.model.obj{
 		}
 		
 		private function handler_vertex():void{
-			var begin:uint = _bytes.position;
-			
-			while(!this.endline()){
+			var byte:uint = 0;
+			while(true){
+				byte = _bytes.readUnsignedByte();
 			}
-			
-			var end:uint = _bytes.position;
-			
-			_bytes.position = begin;
-			trace(_bytes.readUTFBytes(end - begin));
-			_bytes.position = end;
 		}
 		private function handler_face():void{
 			var begin:uint = _bytes.position;

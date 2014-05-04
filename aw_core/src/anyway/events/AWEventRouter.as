@@ -9,6 +9,12 @@ package anyway.events {
 		}
 
 		public function AWEventRouter() {
+			SWITCH::debug{
+				if(null != _instance){
+					throw new Error("Duplicate instance AWEventRouter");
+				}
+			}
+			
 			_event_map = {};
 
 			_instance = this;

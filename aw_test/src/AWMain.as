@@ -7,11 +7,11 @@ package {
 	import anyway.events.AWEventRouter;
 	import anyway.manager.asset.AWAssetManager;
 
-	[SWF(width="500", height="500", frameRate="24")]
+	[SWF(width=CONST::width, height=CONST::height, frameRate="24")]
 	public class AWMain extends Sprite {
+		private var _resClz:ResClz;
+		
 		public function AWMain() {
-			super();
-
 			if(null != this.stage) {
 				this.startup();
 			} else {
@@ -33,7 +33,7 @@ package {
 		private function startup():void {
 			new AWAssetManager();
 			new AWEventRouter();
-			new Anyway().boot(this.stage);
+			new Anyway().boot(this.stage, CONST::width, CONST::height);
 		}
 	}
 }

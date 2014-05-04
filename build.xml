@@ -50,14 +50,18 @@
 	<property name="core.bin.dir" value="${core.dir}/bin" />
 	<property name="core.lib.dir" value="${core.dir}/libs" />
 	<property name="core.doc.dir" value="${basedir}/doc_core" />
-	<property name="core.switch.debug.key" value="SWITCH::debug" />
-	<property name="core.switch.debug.value" value="true" />
+	<property name="core.define.debug.key" value="SWITCH::debug" />
+	<property name="core.define.debug.value" value="true" />
 
 	<property name="test.project.name" value="aw_test" />
 	<property name="test.dir" value="${basedir}/${test.project.name}" />
 	<property name="test.src.dir" value="${test.dir}/src" />
 	<property name="test.bin.dir" value="${test.dir}/bin" />
 	<property name="test.lib.dir" value="${test.dir}/libs" />
+	<property name="test.define.width.key" value="CONST::width" />
+	<property name="test.define.width.value" value="500" />
+	<property name="test.define.height.key" value="CONST::height" />
+	<property name="test.define.height.value" value="500" />		
 
 	<property name="tool.project.name" value="aw_tool" />
 	<property name="tool.dir" value="${basedir}/${tool.project.name}" />
@@ -82,7 +86,7 @@
 
 			<library-path dir="${core.lib.dir}" includes="**/*.swc" append="true" />
 
-			<compiler.define name="${core.switch.debug.key}" value="${core.switch.debug.value}" />
+			<compiler.define name="${core.define.debug.key}" value="${core.define.debug.value}" />
 
 			<jvmarg line="${jvmarg.compc}" />
 		</compc>
@@ -98,8 +102,17 @@
 			<library-path dir="${core.bin.dir}" includes="**/*.swc" append="true" />
 			<library-path dir="${test.lib.dir}" includes="**/*.swc" append="true" />
 
+			<compiler.define name="${test.define.width.key}" value="${test.define.width.value}" />
+			<compiler.define name="${test.define.height.key}" value="${test.define.height.value}" />
+
 			<jvmarg line="${jvmarg.mxmlc}" />
 		</mxmlc>
+		
+		<copy todir="${test.bin.dir}" verbose="true">  
+		    <fileset dir="${test.src.dir}">  
+		        <include name="res/**"/>
+		    </fileset>
+		</copy>
 	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
@@ -139,6 +152,18 @@
 			<jvmarg line="${jvmarg.asdoc}" />
 		</asdoc>
 	</target>
+	
+	<!-- ================================= 
+          target: clean_all              
+         ================================= -->
+    <target name="clean_all" description="Clean all bin">
+		<delete includeemptydirs="true" verbose="true">
+			<fileset dir="${basedir}">
+				<include name="**/aw_*/bin/**" />
+			</fileset>
+		</delete>
+    </target>
+
 
 	<!-- - - - - - - - - - - - - - - - - - 
           target: gen_worker                      

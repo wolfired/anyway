@@ -11,7 +11,6 @@ package anyway.shader{
 		}
 		
 		override protected function _vertexShader():void{
-//			move(OUTPUT, ATTRIBUTE[0]);
 			multiply4x4(OUTPUT, ATTRIBUTE[0], CONST[0]);
 			move(VARYING[0], ATTRIBUTE[1]);
 		}

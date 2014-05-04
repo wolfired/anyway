@@ -2,7 +2,7 @@ package anyway.manager.asset {
 
 	import flash.net.URLLoaderDataFormat;
 	
-	public class AWAssetManager {
+	public final class AWAssetManager {
 		private static var _instance:AWAssetManager;
 
 		public static function get instance():AWAssetManager {
@@ -12,7 +12,7 @@ package anyway.manager.asset {
 		public function AWAssetManager() {
 			SWITCH::debug{
 				if(null != _instance){
-					throw new Error("Duplicate instance:AWAssetManager");
+					throw new Error("Duplicate instance AWAssetManager");
 				}
 			}
 			

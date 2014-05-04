@@ -83,7 +83,6 @@ package anyway.geometry {
 		public function multiply(left:AWMatrix):AWMatrix {
 			var temp:Vector.<Number> = new Vector.<Number>();
 			var sum:Number;
-			
 			for(var row:int = 0; row < 4; ++row) {
 				for(var cloumn:int = 0; cloumn < 4; ++cloumn) {
 					sum = 0.0;

@@ -11,7 +11,7 @@ package anyway.utils {
 
 	public class AWMathUtil {
 		/**
-		 * <p><img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}1 %26 0 %26 0 %26 tx\\ 0 %26 1 %26 0 %26 ty\\ 0 %26 0 %26 1 %26 tz\\ 0 %26 0 %26 0 %26 1\end{bmatrix}"/></p>
+		 * <p><img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}1 %26 0 %26 0 %26 0\\ 0 %26 1 %26 0 %26 0\\ 0 %26 0 %26 1 %26 0\\ tx %26 ty %26 tz %26 1\end{bmatrix}"/></p>
 		 * @param tx
 		 * @param ty
 		 * @param tz
@@ -20,10 +20,10 @@ package anyway.utils {
 		public static function makeTranslateMatrix(tx:Number = 0.0, ty:Number = 0.0, tz:Number = 0.0):AWMatrix {
 			var result:AWMatrix = new AWMatrix();
 			result.copyRawData(Vector.<Number>([
-											   1, 0, 0, tx,
-											   0, 1, 0, ty,
-											   0, 0, 1, tz,
-											   0, 0, 0, 1]));
+											   1, 0, 0, 0,
+											   0, 1, 0, 0,
+											   0, 0, 1, 0,
+											   tx, ty, tz, 1]));
 			return result;
 		}
 
@@ -45,9 +45,9 @@ package anyway.utils {
 		}
 
 		/**
-		 * <p>X轴为旋转轴<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}1 %26 0 %26 0 %26 0\\ 0 %26 \cos\theta %26 -\sin\theta %26 0\\ 0 %26 \sin\theta %26 \cos\theta %26 0\\ 0 %26 0 %26 0 %26 1\end{bmatrix}"/></p>
-		 * <p>Y轴为旋转轴<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}\cos\theta %26 0 %26 \sin\theta %26 0\\ 0 %26 1 %26 0 %26 0\\ -\sin\theta %26 0 %26 \cos\theta %26 0\\ 0 %26 0 %26 0 %26 1\end{bmatrix}"/></p>
-		 * <p>Z轴为旋转轴<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}\cos\theta %26 -\sin\theta %26 0 %26 0\\ \sin\theta %26 \cos\theta %26 0 %26 0\\ 0 %26 0 %26 1 %26 0\\ 0 %26 0 %26 0 %26 1\end{bmatrix}"/></p>
+		 * <p>X轴为旋转轴<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}1 %26 0 %26 0 %26 0\\ 0 %26 \cos\theta %26 \sin\theta %26 0\\ 0 %26 -\sin\theta %26 \cos\theta %26 0\\ 0 %26 0 %26 0 %26 1\end{bmatrix}"/></p>
+		 * <p>Y轴为旋转轴<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}\cos\theta %26 0 %26 -\sin\theta %26 0\\ 0 %26 1 %26 0 %26 0\\ \sin\theta %26 0 %26 \cos\theta %26 0\\ 0 %26 0 %26 0 %26 1\end{bmatrix}"/></p>
+		 * <p>Z轴为旋转轴<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}\cos\theta %26 \sin\theta %26 0 %26 0\\ -\sin\theta %26 \cos\theta %26 0 %26 0\\ 0 %26 0 %26 1 %26 0\\ 0 %26 0 %26 0 %26 1\end{bmatrix}"/></p>
 		 * @param deg 角度
 		 * @param axis 旋转轴
 		 * @return 旋转矩阵
@@ -60,16 +60,16 @@ package anyway.utils {
 			switch(axis) {
 				case AWCoordinateConst.AXIS_Y: {
 					result.copyRawData(Vector.<Number>([
-													   Math.cos(rad), 0, Math.sin(rad), 0,
+													   Math.cos(rad), 0, -Math.sin(rad), 0,
 													   0, 1, 0, 0,
-													   -Math.sin(rad), 0, Math.cos(rad), 0,
+													   Math.sin(rad), 0, Math.cos(rad), 0,
 													   0, 0, 0, 1]));
 					break;
 				}
 				case AWCoordinateConst.AXIS_Z: {
 					result.copyRawData(Vector.<Number>([
-													   Math.cos(rad), -Math.sin(rad), 0, 0,
-													   Math.sin(rad), Math.cos(rad), 0, 0,
+													   Math.cos(rad), Math.sin(rad), 0, 0,
+													   -Math.sin(rad), Math.cos(rad), 0, 0,
 													   0, 0, 1, 0,
 													   0, 0, 0, 1]));
 					break;
@@ -77,11 +77,47 @@ package anyway.utils {
 				default: {
 					result.copyRawData(Vector.<Number>([
 													   1, 0, 0, 0,
-													   0, Math.cos(rad), -Math.sin(rad), 0,
-													   0, Math.sin(rad), Math.cos(rad), 0,
+													   0, Math.cos(rad), Math.sin(rad), 0,
+													   0, -Math.sin(rad), Math.cos(rad), 0,
 													   0, 0, 0, 1]));
 				}
 			}
+			return result;
+		}
+		
+		public static function lookAtLH(eye_at_pos:AWPoint, look_at_pos:AWPoint, up_vec:AWVector):AWMatrix{
+			var eye:AWVector = new AWVector(eye_at_pos.x, eye_at_pos.y, eye_at_pos.z);
+			
+			var zaxis:AWVector = AWMathUtil.makeVectorFromPoint(eye_at_pos, look_at_pos);
+			zaxis.normalize();
+			var xaxis:AWVector = AWMathUtil.vectorCrossProduct(up_vec, zaxis);
+			xaxis.normalize();
+			var yaxis:AWVector = AWMathUtil.vectorCrossProduct(zaxis, xaxis);
+			var waxis:AWVector = new AWVector(-eye.dotProduct(xaxis), -eye.dotProduct(yaxis), -eye.dotProduct(zaxis));
+			waxis._raw_data[3] = 1;
+			
+			var result:AWMatrix = new AWMatrix().identity();
+			result.copyRowFrom(0, xaxis._raw_data);
+			result.copyRowFrom(1, yaxis._raw_data);
+			result.copyRowFrom(2, zaxis._raw_data);
+			result.copyRowFrom(3, waxis._raw_data);
+			return result;
+		}
+		
+		public static function perspectiveFieldOfViewLH(fieldOfViewY:Number, 
+												 aspectRatio:Number, 
+												 zNear:Number, 
+												 zFar:Number):AWMatrix {
+			var yScale:Number = 1.0/Math.tan(fieldOfViewY/2.0);
+			var xScale:Number = yScale / aspectRatio; 
+			
+			var result:AWMatrix = new AWMatrix().identity();
+			result.copyRawData(Vector.<Number>([
+				xScale, 0.0, 0.0, 0.0,
+				0.0, yScale, 0.0, 0.0,
+				0.0, 0.0, zFar/(zFar-zNear), 1.0,
+				0.0, 0.0, (zNear*zFar)/(zNear-zFar), 0.0
+			]));
 			return result;
 		}
 
@@ -108,7 +144,5 @@ package anyway.utils {
 			var z:Number =  v1._raw_data[0] * v2._raw_data[1] - v2._raw_data[0] * v1._raw_data[1];
 			return new AWVector(x, y, z);
 		}
-		
-		
 	}
 }

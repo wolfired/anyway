@@ -1,4 +1,5 @@
 package anyway.core {
+	import anyway.core.ns.anyway_internal;
 	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.geometry.AWMatrix;
 	import anyway.geometry.AWPoint;
@@ -6,44 +7,25 @@ package anyway.core {
 	import anyway.utils.AWMathUtil;
 	
 	use namespace anyway_internal_geometry;
+	use namespace anyway_internal;
 
-	public class AWCamera {
-		public var _cm:AWMatrix;
+	public final class AWCamera {
+		private const _camera_place_at:AWPoint = new AWPoint();
+		private const _camera_point_at:AWPoint = new AWPoint();
 		
-		public function AWCamera() {
+		anyway_internal var _valid:Boolean = false;
+		
+		public function AWCamera(place_at:AWPoint, point_at:AWPoint) {
+			_camera_place_at.copyRawData(place_at._raw_data);
+			_camera_point_at.copyRawData(point_at._raw_data);
 		}
 		
-		public function lookAtLH(eye_pos:AWPoint, at_pos:AWPoint, up_vec:AWVector):void{
-			var eye:AWVector = new AWVector(eye_pos.x, eye_pos.y, eye_pos.z);
-			
-			var zaxis:AWVector = AWMathUtil.makeVectorFromPoint(eye_pos, at_pos);
-			zaxis.normalize();
-			var xaxis:AWVector = AWMathUtil.vectorCrossProduct(up_vec, zaxis);
-			xaxis.normalize();
-			var yaxis:AWVector = AWMathUtil.vectorCrossProduct(zaxis, xaxis);
-			var waxis:AWVector = new AWVector(-eye.dotProduct(xaxis), -eye.dotProduct(yaxis), -eye.dotProduct(zaxis));
-			waxis._raw_data[3] = 1;
-			
-			_cm = new AWMatrix().identity();
-			_cm.copyRowFrom(0, xaxis._raw_data);
-			_cm.copyRowFrom(1, yaxis._raw_data);
-			_cm.copyRowFrom(2, zaxis._raw_data);
-			_cm.copyRowFrom(3, waxis._raw_data);
+		public function invalid():void{
+			_valid = false;
 		}
 		
-		public function perspectiveFieldOfViewLH(fieldOfViewY:Number, 
-												 aspectRatio:Number, 
-												 zNear:Number, 
-												 zFar:Number):void {
-			var yScale:Number = 1.0/Math.tan(fieldOfViewY/2.0);
-			var xScale:Number = yScale / aspectRatio; 
-			_cm = new AWMatrix().identity();
-			_cm.copyRawData(Vector.<Number>([
-				xScale, 0.0, 0.0, 0.0,
-				0.0, yScale, 0.0, 0.0,
-				0.0, 0.0, zFar/(zFar-zNear), 1.0,
-				0.0, 0.0, (zNear*zFar)/(zNear-zFar), 0.0
-			]));
+		public function get matrix():AWMatrix{
+			return AWMathUtil.lookAtLH(_camera_place_at, _camera_point_at, new AWVector(0,1,0));
 		}
 	}
 }
