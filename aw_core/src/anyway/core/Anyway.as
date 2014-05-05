@@ -7,13 +7,28 @@ package anyway.core {
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.ui.Keyboard;
 	
+	import anyway.events.AWEventRouter;
 	import anyway.geometry.AWPoint;
+	import anyway.manager.asset.AWAssetManager;
 
 	public final class Anyway {
 		private static var _instance:Anyway;
 		
-		public static function get instance():Anyway {
+		public static function get sington():Anyway {
+			return _instance;
+		}
+		
+		public static function ready(stage:Stage, screen_width:Number, screen_height:Number):Anyway{
+			new AWAssetManager();
+			new AWEventRouter();
+			new Anyway();
+			
+			_instance._stage = stage;
+			_instance._screen_width = screen_width;
+			_instance._screen_height = screen_height;
+			
 			return _instance;
 		}
 		
@@ -21,8 +36,8 @@ package anyway.core {
 		private var _screen_width:Number;
 		private var _screen_height:Number;
 		
-		private const _monitors:Vector.<AWMonitor> = new Vector.<AWMonitor>();
 		private const _cameras:Vector.<AWCamera> = new Vector.<AWCamera>();
+		private const _monitors:Vector.<AWMonitor> = new Vector.<AWMonitor>();
 		
 		public function Anyway() {
 			SWITCH::debug{
@@ -34,11 +49,7 @@ package anyway.core {
 			_instance = this;
 		}
 		
-		public function boot(stage:Stage, screen_width:Number, screen_height:Number):void {
-			_stage = stage;
-			_screen_width = screen_width;
-			_screen_height = screen_height;
-			
+		public function go():void {
 			_stage.align = StageAlign.TOP;
 			_stage.quality = StageQuality.BEST;
 			_stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -51,9 +62,9 @@ package anyway.core {
 			
 			_cameras.push(new AWCamera(new AWPoint(0,0,0), new AWPoint(0,0,1)));
 			
-			_monitors.push(new AWMonitor(_screen_width, _screen_height));
-			_monitors[0]._camera = _cameras[0];
-			_monitors[0].poweron(_stage.stage3Ds[0]);
+			_monitors.push(new AWMonitor(_stage.stage3Ds[0], _screen_width, _screen_height));
+			_monitors[0].connect(_cameras[0]);
+			_monitors[0].poweron();
 		}
 		
 		private function onEnterFrame(event:Event):void {
@@ -61,13 +72,17 @@ package anyway.core {
 		}
 		
 		private function onResize(event:Event):void {
-			
+			_screen_width = _stage.width;
+			_screen_height = _stage.height;
 		}
 		
 		private function onMouseClick(event:MouseEvent):void{
 		}
 		
 		private function onKeyDown(event:KeyboardEvent):void{
+			if(event.ctrlKey && (Keyboard.NUMBER_2 == event.keyCode || Keyboard.NUMBER_3 == event.keyCode)){
+				
+			}
 		}
 		
 		private function onKeyUp(event:KeyboardEvent):void{

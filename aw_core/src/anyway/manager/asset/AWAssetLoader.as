@@ -52,7 +52,7 @@ package anyway.manager.asset{
 			var evt:AWAssetsEvent = new AWAssetsEvent(AWAssetsEvent.EVT_PROGRESS, _asset);
 			evt._bytesLoaded = event.bytesLoaded;
 			evt._bytesTotal = event.bytesTotal;
-			AWEventRouter.instance.routeEvent(evt);
+			AWEventRouter.sington.routeEvent(evt);
 		}
 		
 		private function onComplete(event:Event):void {
@@ -62,7 +62,7 @@ package anyway.manager.asset{
 			_asset.emptyCallbacks();
 			
 			var evt:AWAssetsEvent = new AWAssetsEvent(AWAssetsEvent.EVT_COMPLETE, _asset);
-			AWEventRouter.instance.routeEvent(evt);
+			AWEventRouter.sington.routeEvent(evt);
 			
 			load();
 		}

@@ -1,10 +1,9 @@
 package anyway.events {
 
 	public class AWEventRouter {
+		private static var _instance:AWEventRouter;
 
-		public static var _instance:AWEventRouter;
-
-		public static function get instance():AWEventRouter {
+		public static function get sington():AWEventRouter {
 			return _instance;
 		}
 

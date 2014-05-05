@@ -5,7 +5,6 @@ package anyway.core {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Stage3D;
-	import flash.display.TriangleCulling;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProfile;
 	import flash.display3D.Context3DRenderMode;
@@ -32,30 +31,32 @@ package anyway.core {
 		private var _width:Number;
 		private var _height:Number;
 		
-		public var _camera:AWCamera;
+		private var _camera:AWCamera;
 		
-		public function AWMonitor(width:Number, height:Number) {
+		public function AWMonitor(stage3d:Stage3D, width:Number, height:Number) {
+			_stage3D = stage3d;
 			_width = width;
 			_height = height;
-		}
-		
-		public function poweron(stage3d:Stage3D):void{
-			_stage3D = stage3d;
+			
 			_stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContext3DCreate);
 			_stage3D.addEventListener(ErrorEvent.ERROR, onError);
+		}
+		
+		public function poweron():void{
 			_stage3D.requestContext3D(Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 		}
 		
 		public function poweroff():void{
-			
+			_context3D.dispose();
+		}
+		
+		public function connect(camera:AWCamera):void{
+			_camera = camera;
 		}
 		
 		private function onContext3DCreate(event:Event):void {
-			_stage3D.removeEventListener(Event.CONTEXT3D_CREATE, onContext3DCreate);
-			
 			_context3D = _stage3D.context3D;
 			_context3D.configureBackBuffer(_width, _height, 2);
-			_context3D.setCulling(Context3DTriangleFace.BACK);
 		}
 		
 		private function onError(event:ErrorEvent):void{
@@ -69,7 +70,6 @@ package anyway.core {
 			var fov:Number = 45 * AWMathConst.DEG_2_RAD;
 			return AWMathUtil.perspectiveFieldOfViewLH(fov, aspect, zNear, zFar);
 		}
-		
 		
 		private var _texture:BitmapData;
 		public function refresh():void {

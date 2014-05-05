@@ -33,11 +33,11 @@ package anyway.geometry {
 	 * <p><img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\vec{a} \cdot \vec{a} = \left | \vec{a} \right |^{2}"/></p>
 	 */	
 	public final class AWVector {
-		public function AWVector(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0) {
+		public function AWVector(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0, w:Number = 0.0) {
 			_raw_data[0] = x;
 			_raw_data[1] = y;
 			_raw_data[2] = z;
-			_raw_data[3] = 0.0;
+			_raw_data[3] = w;
 		}
 		
 		anyway_internal_geometry const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
@@ -124,10 +124,10 @@ package anyway.geometry {
 		 * <p>左手坐标系中，左手四指并拢从<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\vec{a}"/>经<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\theta"/>弯向<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\vec{b}"/>时拇指伸直所指方向</p>
 		 * @param target
 		 */		
-		public function crossProduct(left:AWVector):AWVector {
-			var x:Number = _raw_data[1] * left._raw_data[2] - left._raw_data[1] * _raw_data[2];
-			var y:Number = -_raw_data[0] * left._raw_data[2] + left._raw_data[0] * _raw_data[2];
-			var z:Number =  _raw_data[0] * left._raw_data[1] - left._raw_data[0] * _raw_data[1];
+		public function crossProduct(right:AWVector):AWVector {
+			var x:Number = _raw_data[1] * right._raw_data[2] - right._raw_data[1] * _raw_data[2];
+			var y:Number = -_raw_data[0] * right._raw_data[2] + right._raw_data[0] * _raw_data[2];
+			var z:Number =  _raw_data[0] * right._raw_data[1] - right._raw_data[0] * _raw_data[1];
 			_raw_data[0] = x;
 			_raw_data[1] = y;
 			_raw_data[2] = z;

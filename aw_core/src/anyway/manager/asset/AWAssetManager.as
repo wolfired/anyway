@@ -5,7 +5,7 @@ package anyway.manager.asset {
 	public final class AWAssetManager {
 		private static var _instance:AWAssetManager;
 
-		public static function get instance():AWAssetManager {
+		public static function get sington():AWAssetManager {
 			return _instance;
 		}
 
