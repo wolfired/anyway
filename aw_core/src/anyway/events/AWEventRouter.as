@@ -8,12 +8,12 @@ package anyway.events {
 		}
 
 		public function AWEventRouter() {
-			SWITCH::debug{
-				if(null != _instance){
+			SWITCH::debug {
+				if(null != _instance) {
 					throw new Error("Duplicate instance AWEventRouter");
 				}
 			}
-			
+
 			_event_map = {};
 
 			_instance = this;
@@ -66,7 +66,7 @@ package anyway.events {
 
 			var listener_vec:Vector.<Function> = _event_map[event.eventType] as Vector.<Function>;
 
-			for each (var listener:Function in listener_vec){
+			for each(var listener:Function in listener_vec) {
 				listener(event);
 			}
 		}

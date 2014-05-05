@@ -19,66 +19,72 @@ package anyway.manager.asset {
 		private var _type:String;
 		private var _callback_vec:Vector.<Function>;
 		private var _data:*;
-		
-		public function get isNull():Boolean{
+
+		public function get isNull():Boolean {
 			return STATUS_NULL == _status;
 		}
 
-		public function get isFull():Boolean{
+		public function get isFull():Boolean {
 			return STATUS_FULL == _status;
 		}
-		/**
-		 * @private
-		 */		
-		internal function full():void{
-			_status = STATUS_FULL;
-		}
-		
-		public function get url():String{
+
+		public function get url():String {
 			return _url;
 		}
+
+		public function get type():String {
+			return _type
+		}
+
+		public function get data():* {
+			return _data;
+		}
+
 		/**
 		 * @private
-		 */	
+		 */
+		internal function full():void {
+			_status = STATUS_FULL;
+		}
+
+		/**
+		 * @private
+		 */
 		internal function get urlRequest():URLRequest {
 			return new URLRequest(_url);
 		}
-		
-		public function get type():String{
-			return _type
-		}
+
 		/**
 		 * @private
-		 */		
-		internal function pushCallback(callback:Function):void{
+		 */
+		internal function pushCallback(callback:Function):void {
 			var idx:int = _callback_vec.indexOf(callback);
-			if(idx == -1){
+
+			if(idx == -1) {
 				_callback_vec.push(callback);
 			}
 		}
+
 		/**
 		 * @private
-		 */		
-		internal function invokeCallbacks():void{
-			for each (var callback:Function in _callback_vec){
+		 */
+		internal function invokeCallbacks():void {
+			for each(var callback:Function in _callback_vec) {
 				callback(this);
 			}
 		}
+
 		/**
 		 * @private
-		 */	
-		internal function emptyCallbacks():void{
+		 */
+		internal function emptyCallbacks():void {
 			_callback_vec.length = 0;
 		}
-		
-		public function get data():*{
-			return _data;
-		}
-		
+
 		/**
 		 * @private
-		 */		
-		internal function setData(val:*):void{
+		 */
+		internal function setData(val:*):void {
 			_data = val;
 		}
 	}

@@ -1,5 +1,5 @@
-package anyway.utils{
-	public class AWMiscUtil{
+package anyway.utils {
 
+	public class AWMiscUtil {
 	}
 }

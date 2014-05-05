@@ -1,7 +1,7 @@
 package anyway.manager.asset {
 
 	import flash.net.URLLoaderDataFormat;
-	
+
 	public final class AWAssetManager {
 		private static var _instance:AWAssetManager;
 
@@ -10,12 +10,12 @@ package anyway.manager.asset {
 		}
 
 		public function AWAssetManager() {
-			SWITCH::debug{
-				if(null != _instance){
+			SWITCH::debug {
+				if(null != _instance) {
 					throw new Error("Duplicate instance AWAssetManager");
 				}
 			}
-			
+
 			_asset_queue = new Vector.<AWAsset>();
 			_asset_map = {};
 			_asset_loader = new AWAssetLoader(_asset_queue);
@@ -32,30 +32,31 @@ package anyway.manager.asset {
 		 * @param callback 回调函数
 		 * @param type 资源类型
 		 * @return 资源包
-		 */		
+		 */
 		public function fetch(url:String, callback:Function = null, type:String = URLLoaderDataFormat.TEXT):AWAsset {
 			var asset:AWAsset = _asset_map[url] as AWAsset;
-			if(null == asset){
+
+			if(null == asset) {
 				asset = new AWAsset(url, type);
 				_asset_queue.push(asset);
 				_asset_map[url] = asset;
 			}
-			
-			if(asset.isFull){
-				if(null != callback){
+
+			if(asset.isFull) {
+				if(null != callback) {
 					callback(asset);
 				}
-			}else{
-				if(null != callback){
+			} else {
+				if(null != callback) {
 					asset.pushCallback(callback);
 				}
-				
-				if(_asset_loader.isIdle){
+
+				if(_asset_loader.isIdle) {
 					_asset_loader.busy();
 					_asset_loader.load();
 				}
 			}
-			
+
 			return asset;
 		}
 	}

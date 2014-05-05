@@ -4,7 +4,7 @@ package anyway.geometry {
 	import anyway.utils.format;
 
 	use namespace anyway_internal_geometry;
-	
+
 	public final class AWPoint {
 		public function AWPoint(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0) {
 			_raw_data[0] = x;
@@ -21,23 +21,26 @@ package anyway.geometry {
 			_raw_data[2] = raw_data[2];
 			_raw_data[3] = raw_data[3];
 		}
-		
+
 		/**
 		 * 向量是否一致
 		 * @param target
-		 * @return 
-		 */		
-		public function isCongruent(target:AWPoint):Boolean{
-			if(this == target){
+		 * @return
+		 */
+		public function isCongruent(target:AWPoint):Boolean {
+			if(this == target) {
 				return true;
 			}
-			if(_raw_data[0] != target._raw_data[0]){
+
+			if(_raw_data[0] != target._raw_data[0]) {
 				return false;
 			}
-			if(_raw_data[1] != target._raw_data[1]){
+
+			if(_raw_data[1] != target._raw_data[1]) {
 				return false;
 			}
-			if(_raw_data[2] != target._raw_data[2]){
+
+			if(_raw_data[2] != target._raw_data[2]) {
 				return false;
 			}
 			return true;
