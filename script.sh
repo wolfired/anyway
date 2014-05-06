@@ -1,7 +1,7 @@
 #!/bin/bash
 APACHE_FLEX=apache-flex-sdk-4.12.1-bin
 if [ ! -d "$APACHE_FLEX" ]; then
-	curl "http://mirrors.cnnic.cn/apache/flex/4.12.1/binaries/$APACHE_FLEX.tar.gz"
+	curl "http://mirrors.cnnic.cn/apache/flex/4.12.1/binaries/$APACHE_FLEX.tar.gz" >> $APACHE_FLEX.tar.gz
 	tar -zxf $APACHE_FLEX.tar.gz
 fi
 
