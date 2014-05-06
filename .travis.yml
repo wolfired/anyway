@@ -7,12 +7,12 @@ before_install:
   - sudo apt-get install -qq ant
   - curl 'http://mirrors.cnnic.cn/apache/flex/4.12.1/binaries/apache-flex-sdk-4.12.1-bin.tar.gz' >> apache_flex_sdk.tar.gz
   - tar -zxf apache_flex_sdk.tar.gz
-before_script:
+#before_script:
 script: ant compile_core -DFLEX_HOME=./apache-flex-sdk-4.12.1-bin
 branches:
   only:
     - develop
-    - master
+#    - master
 notifications:
   recipients:
     - wjianl@qq.com
