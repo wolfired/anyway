@@ -5,6 +5,7 @@ if [ ! -d "$APACHE_FLEX" ]; then
 	tar -zxf $APACHE_FLEX.tar.gz
 fi
 
+PLAYERGLOBAL_HOME=$APACHE_FLEX/frameworks/libs/player
 PLAYER_VERSION_MAJOR=13
 PLAYER_VERSION_MINOR=0
 if [ ! -d "$APACHE_FLEX/frameworks/libs/player/$PLAYER_VERSION_MAJOR.$PLAYER_VERSION_MINOR/" ]; then
