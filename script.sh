@@ -26,7 +26,7 @@ then
 else
 	echo "downloading"
 	mkdir -p $PLAYERGLOBAL_HOME/$PLAYER_VERSION_MAJOR.$PLAYER_VERSION_MINOR
-	curl "http://download.macromedia.com/get/flashplayer/updaters/$PLAYER_VERSION_MAJOR/playerglobal$PLAYER_VERSION_MAJOR_$PLAYER_VERSION_MINOR.swc" > $PLAYERGLOBAL_HOME/$PLAYER_VERSION_MAJOR.$PLAYER_VERSION_MINOR/playerglobal.swc
+	curl "http://download.macromedia.com/get/flashplayer/updaters/$PLAYER_VERSION_MAJOR/playerglobal${PLAYER_VERSION_MAJOR}_${PLAYER_VERSION_MINOR}.swc" > $PLAYERGLOBAL_HOME/$PLAYER_VERSION_MAJOR.$PLAYER_VERSION_MINOR/playerglobal.swc
 fi
 
 ant compile_core -DFLEX_HOME=$APACHE_FLEX_HOME -Dconfig.player.version=$PLAYER_VERSION_MAJOR.$PLAYER_VERSION_MINOR -Dconfig.swf.version=$SWF_VERSION

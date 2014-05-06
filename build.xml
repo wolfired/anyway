@@ -74,8 +74,6 @@
 	<!-- ================================= 
           target: default              
          ================================= -->
-	<property environment="env"></property>
-	
 	<target name="help" description="My AS 3D engine">
 	</target>
 
@@ -83,10 +81,6 @@
           target: compile_core                      
          - - - - - - - - - - - - - - - - - -->
 	<target name="compile_core" description="Compile aw_core">
-		<echo>${env.PLAYERGLOBAL_HOME}</echo>
-		<echo>${env.APACHE_FLEX_HOME}</echo>
-		<echo>${env.PATH}</echo>
-		
 		<compc output="${core.bin.dir}/${core.project.name}.swc" debug="${config.debug}" debug-password="${config.debug_password}" optimize="${config.optimize}" incremental="${config.incremental}" locale="${config.locale}" target-player="${config.player.version}" swf-version="${config.swf.version}" accessible="${config.accessible}" fork="true">
 			<include-sources dir="${core.src.dir}" includes="*" />
 
