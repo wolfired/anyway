@@ -12,8 +12,8 @@ then
 	echo "downloaded"
 else 
 	echo "downloading"
-	curl $APACHE_FLEX_SDK_URL > $ACCOUNT_ROOT/$APACHE_FLEX_TAR
-	tar -zxf $ACCOUNT_ROOT/$APACHE_FLEX_TAR -C $ACCOUNT_ROOT
+	#curl $APACHE_FLEX_SDK_URL > $ACCOUNT_ROOT/$APACHE_FLEX_TAR
+	#tar -zxf $ACCOUNT_ROOT/$APACHE_FLEX_TAR -C $ACCOUNT_ROOT
 fi
 
 PLAYERGLOBAL_HOME=$APACHE_FLEX_HOME/frameworks/libs/player
