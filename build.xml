@@ -76,7 +76,7 @@
          ================================= -->
 	<property environment="env"></property>
 	<target name="help" description="My AS 3D engine">
-		<echo>${env.PLAYERGLOBAL_HOME)</echo>
+		<echo>${env.PLAYERGLOBAL_HOME}</echo>
 	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
