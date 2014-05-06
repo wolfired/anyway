@@ -1,5 +1,3 @@
-sudo apt-get update -qq
-sudo apt-get install -qq ant
 
 set APACHE_FLEX=apache-flex-sdk-4.12.1-bin
 if [[ ! -d "$APACHE_FLEX" ]]; then
