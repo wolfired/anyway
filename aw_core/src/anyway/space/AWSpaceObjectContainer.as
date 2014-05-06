@@ -10,9 +10,12 @@ package anyway.space {
 
 		private const _children:Array = new Array();
 
-		public function addChild(child:AWSpaceObject):uint {
-			null != child._parent && child._parent.delChild(child);
-			return _children.push(child);
+		public function addChild(child:AWSpaceObject):void {
+			if(null != child._parent){
+				child._parent.delChild(child);
+			}
+			child._parent = this;
+			child._index = _children.push(child);
 		}
 		
 		public function delChild(child:AWSpaceObject):void{

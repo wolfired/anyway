@@ -6,6 +6,8 @@ package {
 	
 	import anyway.core.Anyway;
 	import anyway.model.AWModelStruct;
+	import anyway.space.AWSpaceObject;
+	import anyway.space.AWSpaceObjectContainer;
 
 	[SWF(width = CONST::width, height = CONST::height, frameRate = "24")]
 
@@ -33,6 +35,22 @@ package {
 		}
 
 		private function startup():void {
+			var o0:AWSpaceObject = new AWSpaceObject();
+			var o1:AWSpaceObject = new AWSpaceObject();
+			var o2:AWSpaceObject = new AWSpaceObject();
+			
+			var oc0:AWSpaceObjectContainer = new AWSpaceObjectContainer();
+			var oc1:AWSpaceObjectContainer = new AWSpaceObjectContainer();
+			
+			oc0.addChild(o0);
+			oc0.addChild(o1);
+			
+			oc1.addChild(o2);
+			oc1.addChild(o0);
+			
+			oc0.delChild(o0);
+			
+			
 			Anyway.ready(this.stage, CONST::width, CONST::height).go();
 
 			var model_struct:AWModelStruct = new AWModelStruct();
