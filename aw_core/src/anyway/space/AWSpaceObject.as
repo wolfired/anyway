@@ -13,10 +13,11 @@ package anyway.space {
 		public function AWSpaceObject() {
 		}
 
+		public var _model:AWModelStruct;
+		protected const _position:AWPoint = new AWPoint();
+
 		anyway_internal_space var _parent:AWSpaceObjectContainer;
 		anyway_internal_space var _index:uint;
-		protected const _position:AWPoint = new AWPoint();
-		public var _model:AWModelStruct;
 
 		public function get x():Number {
 			return _position._raw_data[0];

@@ -69,6 +69,10 @@ package anyway.core {
 			_monitors[0].connect(_cameras[0]);
 			_monitors[0].poweron();
 		}
+		
+		public function get world():AWSpaceObjectContainer{
+			return _world;
+		}
 
 		private function onEnterFrame(event:Event):void {
 			_monitors[0].refresh();

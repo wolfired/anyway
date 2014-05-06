@@ -1,8 +1,6 @@
 package anyway.core {
 
 	import com.adobe.utils.PerspectiveMatrix3D;
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
 	import flash.display.Stage3D;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProfile;
@@ -11,12 +9,12 @@ package anyway.core {
 	import flash.events.Event;
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
-	import flash.utils.getDefinitionByName;
 	import flash.utils.getTimer;
 	import anyway.constant.AWMathConst;
 	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.geometry.AWMatrix;
 	import anyway.shader.LightedRender;
+	import anyway.space.AWSpaceObject;
 	import anyway.utils.AWMathUtil;
 
 	use namespace anyway_internal_geometry;
@@ -40,8 +38,6 @@ package anyway.core {
 
 		private var _camera:AWCamera;
 
-		private var _texture:BitmapData;
-
 		public function poweron():void {
 			_stage3D.requestContext3D(Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 		}
@@ -63,58 +59,12 @@ package anyway.core {
 		}
 
 		public function refresh():void {
-			if(null == _texture) {
-				var clz:Class = getDefinitionByName("ResClz") as Class;
-				_texture = ((new clz["textureClass"]()) as Bitmap).bitmapData;
-			}
-
-			var vertexData:Vector.<Number> = Vector.<Number>([
-															 0.5, 0.5, -0.5, 0, 0, -1, 1, 0, // 	Front
-															 -0.5, 0.5, -0.5, 0, 0, -1, 0, 0, // 
-															 -0.5, -0.5, -0.5, 0, 0, -1, 0, 1, // 
-															 0.5, -0.5, -0.5, 0, 0, -1, 1, 1, // 
-
-															 0.5, -0.5, -0.5, 0, -1, 0, 1, 0, //  Bottom
-															 -0.5, -0.5, -0.5, 0, -1, 0, 0, 0, // 
-															 -0.5, -0.5, 0.5, 0, -1, 0, 0, 1, // 
-															 0.5, -0.5, 0.5, 0, -1, 0, 1, 1, // 
-
-															 -0.5, 0.5, 0.5, 0, 0, 1, 1, 0, // 	Back
-															 0.5, 0.5, 0.5, 0, 0, 1, 0, 0, // 
-															 0.5, -0.5, 0.5, 0, 0, 1, 0, 1, // 
-															 -0.5, -0.5, 0.5, 0, 0, 1, 1, 1, // 
-
-															 -0.5, 0.5, 0.5, 0, 1, 0, 1, 0, // 	Top
-															 0.5, 0.5, 0.5, 0, 1, 0, 0, 0, // 
-															 0.5, 0.5, -0.5, 0, 1, 0, 0, 1, // 
-															 -0.5, 0.5, -0.5, 0, 1, 0, 1, 1, // 
-
-															 -0.5, 0.5, -0.5, -1, 0, 0, 1, 0, // 	Left
-															 -0.5, 0.5, 0.5, -1, 0, 0, 0, 0, // 
-															 -0.5, -0.5, 0.5, -1, 0, 0, 0, 1, // 
-															 -0.5, -0.5, -0.5, -1, 0, 0, 1, 1, // 
-
-															 0.5, 0.5, 0.5, 1, 0, 0, 1, 0, // 	Right
-															 0.5, 0.5, -0.5, 1, 0, 0, 0, 0, // 
-															 0.5, -0.5, -0.5, 1, 0, 0, 0, 1, // 
-															 0.5, -0.5, 0.5, 1, 0, 0, 1, 1 // 	  	
-															 ]);
-
-			var indexData:Vector.<uint> = Vector.<uint>([
-														0, 1, 2, 0, 2, 3, // Front face
-														4, 5, 6, 4, 6, 7, // Bottom face
-														8, 9, 10, 8, 10, 11, // Back face
-														14, 13, 12, 15, 14, 12, // Top face
-														16, 17, 18, 16, 18, 19, // Left face
-														20, 21, 22, 20, 22, 23 // Right face
-														]);
-
-			// Prep the bitmap data to be used as a texture
-
 			// Prepare a shader for rendering
 			var shader:LightedRender = new LightedRender();
 			shader.upload(_context3D);
-			shader.setGeometry(vertexData, indexData, _texture);
+
+			var o:AWSpaceObject = Anyway.sington.world.getChildAt();
+			shader.setGeometry(o._model.vertexData, o._model.indexData, o._model.bitmapdata);
 
 			// The projection defines a 3D perspective to be rendered
 			var projection:PerspectiveMatrix3D = new PerspectiveMatrix3D();
@@ -131,6 +81,7 @@ package anyway.core {
 			modelMatrix.appendRotation(dt, Vector3D.X_AXIS, pivot);
 			modelMatrix.appendRotation(dt, Vector3D.Y_AXIS, pivot);
 			modelMatrix.appendRotation(45 * AWMathConst.DEG_2_RAD, Vector3D.Z_AXIS, pivot);
+//			modelMatrix.appendTranslation(0, 0, -2);
 
 			// The view matrix will contain the concatenation of all transformations
 			var viewMatrix:Matrix3D = new Matrix3D();
