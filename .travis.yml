@@ -3,12 +3,9 @@ language: cpp
 #  - gcc
 #  - clang
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq ant
-  - curl 'http://mirrors.cnnic.cn/apache/flex/4.12.1/binaries/apache-flex-sdk-4.12.1-bin.tar.gz' >> apache_flex_sdk.tar.gz
-  - tar -zxf apache_flex_sdk.tar.gz
+  - ./setup.sh
 #before_script:
-script: ant compile_core -DFLEX_HOME=./apache-flex-sdk-4.12.1-bin
+script: ant compile_core -Dconfig.player.version=13.0 -DFLEX_HOME=./apache-flex-sdk-4.12.1-bin
 branches:
   only:
     - develop
