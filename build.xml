@@ -17,6 +17,7 @@
 	<property name="jvmarg.asdoc" value="-Dfile.encoding=${file.encoding} -Xmx1024m -Dsun.io.useCanonCaches=false" />
 
 	<property name="FLEX_HOME" location="D:/Adobe/Adobe Flash Builder 4.7 (64 Bit)/sdks/4.6.0" />
+	<property name="PLAYERGLOBAL_HOME" location="${FLEX_HOME}/frameworks/libs/player" />
 	<property name="AIR_HOME" location="D:/Adobe/Adobe Flash Builder 4.7 (64 Bit)/eclipse/plugins/com.adobe.flash.compiler_4.7.0.349722/AIRSDK" />
 
 	<property name="config.locale" value="en_US" />
