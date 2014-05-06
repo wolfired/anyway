@@ -17,7 +17,6 @@
 	<property name="jvmarg.asdoc" value="-Dfile.encoding=${file.encoding} -Xmx1024m -Dsun.io.useCanonCaches=false" />
 
 	<property name="FLEX_HOME" location="D:/Adobe/Adobe Flash Builder 4.7 (64 Bit)/sdks/4.6.0" />
-	<property name="PLAYERGLOBAL_HOME" location="${FLEX_HOME}/frameworks/libs/player" />
 	<property name="AIR_HOME" location="D:/Adobe/Adobe Flash Builder 4.7 (64 Bit)/eclipse/plugins/com.adobe.flash.compiler_4.7.0.349722/AIRSDK" />
 
 	<property name="config.locale" value="en_US" />
@@ -76,14 +75,18 @@
           target: default              
          ================================= -->
 	<property environment="env"></property>
+	
 	<target name="help" description="My AS 3D engine">
-		<echo>${env.PLAYERGLOBAL_HOME}</echo>
 	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
           target: compile_core                      
          - - - - - - - - - - - - - - - - - -->
 	<target name="compile_core" description="Compile aw_core">
+		<echo>${env.PLAYERGLOBAL_HOME}</echo>
+		<echo>${env.APACHE_FLEX_HOME}</echo>
+		<echo>${env.PATH}</echo>
+		
 		<compc output="${core.bin.dir}/${core.project.name}.swc" debug="${config.debug}" debug-password="${config.debug_password}" optimize="${config.optimize}" incremental="${config.incremental}" locale="${config.locale}" target-player="${config.player.version}" swf-version="${config.swf.version}" accessible="${config.accessible}" fork="true">
 			<include-sources dir="${core.src.dir}" includes="*" />
 
