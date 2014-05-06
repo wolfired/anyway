@@ -1,9 +1,12 @@
 package {
 
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	
 	import anyway.core.Anyway;
 	import anyway.model.AWModelStruct;
+
 	[SWF(width = CONST::width, height = CONST::height, frameRate = "24")]
 
 	public class AWMain extends Sprite {
@@ -34,18 +37,19 @@ package {
 
 			var model_struct:AWModelStruct = new AWModelStruct();
 			model_struct.data32_per_vertex = 8;
+			model_struct.bitmapdata = (new ResClz.textureClass() as Bitmap).bitmapData;
 			model_struct.vertexData = Vector.<Number>([
-													  0.5, 0.5, -0.5, 0, 0, -1, 1, 0, // 	Front
+													  0.5, 0.5, -0.5, 0, 0, -1, 1, 0, // 	0Front
 													  -0.5, 0.5, -0.5, 0, 0, -1, 0, 0, // 
 													  -0.5, -0.5, -0.5, 0, 0, -1, 0, 1, // 
 													  0.5, -0.5, -0.5, 0, 0, -1, 1, 1, // 
 
-													  0.5, -0.5, -0.5, 0, -1, 0, 1, 0, //  Bottom
+													  0.5, -0.5, -0.5, 0, -1, 0, 1, 0, //  4Bottom
 													  -0.5, -0.5, -0.5, 0, -1, 0, 0, 0, // 
 													  -0.5, -0.5, 0.5, 0, -1, 0, 0, 1, // 
 													  0.5, -0.5, 0.5, 0, -1, 0, 1, 1, // 
 
-													  -0.5, 0.5, 0.5, 0, 0, 1, 1, 0, // 	Back
+													  -0.5, 0.5, 0.5, 0, 0, 1, 1, 0, // 	8Back
 													  0.5, 0.5, 0.5, 0, 0, 1, 0, 0, // 
 													  0.5, -0.5, 0.5, 0, 0, 1, 0, 1, // 
 													  -0.5, -0.5, 0.5, 0, 0, 1, 1, 1, // 

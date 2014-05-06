@@ -8,9 +8,11 @@ package anyway.core {
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.ui.Keyboard;
+	
 	import anyway.events.AWEventRouter;
 	import anyway.geometry.AWPoint;
 	import anyway.manager.asset.AWAssetManager;
+	import anyway.space.AWSpaceObjectContainer;
 
 	public final class Anyway {
 		private static var _instance:Anyway;
@@ -47,6 +49,8 @@ package anyway.core {
 
 		private const _cameras:Vector.<AWCamera> = new Vector.<AWCamera>();
 		private const _monitors:Vector.<AWMonitor> = new Vector.<AWMonitor>();
+		
+		private const _world:AWSpaceObjectContainer = new AWSpaceObjectContainer();
 
 		public function go():void {
 			_stage.align = StageAlign.TOP;

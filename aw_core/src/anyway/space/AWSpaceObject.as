@@ -1,17 +1,22 @@
 package anyway.space {
 
 	import anyway.core.ns.anyway_internal_geometry;
+	import anyway.core.ns.anyway_internal_space;
 	import anyway.geometry.AWPoint;
+	import anyway.model.AWModelStruct;
 
 	use namespace anyway_internal_geometry;
+	use namespace anyway_internal_space;
 
 	public class AWSpaceObject {
 
 		public function AWSpaceObject() {
 		}
 
-		protected var _parent:AWSpaceObjectContainer;
+		anyway_internal_space var _parent:AWSpaceObjectContainer;
+		anyway_internal_space var _index:uint;
 		protected const _position:AWPoint = new AWPoint();
+		public var _model:AWModelStruct;
 
 		public function get x():Number {
 			return _position._raw_data[0];
