@@ -12,4 +12,5 @@ if [[ ! -d "$APACHE_FLEX/frameworks/libs/player/$PLAYER_VERSION_MAJOR.$PLAYER_VE
 	curl 'http://download.macromedia.com/get/flashplayer/updaters/$PLAYER_VERSION_MAJOR/playerglobal$PLAYER_VERSION_MAJOR_$PLAYER_VERSION_MINOR.swc' >> $APACHE_FLEX/frameworks/libs/player/$PLAYER_VERSION_MAJOR.$PLAYER_VERSION_MINOR/playerglobal.swc
 fi
 
+ant compile_core -Dconfig.player.version=$PLAYER_VERSION_MAJOR.$PLAYER_VERSION_MINOR -DFLEX_HOME=./$APACHE_FLEX
 
