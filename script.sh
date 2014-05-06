@@ -1,11 +1,11 @@
 #!/bin/bash
-ACCOUNT_ROOT=/home/travis/build/wolfired
-PROJECT_NAME=anyway
+export ACCOUNT_ROOT=/home/travis/build/wolfired
+export PROJECT_NAME=anyway
 
-APACHE_FLEX_SDK_URL="http://mirrors.cnnic.cn/apache/flex/4.12.1/binaries/apache-flex-sdk-4.12.1-bin.tar.gz"
-APACHE_FLEX=apache-flex-sdk-4.12.1-bin
-APACHE_FLEX_TAR=$APACHE_FLEX.tar.gz
-APACHE_FLEX_HOME=$ACCOUNT_ROOT/$APACHE_FLEX
+export APACHE_FLEX_SDK_URL="http://mirrors.cnnic.cn/apache/flex/4.12.1/binaries/apache-flex-sdk-4.12.1-bin.tar.gz"
+export APACHE_FLEX=apache-flex-sdk-4.12.1-bin
+export APACHE_FLEX_TAR=$APACHE_FLEX.tar.gz
+export APACHE_FLEX_HOME=$ACCOUNT_ROOT/$APACHE_FLEX
 
 if [ -d "$APACHE_FLEX_HOME" ]
 then
@@ -16,10 +16,10 @@ else
 	tar -zxf $ACCOUNT_ROOT/$APACHE_FLEX_TAR -C $ACCOUNT_ROOT
 fi
 
-PLAYERGLOBAL_HOME=$APACHE_FLEX_HOME/frameworks/libs/player
-PLAYER_VERSION_MAJOR=13
-PLAYER_VERSION_MINOR=0
-SWF_VERSION=24
+export PLAYERGLOBAL_HOME=$APACHE_FLEX_HOME/frameworks/libs/player
+export PLAYER_VERSION_MAJOR=13
+export PLAYER_VERSION_MINOR=0
+export SWF_VERSION=24
 if [ -d "$PLAYERGLOBAL_HOME/$PLAYER_VERSION_MAJOR.$PLAYER_VERSION_MINOR" ]
 then
 	echo "downloaded"
