@@ -1,4 +1,4 @@
-language: java
+language: cpp
 #compiler:
 #  - gcc
 #  - clang
