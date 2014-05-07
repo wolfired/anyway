@@ -11,20 +11,6 @@ package anyway.space {
 
 		anyway_internal_space const _children:Vector.<AWSpaceObject> = new Vector.<AWSpaceObject>();
 
-//		public function addChild(child:AWSpaceObject):void {
-//			if(null == child._parent) {
-//				child._parent = this;
-//				child._index = _children.push(child);
-//			} else if(this != child._parent) {
-//				child._parent._children.splice(child._index, 1);
-//				child._parent = this;
-//				child._index = _children.push(child);
-//			} else if(_children.length - 1 != child._index) {
-//				_children.splice(child._index, 1);
-//				child._index = _children.push(child);
-//			}
-//		}
-
 		public function addChildAt(child:AWSpaceObject, index:uint = uint.MAX_VALUE):void {
 			if(_children.length <= index) {
 				index = _children.length;
@@ -32,24 +18,16 @@ package anyway.space {
 
 			if(null == child._parent) {
 				child._parent = this;
-				_children.splice(index, 0, child);
 			} else if(this != child._parent) {
 				child._parent._children.splice(child._index, 1);
 				child._parent = this;
-				_children.splice(index, 0, child);
 			} else if(index != child._index) {
 				_children.splice(child._index, 1);
-				_children.splice(index, 0, child);
 			}
-
+			
 			child._index = index;
+			_children.splice(index, 0, child);
 		}
-
-//		public function delChild(child:AWSpaceObject):void {
-//			if(this == child._parent) {
-//				_children.splice(child._index, 1)[0]._parent = null;
-//			}
-//		}
 
 		public function delChildAt(index:uint = uint.MAX_VALUE):void {
 			if(_children.length <= index) {

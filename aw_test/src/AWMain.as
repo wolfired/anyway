@@ -5,6 +5,7 @@ package {
 	import flash.events.Event;
 	
 	import anyway.core.Anyway;
+	import anyway.geometry.AWMatrix;
 	import anyway.model.AWModelStruct;
 	import anyway.space.AWSpaceObject;
 
@@ -36,10 +37,10 @@ package {
 		private function startup():void {
 			Anyway.ready(this.stage, CONST::width, CONST::height).go();
 			
-			var model_struct:AWModelStruct = new AWModelStruct();
-			model_struct.data32_per_vertex = 8;
-			model_struct.bitmapdata = (new ResClz.textureClass() as Bitmap).bitmapData;
-			model_struct.vertexData = Vector.<Number>([
+			var model_struct3d:AWModelStruct = new AWModelStruct();
+			model_struct3d.data32_per_vertex = 8;
+			model_struct3d.bitmapdata = (new ResClz.textureClass() as Bitmap).bitmapData;
+			model_struct3d.vertexData = Vector.<Number>([
 													  0.5, 0.5, -0.5, 0, 0, -1, 1, 0, // 	0Front
 													  -0.5, 0.5, -0.5, 0, 0, -1, 0, 0, // 
 													  -0.5, -0.5, -0.5, 0, 0, -1, 0, 1, // 
@@ -70,7 +71,7 @@ package {
 													  0.5, -0.5, -0.5, 1, 0, 0, 0, 1, // 
 													  0.5, -0.5, 0.5, 1, 0, 0, 1, 1 // 	  	
 													  ]);
-			model_struct.indexData = Vector.<uint>([
+			model_struct3d.indexData = Vector.<uint>([
 												   0, 1, 2, 0, 2, 3, // Front face
 												   4, 5, 6, 4, 6, 7, // Bottom face
 												   8, 9, 10, 8, 10, 11, // Back face
@@ -79,8 +80,23 @@ package {
 												   20, 21, 22, 20, 22, 23 // Right face
 												   ]);
 			
+			
+			var model_struct2d:AWModelStruct = new AWModelStruct();
+			model_struct2d.data32_per_vertex = 5;
+			model_struct2d.bitmapdata = (new ResClz.textureClass() as Bitmap).bitmapData;
+			model_struct2d.vertexData = Vector.<Number>([
+				0.5,0.5,1,1,0,
+				0.5,-0.5,1,1,1,
+				-0.5,-0.5,1,0,1,
+				-0.5,0.5,1,0,0
+			]);
+			model_struct2d.indexData = Vector.<uint>([
+				0,2,1,
+				0,3,2
+			]);
+			
 			var o:AWSpaceObject = new AWSpaceObject();
-			o._model = model_struct;
+			o._model = model_struct2d;
 			
 			Anyway.sington.world.addChildAt(o);
 		}

@@ -11,5 +11,12 @@ package anyway.model {
 
 		public var data32_per_vertex:uint;
 		public var bitmapdata:BitmapData;
+		
+		public function get numVertices():uint{
+			return vertexData.length / data32_per_vertex;
+		}
+		public function get numIndices():uint{
+			return indexData.length;
+		}
 	}
 }
