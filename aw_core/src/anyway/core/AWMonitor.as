@@ -12,7 +12,9 @@ package anyway.core {
 	import flash.display3D.textures.Texture;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
+	import flash.utils.getTimer;
 	
+	import anyway.constant.AWCoordinateConst;
 	import anyway.constant.AWMathConst;
 	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.geometry.AWMatrix;
@@ -61,6 +63,7 @@ package anyway.core {
 			return AWMathUtil.perspectiveFieldOfViewLH(fovy, aspect, zNear, zFar);
 		}
 
+		private var counter:Number = 0;
 		public function refresh():void {
 			var shader:TextureShader = new TextureShader();
 			shader.upload(_context3D);
@@ -70,22 +73,27 @@ package anyway.core {
 			var vb:VertexBuffer3D = _context3D.createVertexBuffer(o._model.numVertices, o._model.data32_per_vertex);
 			vb.uploadFromVector(o._model.vertexData, 0, o._model.numVertices);
 			_context3D.setVertexBufferAt(0, vb, 0, Context3DVertexBufferFormat.FLOAT_3);
+			_context3D.setVertexBufferAt(1, vb, 3, Context3DVertexBufferFormat.FLOAT_2);
 			
 			var ib:IndexBuffer3D = _context3D.createIndexBuffer(o._model.numIndices);
 			ib.uploadFromVector(o._model.indexData, 0, o._model.numIndices);
-			_context3D.setVertexBufferAt(1, vb, 3, Context3DVertexBufferFormat.FLOAT_2);
 			
 			var t:Texture = _context3D.createTexture(o._model.bitmapdata.width, o._model.bitmapdata.height, Context3DTextureFormat.BGRA, false);
 			t.uploadFromBitmapData(o._model.bitmapdata);
 			_context3D.setTextureAt(0, t);
 			
-			var modelM:AWMatrix = new AWMatrix().identity();
+			var modelM:AWMatrix = new AWMatrix();
+			modelM.translate(0,0,1);
+//			modelM.scale(2,2);
+//			modelM.rotate(getTimer()/60, AWCoordinateConst.AXIS_Z);
 			
-			var worldM:AWMatrix = new AWMatrix().identity();
-			worldM.translate(0,0,1.001)
+			var worldM:AWMatrix = new AWMatrix();
 			
-			var result:AWMatrix = new AWMatrix().identity();
+//			_camera.matrix.rotate(0.5, AWCoordinateConst.AXIS_Z);
+			
+			var result:AWMatrix = new AWMatrix();
 			result.multiply(modelM).multiply(worldM).multiply(_camera.matrix).multiply(this.matrix);
+			
 			_context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, result._raw_data);
 			
 			_context3D.setProgram(shader.program);

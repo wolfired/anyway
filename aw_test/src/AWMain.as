@@ -5,7 +5,6 @@ package {
 	import flash.events.Event;
 	
 	import anyway.core.Anyway;
-	import anyway.geometry.AWMatrix;
 	import anyway.model.AWModelStruct;
 	import anyway.space.AWSpaceObject;
 
@@ -20,8 +19,6 @@ package {
 				this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			}
 		}
-
-		private var _resClz:ResClz;
 
 		private function onAddedToStage(event:Event):void {
 			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -85,10 +82,22 @@ package {
 			model_struct2d.data32_per_vertex = 5;
 			model_struct2d.bitmapdata = (new ResClz.textureClass() as Bitmap).bitmapData;
 			model_struct2d.vertexData = Vector.<Number>([
-				0.5,0.5,1,1,0,
-				0.5,-0.5,1,1,1,
-				-0.5,-0.5,1,0,1,
-				-0.5,0.5,1,0,0
+				1,1,0,1,0,//Front0
+				1,-1,0,1,1,//
+				-1,-1,0,0,1,//
+				-1,1,0,0,0//
+//				1,1,1,1,0,//Back4
+//				1,-1,1,1,1,//
+//				-1,-1,1,0,1,//
+//				-1,1,1,0,0,//
+//				-1,1,1,1,0,//left8
+//				-1,-1,1,1,1,//
+//				-1,-1,-1,0,1,//
+//				-1,1,-1,0,0,//
+//				1,1,1,1,0,//right12
+//				1,-1,1,1,1,//
+//				1,-1,-1,0,1,//
+//				1,1,-1,0,0//
 			]);
 			model_struct2d.indexData = Vector.<uint>([
 				0,2,1,

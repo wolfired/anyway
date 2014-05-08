@@ -141,7 +141,7 @@
 	<!-- - - - - - - - - - - - - - - - - - 
           target: doc_core                      
          - - - - - - - - - - - - - - - - - -->
-	<target name="doc_core" description="Gen doc_core">
+	<target name="doc_core" description="Gen aw_core's doc">
 		<asdoc output="${core.doc.dir}" package-description-file="${basedir}/package.xml" lenient="true" debug="${config.debug}" debug-password="${config.debug_password}" optimize="${config.optimize}" incremental="${config.incremental}" locale="${config.locale}" target-player="${config.player.version}" swf-version="${config.swf.version}" fork="true">
 			<doc-sources path-element="${core.src.dir}" />
 

@@ -17,6 +17,7 @@ package anyway.geometry {
 	 */
 	public class AWMatrix {
 		public function AWMatrix() {
+			this.identity();
 		}
 
 		anyway_internal_geometry const _raw_data:Vector.<Number> = new Vector.<Number>(16, true);
@@ -41,7 +42,6 @@ package anyway.geometry {
 		 */
 		public function transpose():AWMatrix {
 			var temp:Number;
-
 			for(var row:int = 0; row < 4; ++row) {
 				for(var cloumn:int = 0; cloumn < 4; ++cloumn) {
 					if(row < cloumn) {
@@ -84,16 +84,14 @@ package anyway.geometry {
 			return this.multiply(AWMathUtil.makeRotateMatrix(deg, axis));
 		}
 
-		public function multiply(left:AWMatrix):AWMatrix {
+		public function multiply(right:AWMatrix):AWMatrix {
 			var temp:Vector.<Number> = new Vector.<Number>();
 			var sum:Number;
-
 			for(var row:int = 0; row < 4; ++row) {
 				for(var cloumn:int = 0; cloumn < 4; ++cloumn) {
 					sum = 0.0;
-
 					for(var i:int = 0; i < 4; ++i) {
-						sum += _raw_data[row * 4 + i] * left._raw_data[cloumn + i * 4];
+						sum += _raw_data[row * 4 + i] * right._raw_data[cloumn + i * 4];
 					}
 					temp.push(sum);
 				}

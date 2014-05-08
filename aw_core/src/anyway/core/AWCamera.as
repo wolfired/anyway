@@ -13,21 +13,32 @@ package anyway.core {
 
 	public final class AWCamera {
 
-		public function AWCamera(place_at:AWPoint, point_at:AWPoint) {
+		public function AWCamera(place_at:AWPoint, point_to:AWPoint) {
 			_camera_place_at.copyRawData(place_at._raw_data);
-			_camera_point_at.copyRawData(point_at._raw_data);
+			_camera_point_to.copyRawData(point_to._raw_data);
 		}
 
-		anyway_internal var _valid:Boolean = false;
+		private var _valid:Boolean = false;
 		private const _camera_place_at:AWPoint = new AWPoint();
-		private const _camera_point_at:AWPoint = new AWPoint();
+		private const _camera_point_to:AWPoint = new AWPoint();
+		private const _camera_matrix:AWMatrix = new AWMatrix();
 
-		public function invalid():void {
+		public function set place_at(value:AWPoint):void{
+			_camera_place_at.copyRawData(value._raw_data);
+			_valid = false;
+		}
+		
+		public function set point_to(value:AWPoint):void{
+			_camera_point_to.copyRawData(value._raw_data);
 			_valid = false;
 		}
 
 		public function get matrix():AWMatrix {
-			return AWMathUtil.lookAtLH(_camera_place_at, _camera_point_at, new AWVector(0, 1, 0));
+			if(!_valid){
+				_valid = true;
+				_camera_matrix.copyRawData(AWMathUtil.lookAtLH(_camera_place_at, _camera_point_to, new AWVector(0, 1, 0))._raw_data);
+			}
+			return _camera_matrix;
 		}
 	}
 }
