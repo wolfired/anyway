@@ -13,7 +13,6 @@ package anyway.core {
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	
-	import anyway.constant.AWCoordinateConst;
 	import anyway.constant.AWMathConst;
 	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.geometry.AWMatrix;

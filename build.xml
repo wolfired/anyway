@@ -154,6 +154,14 @@
 	</target>
 	
 	<!-- ================================= 
+          target: build_all              
+         ================================= -->
+    <target name="build_all" depends="compile_core, compile_tool, compile_test" description="Build all subproject">
+        
+    </target>
+
+	
+	<!-- ================================= 
           target: clean_all              
          ================================= -->
     <target name="clean_all" description="Clean all bin">
