@@ -111,10 +111,9 @@ package anyway.utils {
 			result.copyRawData(Vector.<Number>([
 											   xScale, 0.0, 0.0, 0.0,
 											   0.0, yScale, 0.0, 0.0,
-											   0.0, 0.0, zFar / (zFar - zNear), 1.0,
-											   0.0, 0.0, (zNear * zFar) / (zNear - zFar), 0.0
+											   0.0, 0.0, (zFar + zNear) / (zFar - zNear), 1.0,
+											   0.0, 0.0, (2 * zNear * zFar) / (zNear - zFar), 0.0
 											   ]));
-			result.transpose();
 			return result;
 		}
 

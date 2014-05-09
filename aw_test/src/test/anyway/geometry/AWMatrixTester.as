@@ -1,7 +1,7 @@
 package test.anyway.geometry {
 
 	import anyway.geometry.AWMatrix;
-	import flexunit.framework.Assert;
+	
 	import org.flexunit.asserts.assertTrue;
 
 	public class AWMatrixTester {
@@ -102,6 +102,28 @@ package test.anyway.geometry {
 		[Test]
 		public function testMultiply():void {
 //			Assert.fail("Test method Not yet implemented");
+			var m1:AWMatrix = new AWMatrix();
+			m1.copyRawData(Vector.<Number>([
+				1, 1, 1, 1,
+				2, 2, 2, 2,
+				1, 1, 1, 1,
+				2, 2, 2, 2
+			]));
+			var m2:AWMatrix = new AWMatrix();
+			m2.copyRawData(Vector.<Number>([
+				4, 3, 2, 1,
+				4, 3, 2, 1,
+				4, 3, 2, 1,
+				4, 3, 2, 1
+			]));
+			var m3:AWMatrix = new AWMatrix();
+			m3.copyRawData(Vector.<Number>([
+				16, 12, 8, 4,
+				32, 24, 16, 8,
+				16, 12, 8, 4,
+				32, 24, 16, 8
+			]));
+			assertTrue(m1.multiply(m2).toString() == m3.toString());
 		}
 
 		[Test]

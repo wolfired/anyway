@@ -13,6 +13,7 @@ package anyway.core {
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	
+	import anyway.constant.AWCoordinateConst;
 	import anyway.constant.AWMathConst;
 	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.geometry.AWMatrix;
@@ -41,6 +42,8 @@ package anyway.core {
 
 		private var _camera:AWCamera;
 
+		private var counter:Number =2.1;
+
 		public function poweron():void {
 			_stage3D.requestContext3D(Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 		}
@@ -61,56 +64,43 @@ package anyway.core {
 			return AWMathUtil.perspectiveFieldOfViewLH(fovy, aspect, zNear, zFar);
 		}
 
-		private var counter:Number = 0;
 		public function refresh():void {
 			var shader:TextureShader = new TextureShader();
 			shader.upload(_context3D);
-			
+
 			var o:AWSpaceObject = Anyway.sington.world.getChildAt();
-			
+
 			var vb:VertexBuffer3D = _context3D.createVertexBuffer(o._model.numVertices, o._model.data32_per_vertex);
 			vb.uploadFromVector(o._model.vertexData, 0, o._model.numVertices);
 			_context3D.setVertexBufferAt(0, vb, 0, Context3DVertexBufferFormat.FLOAT_3);
 			_context3D.setVertexBufferAt(1, vb, 3, Context3DVertexBufferFormat.FLOAT_2);
-			
+
 			var ib:IndexBuffer3D = _context3D.createIndexBuffer(o._model.numIndices);
 			ib.uploadFromVector(o._model.indexData, 0, o._model.numIndices);
-			
+
 			var t:Texture = _context3D.createTexture(o._model.bitmapdata.width, o._model.bitmapdata.height, Context3DTextureFormat.BGRA, false);
 			t.uploadFromBitmapData(o._model.bitmapdata);
 			_context3D.setTextureAt(0, t);
 			
-			var modelM:AWMatrix = new AWMatrix();
-			modelM.translate(0,0,counter += 0.01);
-//			modelM.scale(2,2);
-//			modelM.rotate(getTimer()/60, AWCoordinateConst.AXIS_Z);
-			
-			var worldM:AWMatrix = new AWMatrix();
+			var obj:AWMatrix = new AWMatrix();
+			obj.rotate(-1, AWCoordinateConst.AXIS_Z);
+
+			var obj2world:AWMatrix = new AWMatrix();
+			obj2world.translate(0,0,1.1);
 			
 //			_camera.matrix.rotate(0.5, AWCoordinateConst.AXIS_Z);
-			
+
 			var result:AWMatrix = new AWMatrix();
-			result.multiply(modelM).multiply(worldM).multiply(_camera.matrix).multiply(this.matrix);
+			result.multiply(obj).multiply(obj2world).multiply(_camera.matrix).multiply(this.matrix);
 			_context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, result._raw_data);
-			
-			var p:AWMatrix =  new AWMatrix();
-			p.copyRawData(Vector.<Number>([
-				1,1,1,1,
-				1,-1,1,1,
-				-1,-1,1,1,
-				-1,1,1,1
-			]));
-//			p.translate(0,0,1);
-//			trace(p.toString());
-			trace(p.multiply(result).toString());
-			
+
 			_context3D.setProgram(shader.program);
-			
-			_context3D.clear(1,1,1);
+
+			_context3D.clear(1, 1, 1);
 			_context3D.drawTriangles(ib);
 			_context3D.present();
 		}
-		
+
 //		// Prepare a shader for rendering
 //		var shader:LightedRender = new LightedRender();
 //		shader.upload(_context3D);
@@ -164,6 +154,7 @@ package anyway.core {
 		private function onContext3DCreate(event:Event):void {
 			_context3D = _stage3D.context3D;
 			_context3D.configureBackBuffer(_monitor_width, _monitor_height, 2);
+//			_context3D.setCulling(Context3DTriangleFace.FRONT);
 		}
 
 		private function onError(event:ErrorEvent):void {
