@@ -12,9 +12,7 @@ package anyway.core {
 	import flash.display3D.textures.Texture;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
-	import flash.utils.getTimer;
 	
-	import anyway.constant.AWCoordinateConst;
 	import anyway.constant.AWMathConst;
 	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.geometry.AWMatrix;
@@ -83,7 +81,7 @@ package anyway.core {
 			_context3D.setTextureAt(0, t);
 			
 			var modelM:AWMatrix = new AWMatrix();
-			modelM.translate(0,0,1);
+			modelM.translate(0,0,counter += 0.01);
 //			modelM.scale(2,2);
 //			modelM.rotate(getTimer()/60, AWCoordinateConst.AXIS_Z);
 			
@@ -93,8 +91,18 @@ package anyway.core {
 			
 			var result:AWMatrix = new AWMatrix();
 			result.multiply(modelM).multiply(worldM).multiply(_camera.matrix).multiply(this.matrix);
-			
 			_context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, result._raw_data);
+			
+			var p:AWMatrix =  new AWMatrix();
+			p.copyRawData(Vector.<Number>([
+				1,1,1,1,
+				1,-1,1,1,
+				-1,-1,1,1,
+				-1,1,1,1
+			]));
+//			p.translate(0,0,1);
+//			trace(p.toString());
+			trace(p.multiply(result).toString());
 			
 			_context3D.setProgram(shader.program);
 			

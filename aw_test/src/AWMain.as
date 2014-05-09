@@ -82,10 +82,10 @@ package {
 			model_struct2d.data32_per_vertex = 5;
 			model_struct2d.bitmapdata = (new ResClz.textureClass() as Bitmap).bitmapData;
 			model_struct2d.vertexData = Vector.<Number>([
-				1,1,0,1,0,//Front0
-				1,-1,0,1,1,//
-				-1,-1,0,0,1,//
-				-1,1,0,0,0//
+				1,1,1,1,0,//Front0
+				1,-1,1,1,1,//
+				-1,-1,1,0,1,//
+				-1,1,1,0,0//
 //				1,1,1,1,0,//Back4
 //				1,-1,1,1,1,//
 //				-1,-1,1,0,1,//
