@@ -156,7 +156,7 @@
 	<!-- ================================= 
           target: build_all              
          ================================= -->
-    <target name="build_all" depends="compile_core, compile_test" description="Build all subproject">
+    <target name="build_all" depends="compile_core, compile_test, compile_tool" description="Build all subproject">
         
     </target>
 
