@@ -1,5 +1,8 @@
 package anyway.core {
 
+	import com.adobe.utils.PerspectiveMatrix3D;
+	import com.barliesque.shaders.macro.ColorSpace;
+	
 	import flash.display.Stage;
 	import flash.display.StageAlign;
 	import flash.display.StageQuality;
@@ -22,6 +25,9 @@ package anyway.core {
 		}
 
 		public static function ready(stage:Stage, screen_width:Number, screen_height:Number):Anyway {
+			var p:PerspectiveMatrix3D;
+			var c:ColorSpace;
+			
 			new AWAssetManager();
 			new AWEventRouter();
 			new Anyway();
