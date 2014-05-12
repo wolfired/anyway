@@ -200,5 +200,13 @@ package anyway.geometry {
 		public function set z(value:Number):void {
 			_raw_data[2] = value;
 		}
+		
+		public function get w():Number {
+			return _raw_data[3];
+		}
+
+		public function set w(value:Number):void {
+			_raw_data[3] = value;
+		}
 	}
 }

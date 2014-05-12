@@ -13,7 +13,7 @@ package anyway.core {
 	import flash.ui.Keyboard;
 	
 	import anyway.events.AWEventRouter;
-	import anyway.geometry.AWPoint;
+	import anyway.geometry.AWVector;
 	import anyway.manager.asset.AWAssetManager;
 	import anyway.space.AWSpaceObjectContainer;
 
@@ -69,7 +69,7 @@ package anyway.core {
 			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			_stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 
-			_cameras.push(new AWCamera(new AWPoint(0, 0, 0), new AWPoint(0, 0, 1)));
+			_cameras.push(new AWCamera(new AWVector(0, 0, 2), new AWVector(0, 0, 0)));
 
 			_monitors.push(new AWMonitor(_stage.stage3Ds[0], _screen_width, _screen_height));
 			_monitors[0].connect(_cameras[0]);

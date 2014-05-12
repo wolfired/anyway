@@ -4,7 +4,6 @@ package anyway.utils {
 	import anyway.constant.AWMathConst;
 	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.geometry.AWMatrix;
-	import anyway.geometry.AWPoint;
 	import anyway.geometry.AWVector;
 
 	use namespace anyway_internal_geometry;
@@ -59,9 +58,9 @@ package anyway.utils {
 			switch(axis) {
 				case AWCoordinateConst.AXIS_Y: {
 					result.copyRawData(Vector.<Number>([
-													   Math.cos(rad), 0, Math.sin(rad), 0,
+													   Math.cos(rad), 0, -Math.sin(rad), 0,
 													   0, 1, 0, 0,
-													   -Math.sin(rad), 0, Math.cos(rad), 0,
+													   Math.sin(rad), 0, Math.cos(rad), 0,
 													   0, 0, 0, 1]));
 					break;
 				}
@@ -84,7 +83,7 @@ package anyway.utils {
 			return result;
 		}
 
-		public static function lookAtLH(eye_at_pos:AWPoint, point_to_pos:AWPoint, up_vec:AWVector):AWMatrix {
+		public static function lookAtLH(eye_at_pos:AWVector, point_to_pos:AWVector, up_vec:AWVector):AWMatrix {
 			var eye:AWVector = new AWVector(eye_at_pos.x, eye_at_pos.y, eye_at_pos.z);
 
 			var naxis:AWVector = AWMathUtil.makeVectorFromPoint(eye_at_pos, point_to_pos).normalize();
@@ -111,13 +110,13 @@ package anyway.utils {
 			result.copyRawData(Vector.<Number>([
 											   xScale, 0.0, 0.0, 0.0,
 											   0.0, yScale, 0.0, 0.0,
-											   0.0, 0.0, (zFar + zNear) / (zFar - zNear), 1.0,
-											   0.0, 0.0, (2 * zNear * zFar) / (zNear - zFar), 0.0
+											   0.0, 0.0, (zFar) / (zFar - zNear), 1.0,
+											   0.0, 0.0, (zNear * zFar) / (zNear - zFar), 0.0
 											   ]));
 			return result;
 		}
 
-		public static function makeVectorFromPoint(from:AWPoint, to:AWPoint):AWVector {
+		public static function makeVectorFromPoint(from:AWVector, to:AWVector):AWVector {
 			return new AWVector(to._raw_data[0] - from._raw_data[0], to._raw_data[1] - from._raw_data[1], to._raw_data[2] - from._raw_data[2]);
 		}
 

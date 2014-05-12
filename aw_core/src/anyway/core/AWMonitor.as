@@ -16,14 +16,18 @@ package anyway.core {
 	import flash.events.Event;
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
+	import flash.utils.getTimer;
 	
+	import anyway.constant.AWCoordinateConst;
 	import anyway.constant.AWMathConst;
 	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.geometry.AWMatrix;
 	import anyway.geometry.AWVector;
 	import anyway.shader.LightedRender;
+	import anyway.shader.TextureShader;
 	import anyway.space.AWSpaceObject;
 	import anyway.utils.AWMathUtil;
+	import anyway.utils.format;
 
 	use namespace anyway_internal_geometry;
 
@@ -36,8 +40,6 @@ package anyway.core {
 
 			_stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContext3DCreate);
 			_stage3D.addEventListener(ErrorEvent.ERROR, onError);
-			
-			this.init();
 		}
 
 		private var _stage3D:Stage3D;
@@ -51,6 +53,7 @@ package anyway.core {
 		private var counter:Number =2.1;
 
 		public function poweron():void {
+			this.init();
 			_stage3D.requestContext3D(Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 		}
 
@@ -71,23 +74,43 @@ package anyway.core {
 		}
 		
 		private var modelMatrix:Matrix3D;
+		private var aw_modelMatrix:AWMatrix;
 		private var viewMatrix:Matrix3D;
+		private var c:PerspectiveMatrix3D;
+		private var aw_viewMatrix:AWMatrix;
 		private var projection:PerspectiveMatrix3D;
+		private var aw_projection:AWMatrix;
 		private var lightPos:AWVector;
 		private var lightColor:AWVector;
 		private var ambient:AWVector;
 		private function init():void{
 			modelMatrix = new Matrix3D();
 			modelMatrix.identity();
-			modelMatrix.appendRotation(45, Vector3D.X_AXIS);
-			modelMatrix.appendRotation(45, Vector3D.Y_AXIS);
-			modelMatrix.appendRotation(45, Vector3D.Z_AXIS);
+//			modelMatrix.appendRotation(45, Vector3D.X_AXIS);
+//			modelMatrix.appendRotation(45, Vector3D.Y_AXIS);
+//			modelMatrix.appendRotation(45, Vector3D.Z_AXIS);
+			
+			aw_modelMatrix = new AWMatrix().identity();
+//			aw_modelMatrix.rotate(45, AWCoordinateConst.AXIS_X);
+			aw_modelMatrix.rotate(45, AWCoordinateConst.AXIS_Y);
+//			aw_modelMatrix.rotate(45, AWCoordinateConst.AXIS_Z);
 			
 			viewMatrix = new Matrix3D();
 			viewMatrix.identity();
 			
+			c = new PerspectiveMatrix3D();
+			c.lookAtRH(new Vector3D(0, 0, 0), new Vector3D(0, 0, 1), new Vector3D(0, 1, 0));
+			
+			aw_viewMatrix = _camera.matrix;
+//			aw_viewMatrix = new AWMatrix().identity();
+//			aw_viewMatrix.translate(0,0,2);
+			
 			projection = new PerspectiveMatrix3D();
 			projection.perspectiveFieldOfViewRH(45, 500 / 500, 1, 500);
+			
+			aw_projection = this.matrix;
+//			aw_projection = new AWMatrix().identity();
+//			aw_projection.copyRawData(projection.rawData);
 			
 			lightPos = new AWVector(1.0, 1.0, -4.0, 0.2);
 			lightColor = new AWVector(0.95, 0.80, 0.55, 0.8);  // R,G,B,strength
@@ -95,6 +118,7 @@ package anyway.core {
 		}
 		
 		public function refresh():void {
+//			var shader:TextureShader = new TextureShader();
 			var shader:LightedRender = new LightedRender();
 			shader.upload(_context3D);
 
@@ -118,14 +142,26 @@ package anyway.core {
 			modelMatrix.appendRotation(0.3, Vector3D.Y_AXIS);
 			
 			// Calculate the view matrix, and run the shader program!
+			
 			viewMatrix.identity();
 			viewMatrix.append(modelMatrix);
-			viewMatrix.appendTranslation(0, 0, -2);
+//			viewMatrix.appendTranslation(0,0,-2);
+			viewMatrix.append(c);
 			viewMatrix.append(projection);
 			viewMatrix.transpose();
 			
+//			aw_modelMatrix.rotate(0.4, AWCoordinateConst.AXIS_X);
+//			aw_modelMatrix.rotate(0.3, AWCoordinateConst.AXIS_Y);
+			
+			var r:AWMatrix = new AWMatrix().identity();
+			r.multiply(aw_modelMatrix);
+			r.multiply(aw_viewMatrix);
+			r.multiply(aw_projection);
+			r.transpose();
+			
 			// Pass viewMatrix into constant registers
-			_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, viewMatrix);
+//			_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, viewMatrix);
+			_context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, r._raw_data);
 			
 			// Pass a vector for the (world space) location of the light
 			_context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, lightPos._raw_data, 1);
@@ -139,6 +175,7 @@ package anyway.core {
 			
 			// Clear away the old frame render
 			_context3D.clear(0.05, 0.12, 0.18);  // Dark grey background
+//			_context3D.clear(1,1,1);  // Dark grey background
 			// Render the shader!
 			_context3D.drawTriangles(ib);
 			// Show the newly rendered frame on screen
@@ -152,6 +189,23 @@ package anyway.core {
 		
 		private function onError(event:ErrorEvent):void {
 			trace("error");
+		}
+		
+		private function print(raw_data:Vector.<Number>):void{
+			var result:Vector.<String> = new Vector.<String>();
+			
+			var temp:Vector.<String>;
+			
+			for(var row:int = 0; row < 4; ++row) {
+				temp = new Vector.<String>();
+				
+				for(var cloumn:int = 0; cloumn < 4; ++cloumn) {
+					temp.push(format(raw_data[row * 4 + cloumn]));
+				}
+				result.push("[" + temp.join(", ") + "]");
+			}
+			
+			trace(result.join("\n"));
 		}
 	}
 }

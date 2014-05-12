@@ -2,7 +2,7 @@ package anyway.space {
 
 	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.core.ns.anyway_internal_space;
-	import anyway.geometry.AWPoint;
+	import anyway.geometry.AWVector;
 	import anyway.model.AWModelStruct;
 
 	use namespace anyway_internal_geometry;
@@ -14,7 +14,7 @@ package anyway.space {
 		}
 
 		public var _model:AWModelStruct;
-		protected const _position:AWPoint = new AWPoint();
+		protected const _position:AWVector = new AWVector();
 
 		anyway_internal_space var _parent:AWSpaceObjectContainer;
 		anyway_internal_space var _index:uint;
