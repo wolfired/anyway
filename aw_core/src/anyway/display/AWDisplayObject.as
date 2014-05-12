@@ -1,23 +1,21 @@
-package anyway.space {
+package anyway.display {
 
+	import anyway.core.ns.anyway_internal_display;
 	import anyway.core.ns.anyway_internal_geometry;
-	import anyway.core.ns.anyway_internal_space;
 	import anyway.geometry.AWVector;
-	import anyway.model.AWModelStruct;
 
 	use namespace anyway_internal_geometry;
-	use namespace anyway_internal_space;
+	use namespace anyway_internal_display;
 
-	public class AWSpaceObject {
+	public class AWDisplayObject {
 
-		public function AWSpaceObject() {
+		public function AWDisplayObject() {
 		}
 
-		public var _model:AWModelStruct;
 		protected const _position:AWVector = new AWVector();
 
-		anyway_internal_space var _parent:AWSpaceObjectContainer;
-		anyway_internal_space var _index:uint;
+		anyway_internal_display var _parent:AWDisplayObjectContainer;
+		anyway_internal_display var _index:uint;
 
 		public function get x():Number {
 			return _position._raw_data[0];

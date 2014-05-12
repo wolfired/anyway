@@ -1,17 +1,17 @@
-package anyway.space {
+package anyway.display {
 
-	import anyway.core.ns.anyway_internal_space;
+	import anyway.core.ns.anyway_internal_display;
 
-	use namespace anyway_internal_space;
+	use namespace anyway_internal_display;
 
-	public class AWSpaceObjectContainer extends AWSpaceObject {
+	public class AWDisplayObjectContainer extends AWDisplayObject {
 
-		public function AWSpaceObjectContainer() {
+		public function AWDisplayObjectContainer() {
 		}
 
-		anyway_internal_space const _children:Vector.<AWSpaceObject> = new Vector.<AWSpaceObject>();
+		anyway_internal_display const _children:Vector.<AWDisplayObject> = new Vector.<AWDisplayObject>();
 
-		public function addChildAt(child:AWSpaceObject, index:uint = uint.MAX_VALUE):void {
+		public function addChildAt(child:AWDisplayObject, index:uint = uint.MAX_VALUE):void {
 			if(_children.length <= index) {
 				index = _children.length;
 			}
@@ -19,12 +19,13 @@ package anyway.space {
 			if(null == child._parent) {
 				child._parent = this;
 			} else if(this != child._parent) {
-				child._parent._children.splice(child._index, 1);
-				child._parent = this;
+				child._parent._children.splice(child._index, 1)[0]._parent = this;
 			} else if(index != child._index) {
 				_children.splice(child._index, 1);
+			} else {
+				return;
 			}
-			
+
 			child._index = index;
 			_children.splice(index, 0, child);
 		}
@@ -37,7 +38,7 @@ package anyway.space {
 			}
 		}
 
-		public function getChildAt(index:uint = uint.MAX_VALUE):AWSpaceObject {
+		public function getChildAt(index:uint = uint.MAX_VALUE):AWDisplayObject {
 			if(_children.length <= index) {
 				index = _children.length - 1;
 			}

@@ -1,8 +1,5 @@
 package anyway.core {
 
-	import com.adobe.utils.PerspectiveMatrix3D;
-	import com.barliesque.shaders.macro.ColorSpace;
-	
 	import flash.display.Stage;
 	import flash.display.StageAlign;
 	import flash.display.StageQuality;
@@ -10,12 +7,10 @@ package anyway.core {
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
-	import flash.ui.Keyboard;
-	
 	import anyway.events.AWEventRouter;
 	import anyway.geometry.AWVector;
 	import anyway.manager.asset.AWAssetManager;
-	import anyway.space.AWSpaceObjectContainer;
+	import anyway.display.AWDisplayObjectContainer;
 
 	public final class Anyway {
 		private static var _instance:Anyway;
@@ -25,9 +20,6 @@ package anyway.core {
 		}
 
 		public static function ready(stage:Stage, screen_width:Number, screen_height:Number):Anyway {
-			var p:PerspectiveMatrix3D;
-			var c:ColorSpace;
-			
 			new AWAssetManager();
 			new AWEventRouter();
 			new Anyway();
@@ -35,6 +27,10 @@ package anyway.core {
 			_instance._stage = stage;
 			_instance._screen_width = screen_width;
 			_instance._screen_height = screen_height;
+
+			_instance._camera = new AWCamera(stage.stage3Ds[0], screen_width, screen_height);
+			_instance._camera.setup(new AWVector(0, 0, 0), new AWVector(0, 0, 1));
+			_instance._camera.action();
 
 			return _instance;
 		}
@@ -53,35 +49,28 @@ package anyway.core {
 		private var _screen_width:Number;
 		private var _screen_height:Number;
 
-		private const _cameras:Vector.<AWCamera> = new Vector.<AWCamera>();
-		private const _monitors:Vector.<AWMonitor> = new Vector.<AWMonitor>();
-		
-		private const _world:AWSpaceObjectContainer = new AWSpaceObjectContainer();
+		private var _camera:AWCamera;
+		private var _world:AWDisplayObjectContainer;
 
 		public function go():void {
 			_stage.align = StageAlign.TOP;
 			_stage.quality = StageQuality.BEST;
 			_stage.scaleMode = StageScaleMode.NO_SCALE;
 
-			_stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			_stage.addEventListener(Event.RESIZE, onResize);
 			_stage.addEventListener(MouseEvent.CLICK, onMouseClick);
-			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			_stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-
-			_cameras.push(new AWCamera(new AWVector(0, 0, 2), new AWVector(0, 0, 0)));
-
-			_monitors.push(new AWMonitor(_stage.stage3Ds[0], _screen_width, _screen_height));
-			_monitors[0].connect(_cameras[0]);
-			_monitors[0].poweron();
-		}
-		
-		public function get world():AWSpaceObjectContainer{
-			return _world;
+			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			_stage.addEventListener(Event.RESIZE, onResize);
+			_stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 
-		private function onEnterFrame(event:Event):void {
-			_monitors[0].refresh();
+		private function onMouseClick(event:MouseEvent):void {
+		}
+
+		private function onKeyUp(event:KeyboardEvent):void {
+		}
+
+		private function onKeyDown(event:KeyboardEvent):void {
 		}
 
 		private function onResize(event:Event):void {
@@ -89,16 +78,10 @@ package anyway.core {
 			_screen_height = _stage.height;
 		}
 
-		private function onMouseClick(event:MouseEvent):void {
-		}
-
-		private function onKeyDown(event:KeyboardEvent):void {
-			if(event.ctrlKey && (Keyboard.NUMBER_2 == event.keyCode || Keyboard.NUMBER_3 == event.keyCode)) {
-
-			}
-		}
-
-		private function onKeyUp(event:KeyboardEvent):void {
+		private function onEnterFrame(event:Event):void {
+			
+			
+			
 		}
 	}
 }

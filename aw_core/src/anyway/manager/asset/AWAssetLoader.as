@@ -3,11 +3,12 @@ package anyway.manager.asset {
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
 	import flash.net.URLLoader;
-	import anyway.core.ns.anyway_internal;
+	
+	import anyway.core.ns.anyway_internal_events;
 	import anyway.events.AWAssetsEvent;
 	import anyway.events.AWEventRouter;
 
-	use namespace anyway_internal;
+	use namespace anyway_internal_events;
 
 	public class AWAssetLoader {
 		private static const STATUS_IDLE:uint = 0x1 << 0;

@@ -5,7 +5,7 @@ package {
 	import flash.events.Event;
 	import anyway.core.Anyway;
 	import anyway.model.AWModelStruct;
-	import anyway.space.AWSpaceObject;
+	import anyway.display.AWDisplayObject;
 	[SWF(width = CONST::width, height = CONST::height, frameRate = "24")]
 
 	public class AWMain extends Sprite {
@@ -74,11 +74,6 @@ package {
 				16, 17, 18,		16, 18, 19,     // Left face
 				20, 21, 22,		20, 22, 23      // Right face
 			]);
-
-			var o:AWSpaceObject = new AWSpaceObject();
-			o._model = model_struct3d;
-
-			Anyway.sington.world.addChildAt(o);
 		}
 	}
 }
