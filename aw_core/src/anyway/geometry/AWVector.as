@@ -1,7 +1,7 @@
 package anyway.geometry {
 
 	import anyway.core.ns.anyway_internal_geometry;
-	import anyway.utils.format;
+	import anyway.utils.AWFormatUtil;
 
 	use namespace anyway_internal_geometry;
 
@@ -174,7 +174,7 @@ package anyway.geometry {
 		}
 
 		public function toString():String {
-			return "<" + format(_raw_data[0]) + ", " + format(_raw_data[1]) + ", " + format(_raw_data[2]) + ">";
+			return AWFormatUtil.format_vector(this);
 		}
 
 		public function get x():Number {

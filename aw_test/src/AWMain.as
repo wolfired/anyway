@@ -3,9 +3,12 @@ package {
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	
 	import anyway.core.Anyway;
-	import anyway.model.AWModelStruct;
 	import anyway.display.AWDisplayObject;
+	import anyway.model.AWModelStruct;
+	import anyway.utils.AWFormatUtil;
+
 	[SWF(width = CONST::width, height = CONST::height, frameRate = "24")]
 
 	public class AWMain extends Sprite {
@@ -74,6 +77,10 @@ package {
 				16, 17, 18,		16, 18, 19,     // Left face
 				20, 21, 22,		20, 22, 23      // Right face
 			]);
+			
+			var obj:AWDisplayObject = new AWDisplayObject();
+			obj.x = -10;
+			trace(AWFormatUtil.format_matrix(obj.transform));
 		}
 	}
 }

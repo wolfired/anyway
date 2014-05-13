@@ -7,10 +7,10 @@ package anyway.core {
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	
 	import anyway.events.AWEventRouter;
 	import anyway.geometry.AWVector;
 	import anyway.manager.asset.AWAssetManager;
-	import anyway.display.AWDisplayObjectContainer;
 
 	public final class Anyway {
 		private static var _instance:Anyway;
@@ -50,7 +50,6 @@ package anyway.core {
 		private var _screen_height:Number;
 
 		private var _camera:AWCamera;
-		private var _world:AWDisplayObjectContainer;
 
 		public function go():void {
 			_stage.align = StageAlign.TOP;

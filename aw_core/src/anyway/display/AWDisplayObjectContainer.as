@@ -11,7 +11,7 @@ package anyway.display {
 
 		anyway_internal_display const _children:Vector.<AWDisplayObject> = new Vector.<AWDisplayObject>();
 
-		public function addChildAt(child:AWDisplayObject, index:uint = uint.MAX_VALUE):void {
+		public function addChildAt(child:AWDisplayObject, index:uint = uint.MAX_VALUE):uint {
 			if(_children.length <= index) {
 				index = _children.length;
 			}
@@ -23,19 +23,27 @@ package anyway.display {
 			} else if(index != child._index) {
 				_children.splice(child._index, 1);
 			} else {
-				return;
+				return index;
 			}
 
 			child._index = index;
 			_children.splice(index, 0, child);
+			
+			return index;
 		}
 
-		public function delChildAt(index:uint = uint.MAX_VALUE):void {
+		public function delChildAt(index:uint = uint.MAX_VALUE):AWDisplayObject {
+			var result:AWDisplayObject;
+			
 			if(_children.length <= index) {
-				_children.pop()._parent = null;
+				result = _children.pop();
 			} else {
-				_children.splice(index, 1)[0]._parent = null;
+				result = _children.splice(index, 1)[0];
 			}
+			
+			result._parent = null;
+			
+			return result;
 		}
 
 		public function getChildAt(index:uint = uint.MAX_VALUE):AWDisplayObject {

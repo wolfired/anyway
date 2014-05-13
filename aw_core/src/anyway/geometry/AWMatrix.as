@@ -1,8 +1,8 @@
 package anyway.geometry {
 
 	import anyway.core.ns.anyway_internal_geometry;
+	import anyway.utils.AWFormatUtil;
 	import anyway.utils.AWMathUtil;
-	import anyway.utils.format;
 
 	use namespace anyway_internal_geometry;
 
@@ -131,20 +131,7 @@ package anyway.geometry {
 		}
 
 		public function toString():String {
-			var result:Vector.<String> = new Vector.<String>();
-
-			var temp:Vector.<String>;
-
-			for(var row:int = 0; row < 4; ++row) {
-				temp = new Vector.<String>();
-
-				for(var cloumn:int = 0; cloumn < 4; ++cloumn) {
-					temp.push(format(_raw_data[row * 4 + cloumn]));
-				}
-				result.push("[" + temp.join(", ") + "]");
-			}
-
-			return result.join("\n");
+			return AWFormatUtil.format_matrix(this);
 		}
 	}
 }
