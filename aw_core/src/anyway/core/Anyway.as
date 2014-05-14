@@ -8,9 +8,11 @@ package anyway.core {
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	
+	import anyway.core.ns.anyway_internal;
 	import anyway.events.AWEventRouter;
-	import anyway.geometry.AWVector;
 	import anyway.manager.asset.AWAssetManager;
+	
+	use namespace anyway_internal;
 
 	public final class Anyway {
 		private static var _instance:Anyway;
@@ -22,26 +24,25 @@ package anyway.core {
 		public static function ready(stage:Stage, screen_width:Number, screen_height:Number):Anyway {
 			new AWAssetManager();
 			new AWEventRouter();
-			new Anyway();
-
-			_instance._stage = stage;
-			_instance._screen_width = screen_width;
-			_instance._screen_height = screen_height;
-
-			_instance._camera = new AWCamera(stage.stage3Ds[0], screen_width, screen_height);
-			_instance._camera.setup(new AWVector(0, 0, 0), new AWVector(0, 0, 1));
-			_instance._camera.action();
+			new Anyway(new ForceSington(), stage, screen_width, screen_height);
 
 			return _instance;
 		}
 
-		public function Anyway() {
+		public function Anyway(fs:ForceSington, stage:Stage, screen_width:Number, screen_height:Number) {
 			SWITCH::debug {
 				if(null != _instance) {
-					throw new Error("Duplicate instance Anyway");
+					throw new Error("Duplicate instance: Anyway");
+				}
+				if(null == fs){
+					throw new Error("Can not instance manually: Anyway");
 				}
 			}
 
+			_stage = stage;
+			_screen_width = screen_width;
+			_screen_height = screen_height;
+			
 			_instance = this;
 		}
 
@@ -49,7 +50,9 @@ package anyway.core {
 		private var _screen_width:Number;
 		private var _screen_height:Number;
 
-		private var _camera:AWCamera;
+		private const _scenes:Vector.<AWScene> = new Vector.<AWScene>();
+		private const _cameras:Vector.<AWCamera> = new Vector.<AWCamera>(4, true);
+		private const _monitors:Vector.<AWMonitor> = new Vector.<AWMonitor>(4, true);
 
 		public function go():void {
 			_stage.align = StageAlign.TOP;
@@ -61,6 +64,30 @@ package anyway.core {
 			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			_stage.addEventListener(Event.RESIZE, onResize);
 			_stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		}
+		
+		public function getCamera(camera_no:uint):AWCamera{
+			if(null == _cameras[camera_no]){
+				_cameras[camera_no] = new AWCamera();
+			}
+			
+			return _cameras[camera_no];
+		}
+		
+		public function getMonitor(monitor_no:uint):AWMonitor{
+			if(null == _monitors[monitor_no]){
+				_monitors[monitor_no] = new AWMonitor(_stage.stage3Ds[monitor_no], _screen_width, _screen_height);
+			}
+			
+			return _monitors[monitor_no];
+		}
+		
+		public function connect(monitor_no:uint, camera_no:uint):void{
+			_monitors[monitor_no].camera = _cameras[camera_no];
+		}
+		
+		public function disconnect(monitor_no:uint):void{
+			_monitors[monitor_no].camera = null;
 		}
 
 		private function onMouseClick(event:MouseEvent):void {
@@ -79,8 +106,17 @@ package anyway.core {
 
 		private function onEnterFrame(event:Event):void {
 			
-			
+			for (var i:uint = 0; i < _monitors.length; ++i) {
+				if(null == _monitors[i] || null == _monitors[i].camera || null == _monitors[i].camera.scene){
+					continue;
+				}
+				_monitors[i].render();
+			}
 			
 		}
 	}
+}
+
+class ForceSington {
+	
 }

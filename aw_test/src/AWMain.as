@@ -4,10 +4,12 @@ package {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
+	import anyway.core.AWCamera;
+	import anyway.core.AWMonitor;
+	import anyway.core.AWScene;
 	import anyway.core.Anyway;
 	import anyway.display.AWDisplayObject;
 	import anyway.model.AWModelStruct;
-	import anyway.utils.AWFormatUtil;
 
 	[SWF(width = CONST::width, height = CONST::height, frameRate = "24")]
 
@@ -34,7 +36,12 @@ package {
 
 		private function startup():void {
 			Anyway.ready(this.stage, CONST::width, CONST::height).go();
-
+			var camera:AWCamera = Anyway.sington.getCamera(0);
+			var monitor:AWMonitor = Anyway.sington.getMonitor(0);
+			Anyway.sington.connect(0, 0);
+			var scene:AWScene = new AWScene();
+			camera.scene = scene;
+			
 			var model_struct3d:AWModelStruct = new AWModelStruct();
 			model_struct3d.data32_per_vertex = 8;
 			model_struct3d.bitmapdata = (new ResClz.boxClass() as Bitmap).bitmapData;
@@ -78,9 +85,8 @@ package {
 				20, 21, 22,		20, 22, 23      // Right face
 			]);
 			
-			var obj:AWDisplayObject = new AWDisplayObject();
-			obj.x = -10;
-			trace(AWFormatUtil.format_matrix(obj.transform));
+			var o:AWDisplayObject = new AWDisplayObject();
+			scene.addChildAt(o);
 		}
 	}
 }
