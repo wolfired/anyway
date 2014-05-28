@@ -1,6 +1,5 @@
 package {
 
-	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
@@ -10,6 +9,12 @@ package {
 	import anyway.core.Anyway;
 	import anyway.display.AWDisplayObject;
 	import anyway.model.AWModelStruct;
+	
+	import common.manager.asset.AbstractAsset;
+	import common.manager.asset.AssetInfo;
+	import common.manager.asset.AssetManager;
+	import common.manager.asset.AssetPackage;
+	import common.manager.asset.category.PNGAsset;
 
 	[SWF(width = CONST::width, height = CONST::height, frameRate = "24")]
 
@@ -35,6 +40,18 @@ package {
 		}
 
 		private function startup():void {
+			new EnvVars();
+			new AssetManager();
+			
+			var ap:AssetPackage = new AssetPackage();
+			ap.reset("res/", AssetInfo.TYPE_PNG);
+			ap.simple("box");
+			ap.fetch(wait4asset);
+		}
+		
+		private function wait4asset(assets:Vector.<AbstractAsset>, callbackParam:Object = null):void{
+			var pa:PNGAsset = AssetManager.instance.gain("res/", "box", AssetInfo.TYPE_PNG) as PNGAsset;
+			
 			Anyway.ready(this.stage, CONST::width, CONST::height).go();
 			var camera:AWCamera = Anyway.sington.getCamera(0);
 			var monitor:AWMonitor = Anyway.sington.getMonitor(0);
@@ -44,7 +61,7 @@ package {
 			
 			var model_struct3d:AWModelStruct = new AWModelStruct();
 			model_struct3d.data32_per_vertex = 8;
-			model_struct3d.bitmapdata = (new ResClz.boxClass() as Bitmap).bitmapData;
+			model_struct3d.bitmapdata =  pa.real_data;
 			model_struct3d.vertexData = Vector.<Number>([
 				0.5,  0.5, -0.5,	0,0,-1,		1,0,	// 	Front
 				-0.5,  0.5, -0.5,	0,0,-1,		0,0,	// 

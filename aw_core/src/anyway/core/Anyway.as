@@ -10,7 +10,6 @@ package anyway.core {
 	
 	import anyway.core.ns.anyway_internal;
 	import anyway.events.AWEventRouter;
-	import anyway.manager.asset.AWAssetManager;
 	
 	use namespace anyway_internal;
 
@@ -22,7 +21,6 @@ package anyway.core {
 		}
 
 		public static function ready(stage:Stage, screen_width:Number, screen_height:Number):Anyway {
-			new AWAssetManager();
 			new AWEventRouter();
 			new Anyway(new ForceSington(), stage, screen_width, screen_height);
 
