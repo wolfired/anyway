@@ -81,10 +81,10 @@ package anyway.geometry {
 		 * @param target
 		 * @return
 		 */
-		public function addition(left:AWVector):AWVector {
-			_raw_data[0] += left._raw_data[0];
-			_raw_data[1] += left._raw_data[1];
-			_raw_data[2] += left._raw_data[2];
+		public function addition(right:AWVector):AWVector {
+			_raw_data[0] += right._raw_data[0];
+			_raw_data[1] += right._raw_data[1];
+			_raw_data[2] += right._raw_data[2];
 			return this;
 		}
 
@@ -96,10 +96,10 @@ package anyway.geometry {
 		 * @param target
 		 * @return
 		 */
-		public function subtraction(left:AWVector):AWVector {
-			_raw_data[0] -= left._raw_data[0];
-			_raw_data[1] -= left._raw_data[1];
-			_raw_data[2] -= left._raw_data[2];
+		public function subtraction(right:AWVector):AWVector {
+			_raw_data[0] -= right._raw_data[0];
+			_raw_data[1] -= right._raw_data[1];
+			_raw_data[2] -= right._raw_data[2];
 			return this;
 		}
 
@@ -110,12 +110,12 @@ package anyway.geometry {
 		 * @param target
 		 * @return
 		 */
-		public function dotProduct(left:AWVector):Number {
+		public function dotProduct(right:AWVector):Number {
 			var result:Number = 0.0;
 
-			result += _raw_data[0] * left._raw_data[0];
-			result += _raw_data[1] * left._raw_data[1];
-			result += _raw_data[2] * left._raw_data[2];
+			result += _raw_data[0] * right._raw_data[0];
+			result += _raw_data[1] * right._raw_data[1];
+			result += _raw_data[2] * right._raw_data[2];
 
 			return result;
 		}
@@ -168,6 +168,10 @@ package anyway.geometry {
 			}
 
 			if(_raw_data[2] != target._raw_data[2]) {
+				return false;
+			}
+			
+			if(_raw_data[3] != target._raw_data[3]) {
 				return false;
 			}
 			return true;
