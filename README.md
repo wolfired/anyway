@@ -1,4 +1,3 @@
-flex_ant_project_template
-=========================
-
-This is a project template of ant for the flex project
+anyway
+======
+[![Build Status](https://travis-ci.org/wolfired/anyway.svg?branch=develop)](https://travis-ci.org/wolfired/anyway)   
