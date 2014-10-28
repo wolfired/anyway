@@ -22,7 +22,7 @@
 	<target name="package" depends="compile">
 		<jar destfile="${basedir}/main.jar" basedir="${dir.dst}" includes="**/*.class">
 			<manifest>
-				<attribute name="Class-Path" value="./lib/commons-lang3-3.3.2.jar ./lib/commons-cli-1.2.jar" />
+				<attribute name="Class-Path" value="./lib/commons-lang3-3.3.2.jar" />
 				<attribute name="Main-Class" value="${ant.project.name}" />
 			</manifest>
 		</jar>

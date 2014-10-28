@@ -14,10 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Options;
 import org.apache.commons.lang3.StringUtils;
 
 public class UtilOrder {
@@ -26,7 +22,6 @@ public class UtilOrder {
 
 	private String _root_path;
 	private Set<String> _targets;
-	private String _args4ant;
 	
 	private Map<String, Order> _order_map;
 	private List<Set<String>> _phases;
@@ -34,9 +29,8 @@ public class UtilOrder {
 
 	private ProcessBuilder _pb;
 
-	public UtilOrder(String root_path, String targets, String args4ant) {
+	public UtilOrder(String root_path, String targets) {
 		_root_path = root_path;
-		_args4ant = args4ant;
 
 		if (null == targets || "".equals(targets)) {
 			_targets = new HashSet<String>();
@@ -152,7 +146,7 @@ public class UtilOrder {
 	
 	private int exec(String targets_str) throws Exception {
 		_pb.command().clear();
-		_pb.command(this.ant(), "-f", "build_order.xml", "build_more", TARGETS_NAME.replaceAll("TARGETS_NAME", targets_str), _args4ant);
+		_pb.command(this.ant(), "-f", "build_order.xml", "build_more", TARGETS_NAME.replaceAll("TARGETS_NAME", targets_str), this.args4ant());
 		Process ps = _pb.start();
 		InputStream is = ps.getInputStream();
 		InputStreamReader isr = new InputStreamReader(is);
@@ -174,23 +168,15 @@ public class UtilOrder {
 		
 		return "ant";
 	}
+	
+	private String args4ant(){
+		String aa = System.getenv("args4ant");
+		aa = null == aa ? "" : aa;
+		return aa;
+	}
 
 	public static void main(String[] args) throws Exception {
-		Options options = new Options();
-		options.addOption("rp", true, "Root path");
-		options.addOption("ts", false, "Targets");
-		options.addOption("args4ant", false, "Args for ant");
-		
-		
-		CommandLineParser parser = new BasicParser();
-		CommandLine cmd = parser.parse(options, args);
-		
-//		System.out.println(cmd.getOptionValue("rp"));
-//		System.out.println(cmd.getOptionValue("ts", ""));
-//		System.out.println(cmd.getOptionValue("args4ant", ""));
-		
-//		System.exit(new UtilOrder("E:/workspace_git/flex_ant_project_template", "", "").order());
-		System.exit(new UtilOrder(cmd.getOptionValue("rp"), cmd.getOptionValue("ts", ""), cmd.getOptionValue("args4ant", "")).order());
-		
+//		System.exit(new UtilOrder("E:/workspace_git/flex_ant_project_template", "").order());
+		System.exit(new UtilOrder(args[0], 1 == args.length ? "" : args[1]).order());
 	}
 }

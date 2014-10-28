@@ -16,6 +16,6 @@ else
 	tar -zxf $ACCOUNT_ROOT/$APACHE_FLEX_TAR -C $ACCOUNT_ROOT
 fi
 
-
-ant build -DFLEX_HOME=$APACHE_FLEX_HOME -Dargs4ant="-DFLEX_HOME=$APACHE_FLEX_HOME -Dconfig.parallel=false"
+export args4ant="-DFLEX_HOME=$APACHE_FLEX_HOME -Dconfig.parallel=false"
+ant build -DFLEX_HOME=$APACHE_FLEX_HOME
 
