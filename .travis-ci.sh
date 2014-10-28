@@ -16,18 +16,6 @@ else
 	tar -zxf $ACCOUNT_ROOT/$APACHE_FLEX_TAR -C $ACCOUNT_ROOT
 fi
 
-export PLAYERGLOBAL_HOME=$APACHE_FLEX_HOME/frameworks/libs/player
-export PLAYER_VERSION_MAJOR=13
-export PLAYER_VERSION_MINOR=0
-export SWF_VERSION=24
-if [ -d "$PLAYERGLOBAL_HOME/$PLAYER_VERSION_MAJOR.$PLAYER_VERSION_MINOR" ]
-then
-	echo "downloaded"
-else
-	echo "downloading"
-	mkdir -p $PLAYERGLOBAL_HOME/$PLAYER_VERSION_MAJOR.$PLAYER_VERSION_MINOR
-	curl "http://download.macromedia.com/get/flashplayer/updaters/$PLAYER_VERSION_MAJOR/playerglobal${PLAYER_VERSION_MAJOR}_${PLAYER_VERSION_MINOR}.swc" > $PLAYERGLOBAL_HOME/$PLAYER_VERSION_MAJOR.$PLAYER_VERSION_MINOR/playerglobal.swc
-fi
 
-ant compile_core -DFLEX_HOME=$APACHE_FLEX_HOME -Dconfig.player.version=$PLAYER_VERSION_MAJOR.$PLAYER_VERSION_MINOR -Dconfig.swf.version=$SWF_VERSION
+ant build -DFLEX_HOME=$APACHE_FLEX_HOME
 
