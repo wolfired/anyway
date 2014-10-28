@@ -172,6 +172,7 @@ public class UtilOrder {
 	private String args4ant(){
 		String aa = System.getenv("args4ant");
 		aa = null == aa ? "" : aa;
+		System.out.println(aa);
 		return aa;
 	}
 
