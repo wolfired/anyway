@@ -41,17 +41,25 @@
 			</then>
 		</if>
 
+		<if>
+			<isset property="flex.home"/>
+			<then>
+				<replace file="config4ant.properties" token="@@FLEX_HOME@@" value="${flex.home}" />
+			</then>
+		</if>
+
 		<property file="config4ant.properties" />
 
 		<if>
 			<or>
 				<equals arg1="${FLEX_HOME}" arg2="" />
+				<equals arg1="${FLEX_HOME}" arg2="@@FLEX_HOME@@" />
 			</or>
 			<then>
 				<fail>
 You need to edit the config4user.properties:
 
-	FLEX_HOME=${FLEX_HOME}
+	FLEX_HOME=
 
 then ant again!!
 				</fail>

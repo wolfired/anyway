@@ -17,5 +17,5 @@ else
 fi
 
 
-ant build -DFLEX_HOME=$APACHE_FLEX_HOME
+ant build -Dflex.home=$APACHE_FLEX_HOME
 
