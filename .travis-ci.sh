@@ -17,5 +17,5 @@ else
 fi
 
 
-ant build -Dflex.home=$APACHE_FLEX_HOME
+ant build -DFLEX_HOME=$APACHE_FLEX_HOME -Dargs4ant="-DFLEX_HOME=$APACHE_FLEX_HOME -Dconfig.parallel=false"
 

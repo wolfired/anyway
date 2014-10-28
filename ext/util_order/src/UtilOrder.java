@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.Options;
 import org.apache.commons.lang3.StringUtils;
 
 public class UtilOrder {
@@ -22,15 +26,17 @@ public class UtilOrder {
 
 	private String _root_path;
 	private Set<String> _targets;
-	private Map<String, Order> _order_map;
+	private String _args4ant;
 	
+	private Map<String, Order> _order_map;
 	private List<Set<String>> _phases;
 	private Set<String> _dones;
 
 	private ProcessBuilder _pb;
 
-	public UtilOrder(String root_path, String targets) {
+	public UtilOrder(String root_path, String targets, String args4ant) {
 		_root_path = root_path;
+		_args4ant = args4ant;
 
 		if (null == targets || "".equals(targets)) {
 			_targets = new HashSet<String>();
@@ -51,17 +57,16 @@ public class UtilOrder {
 	public int order() throws Exception {
 		this.calc_depend();
 		
+		int exit_code = 0;
 		if(this.solve_depend()){
 			Iterator<Set<String>> iter = _phases.iterator();
-			while(iter.hasNext()){
+			while(0 == exit_code && iter.hasNext()){
 //				System.out.println(StringUtils.join(iter.next().toArray(new String[0]), ","));
-				this.exec(StringUtils.join(iter.next().toArray(new String[0]), ","));
+				exit_code = this.exec(StringUtils.join(iter.next().toArray(new String[0]), ","));
 			}
-		}else{
-			return 1;
 		}
 		
-		return 0;
+		return exit_code;
 	}
 
 	private String readContent(String fileName) throws Exception {
@@ -145,9 +150,9 @@ public class UtilOrder {
 		return true;
 	}
 	
-	private void exec(String targets_str) throws Exception {
+	private int exec(String targets_str) throws Exception {
 		_pb.command().clear();
-		_pb.command(this.ant(), "-f", "build_order.xml", "build_more", TARGETS_NAME.replaceAll("TARGETS_NAME", targets_str));
+		_pb.command(this.ant(), "-f", "build_order.xml", "build_more", TARGETS_NAME.replaceAll("TARGETS_NAME", targets_str), _args4ant);
 		Process ps = _pb.start();
 		InputStream is = ps.getInputStream();
 		InputStreamReader isr = new InputStreamReader(is);
@@ -157,6 +162,8 @@ public class UtilOrder {
 			System.out.println(line);
 		}
 		br.close();
+		
+		return ps.exitValue();
 	}
 	
 	private String ant(){
@@ -169,8 +176,21 @@ public class UtilOrder {
 	}
 
 	public static void main(String[] args) throws Exception {
-//		System.exit(new UtilOrder("E:/workspace_git/flex_ant_project_template", "").order());
-		System.exit(new UtilOrder(args[0], 1 == args.length ? "" : args[1]).order());
+		Options options = new Options();
+		options.addOption("rp", true, "Root path");
+		options.addOption("ts", false, "Targets");
+		options.addOption("args4ant", false, "Args for ant");
+		
+		
+		CommandLineParser parser = new BasicParser();
+		CommandLine cmd = parser.parse(options, args);
+		
+//		System.out.println(cmd.getOptionValue("rp"));
+//		System.out.println(cmd.getOptionValue("ts", ""));
+//		System.out.println(cmd.getOptionValue("args4ant", ""));
+		
+//		System.exit(new UtilOrder("E:/workspace_git/flex_ant_project_template", "", "").order());
+		System.exit(new UtilOrder(cmd.getOptionValue("rp"), cmd.getOptionValue("ts", ""), cmd.getOptionValue("args4ant", "")).order());
 		
 	}
 }
