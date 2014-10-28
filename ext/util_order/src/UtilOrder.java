@@ -19,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 public class UtilOrder {
 	private static final String FILE_ENCODING = "-Dfile.encoding=FILE_ENCODING";
 	private static final String TARGETS_NAME = "-Dtargets.name=\"TARGETS_NAME\"";
-	private static final String ANT = "ant.bat";
 
 	private String _root_path;
 	private Set<String> _targets;
@@ -148,7 +147,7 @@ public class UtilOrder {
 	
 	private void exec(String targets_str) throws Exception {
 		_pb.command().clear();
-		_pb.command(ANT, "-f", "build_order.xml", "build_more", TARGETS_NAME.replaceAll("TARGETS_NAME", targets_str));
+		_pb.command(this.ant(), "-f", "build_order.xml", "build_more", TARGETS_NAME.replaceAll("TARGETS_NAME", targets_str));
 		Process ps = _pb.start();
 		InputStream is = ps.getInputStream();
 		InputStreamReader isr = new InputStreamReader(is);
@@ -159,9 +158,19 @@ public class UtilOrder {
 		}
 		br.close();
 	}
+	
+	private String ant(){
+		String os_name = System.getProperty("os.name");
+		if(null == os_name || "".equals(os_name) || os_name.startsWith("Window") || os_name.startsWith("window")){
+			return "ant.bat";
+		}
+		
+		return "ant";
+	}
 
 	public static void main(String[] args) throws Exception {
 //		System.exit(new UtilOrder("E:/workspace_git/flex_ant_project_template", "").order());
 		System.exit(new UtilOrder(args[0], 1 == args.length ? "" : args[1]).order());
+		
 	}
 }
