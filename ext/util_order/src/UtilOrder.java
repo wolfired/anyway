@@ -146,7 +146,7 @@ public class UtilOrder {
 	
 	private int exec(String targets_str) throws Exception {
 		_pb.command().clear();
-		_pb.command(this.ant(), "-f", "build_order.xml", "build_more", TARGETS_NAME.replaceAll("TARGETS_NAME", targets_str), this.args4ant());
+		_pb.command(this.ant(), "-f", "build_order.xml", "build_more", TARGETS_NAME.replaceAll("TARGETS_NAME", targets_str));
 		Process ps = _pb.start();
 		InputStream is = ps.getInputStream();
 		InputStreamReader isr = new InputStreamReader(is);
@@ -167,13 +167,6 @@ public class UtilOrder {
 		}
 		
 		return "ant";
-	}
-	
-	private String args4ant(){
-		String aa = System.getenv("args4ant");
-		aa = null == aa ? "" : aa;
-		System.out.println(aa);
-		return aa;
 	}
 
 	public static void main(String[] args) throws Exception {

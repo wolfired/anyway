@@ -26,6 +26,13 @@
 				<copy file="config.properties.base" tofile="config4user.properties" />
 			</then>
 		</if>
+		
+		<if>
+			<isset property="flex.home" />
+			<then>
+				<replace file="config4user.properties" token="@@flex_home@@" value="${flex.home}" />
+			</then>
+		</if>
 
 		<if>
 			<or>
@@ -40,11 +47,14 @@
 				</exec>
 			</then>
 		</if>
-
+		
 		<property file="config4ant.properties" />
 
 		<if>
+			<or>
 				<equals arg1="${FLEX_HOME}" arg2="" />
+				<equals arg1="${FLEX_HOME}" arg2="@@flex_home@@" />
+			</or>
 			<then>
 				<fail>
 You need to edit the config4user.properties:
