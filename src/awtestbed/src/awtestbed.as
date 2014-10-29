@@ -9,7 +9,10 @@ package {
 	import anyway.core.Anyway;
 	import anyway.display.AWDisplayObject;
 	import anyway.model.AWModelStruct;
+	import anyway.model.obj.AWModelParser4Obj;
+	import anyway.model.obj.AWModelStruct4Obj;
 	
+	import ocore.manager.asset.AssetBase;
 	import ocore.manager.asset.AssetManager;
 	import ocore.manager.asset.AssetRegister;
 	import ocore.manager.asset.category.AssetIMG;
@@ -39,20 +42,24 @@ package {
 		}
 
 		private function startup():void {
-			AssetRegister.ins.registerAsset("png", "res/", AssetIMG);
+			AssetRegister.ins.registerAsset("png", AssetIMG, "res/");
 			AssetManager.ins.setup(false);
 			
 			var urls:Vector.<String> = new Vector.<String>();
 			urls.push(AssetRegister.ins.getAssetUrl("box", "png"));
 			urls.push(AssetRegister.ins.getAssetUrl("hero", "png"));
+			urls.push(AssetRegister.ins.getAssetUrl("box", "def", "res/"));
 			
 			AssetManager.ins.fetchPackage(urls, false, 1, Callback.create(wait4asset), true);
 		}
 		
 		private function wait4asset():void{
-			LogManager.print();
+			LogManager.ins.print();
 			
-			var pa:AssetIMG = AssetManager.ins.gainAsset(AssetRegister.ins.getAssetUrl("box", "png"), true) as AssetIMG;
+			var ab:AssetBase = AssetManager.ins.gainAsset(AssetRegister.ins.getAssetUrl("box", "def", "res/"), true);
+			var obj:AWModelStruct = new AWModelParser4Obj().parser(ab.raw_data) as AWModelStruct4Obj;
+			
+			var ai:AssetIMG = AssetManager.ins.gainAsset(AssetRegister.ins.getAssetUrl("box", "png"), true) as AssetIMG;
 			
 			Anyway.ready(this.stage, this.stage.stageWidth, this.stage.stageHeight).go();
 			var camera:AWCamera = Anyway.sington.getCamera(0);
@@ -60,49 +67,6 @@ package {
 			Anyway.sington.connect(0, 0);
 			var scene:AWScene = new AWScene();
 			camera.scene = scene;
-			
-			var model_struct3d:AWModelStruct = new AWModelStruct();
-			model_struct3d.data32_per_vertex = 8;
-			model_struct3d.bitmapdata =  pa.real_data;
-			model_struct3d.vertexData = Vector.<Number>([
-				0.5,  0.5, -0.5,	0,0,-1,		1,0,	// 	Front
-				-0.5,  0.5, -0.5,	0,0,-1,		0,0,	// 
-				-0.5, -0.5, -0.5,	0,0,-1,		0,1,	// 
-				0.5, -0.5, -0.5,	0,0,-1,		1,1,	// 
-				
-				0.5, -0.5, -0.5,	0,-1,0,		1,0,	//  Bottom
-				-0.5, -0.5, -0.5,	0,-1,0,		0,0,	// 
-				-0.5, -0.5,  0.5,	0,-1,0,		0,1,	// 
-				0.5, -0.5,  0.5,	0,-1,0,		1,1,	// 
-				
-				-0.5,  0.5,  0.5,	0,0,1, 		1,0,	// 	Back
-				0.5,  0.5,  0.5,	0,0,1,		0,0,	// 
-				0.5, -0.5,  0.5,	0,0,1,		0,1,	// 
-				-0.5, -0.5,  0.5,	0,0,1,		1,1,	// 
-				
-				-0.5,  0.5,  0.5,	0,1,0, 		1,0,	// 	Top
-				0.5,  0.5,  0.5,	0,1,0,		0,0,	// 
-				0.5,  0.5, -0.5,	0,1,0,		0,1,	// 
-				-0.5,  0.5, -0.5,	0,1,0,		1,1,	// 
-				
-				-0.5,  0.5, -0.5,	-1,0,0,		1,0,	// 	Left
-				-0.5,  0.5,  0.5,	-1,0,0,		0,0,	// 
-				-0.5, -0.5,  0.5,	-1,0,0,		0,1,	// 
-				-0.5, -0.5, -0.5,	-1,0,0,		1,1,	// 
-				
-				0.5,  0.5,  0.5,	1,0,0, 		1,0,	// 	Right
-				0.5,  0.5, -0.5,	1,0,0,		0,0,	// 
-				0.5, -0.5, -0.5,	1,0,0,		0,1,	// 
-				0.5, -0.5,  0.5,	1,0,0,		1,1		// 	  	
-			]);
-			model_struct3d.indexData = Vector.<uint>([
-				0, 1, 2,		0, 2, 3,		// Front face
-				4, 5, 6,		4, 6, 7,        // Bottom face
-				8, 9, 10,		8, 10, 11,      // Back face
-				14, 13, 12,		15, 14, 12,     // Top face
-				16, 17, 18,		16, 18, 19,     // Left face
-				20, 21, 22,		20, 22, 23      // Right face
-			]);
 			
 			var o:AWDisplayObject = new AWDisplayObject();
 			scene.addChildAt(o);

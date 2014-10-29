@@ -2,15 +2,14 @@ package anyway.utils {
 
 	import anyway.constant.AWCoordinateConst;
 	import anyway.constant.AWMathConst;
-	import anyway.core.ns.anyway_internal_geometry;
+	import anyway.core.aw_ns;
 	import anyway.geometry.AWMatrix;
 	import anyway.geometry.AWVector;
 
-	use namespace anyway_internal_geometry;
+	use namespace aw_ns;
 
 	public class AWMathUtil {
 		/**
-		 * <p><img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}1 %26 0 %26 0 %26 0\\ 0 %26 1 %26 0 %26 0\\ 0 %26 0 %26 1 %26 0\\ tx %26 ty %26 tz %26 1\end{bmatrix}"/></p>
 		 * @param tx
 		 * @param ty
 		 * @param tz
@@ -27,7 +26,6 @@ package anyway.utils {
 		}
 
 		/**
-		 * <p><img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}sx %26 0 %26 0 %26 0\\ 0 %26 sy %26 0 %26 0\\ 0 %26 0 %26 sz %26 0\\ 0 %26 0 %26 0 %26 1\end{bmatrix}"/></p>
 		 * @param sx
 		 * @param sy
 		 * @param sz
@@ -44,9 +42,6 @@ package anyway.utils {
 		}
 
 		/**
-		 * <p>X轴为旋转轴<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}1 %26 0 %26 0 %26 0\\ 0 %26 \cos\theta %26 \sin\theta %26 0\\ 0 %26 -\sin\theta %26 \cos\theta %26 0\\ 0 %26 0 %26 0 %26 1\end{bmatrix}"/></p>
-		 * <p>Y轴为旋转轴<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}\cos\theta %26 0 %26 -\sin\theta %26 0\\ 0 %26 1 %26 0 %26 0\\ \sin\theta %26 0 %26 \cos\theta %26 0\\ 0 %26 0 %26 0 %26 1\end{bmatrix}"/></p>
-		 * <p>Z轴为旋转轴<img src="http://chart.apis.google.com/chart?cht=tx&#38;chl=\begin{bmatrix}\cos\theta %26 \sin\theta %26 0 %26 0\\ -\sin\theta %26 \cos\theta %26 0 %26 0\\ 0 %26 0 %26 1 %26 0\\ 0 %26 0 %26 0 %26 1\end{bmatrix}"/></p>
 		 * @param deg 角度
 		 * @param axis 旋转轴
 		 * @return 旋转矩阵

@@ -1,14 +1,14 @@
 package anyway.utils{
 	import flash.utils.ByteArray;
 	
-	import anyway.core.ns.anyway_internal_geometry;
+	import anyway.core.aw_ns;
 	import anyway.geometry.AWMatrix;
 	import anyway.geometry.AWVector;
 
 	public class AWFormatUtil{
 		private static const MARK:uint = 10;
 		
-		use namespace anyway_internal_geometry;
+		use namespace aw_ns;
 		
 		public static function format_number(number:Number):String {
 			var temp:Array = number.toFixed(MARK).split(/\./g);

@@ -1,8 +1,8 @@
 package anyway.events {
 
-	import anyway.core.ns.anyway_internal_events;
+	import anyway.core.aw_ns;
 	
-	use namespace anyway_internal_events;
+	use namespace aw_ns;
 
 	public class AWAssetsEvent extends AWEvent {
 		public static const EVT_PROGRESS:String = "AWAssetsEvent_EVT_PROGRESS";
@@ -12,8 +12,8 @@ package anyway.events {
 			super(eventType, payload);
 		}
 
-		anyway_internal_events var _bytesLoaded:Number;
-		anyway_internal_events var _bytesTotal:Number;
+		aw_ns var _bytesLoaded:Number;
+		aw_ns var _bytesTotal:Number;
 
 		public function get bytesLoaded():Number {
 			return _bytesLoaded;

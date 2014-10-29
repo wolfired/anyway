@@ -8,10 +8,9 @@ package anyway.core {
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	
-	import anyway.core.ns.anyway_internal;
 	import anyway.events.AWEventRouter;
 	
-	use namespace anyway_internal;
+	use namespace aw_ns;
 
 	public final class Anyway {
 		private static var _instance:Anyway;

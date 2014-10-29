@@ -1,13 +1,10 @@
 package anyway.core {
 
-	import anyway.core.ns.anyway_internal;
-	import anyway.core.ns.anyway_internal_geometry;
 	import anyway.geometry.AWMatrix;
 	import anyway.geometry.AWVector;
 	import anyway.utils.AWMathUtil;
 
-	use namespace anyway_internal_geometry;
-	use namespace anyway_internal;
+	use namespace aw_ns;
 
 	public final class AWCamera {
 
@@ -15,10 +12,10 @@ package anyway.core {
 			init();
 		}
 
-		anyway_internal var _fovy:Number;
-		anyway_internal var _zNear:Number;
-		anyway_internal var _zFar:Number;
-		anyway_internal var _scene:AWScene;
+		aw_ns var _fovy:Number;
+		aw_ns var _zNear:Number;
+		aw_ns var _zFar:Number;
+		aw_ns var _scene:AWScene;
 
 		private const _camera_place_at:AWVector = new AWVector(0.0, 0.0, 0.0);
 		private const _camera_point_to:AWVector = new AWVector(0.0, 0.0, 1.0);

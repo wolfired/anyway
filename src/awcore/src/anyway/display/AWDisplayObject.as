@@ -1,13 +1,11 @@
 package anyway.display {
 
 	import anyway.constant.AWCoordinateConst;
-	import anyway.core.ns.anyway_internal_display;
-	import anyway.core.ns.anyway_internal_geometry;
+	import anyway.core.aw_ns;
 	import anyway.geometry.AWMatrix;
 
-	use namespace anyway_internal_display;
+	use namespace aw_ns;
 
-	use namespace anyway_internal_geometry;
 
 	public class AWDisplayObject {
 
@@ -24,10 +22,10 @@ package anyway.display {
 		protected var _sy:Number = 1.0;
 		protected var _sz:Number = 1.0;
 
-		anyway_internal_display var _parent:AWDisplayObjectContainer;
-		anyway_internal_display var _index:uint;
-		anyway_internal_display const _transform:AWMatrix = new AWMatrix();
-		anyway_internal_display var _transformDirty:Boolean = true;
+		aw_ns var _parent:AWDisplayObjectContainer;
+		aw_ns var _index:uint;
+		aw_ns const _transform:AWMatrix = new AWMatrix();
+		aw_ns var _transformDirty:Boolean = true;
 
 		public function get rx():Number {
 			return _rx;

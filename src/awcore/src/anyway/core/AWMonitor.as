@@ -7,11 +7,11 @@ package anyway.core{
 	import flash.events.Event;
 	
 	import anyway.constant.AWMathConst;
-	import anyway.core.ns.anyway_internal;
 	import anyway.geometry.AWMatrix;
+	import anyway.shader.TextureShader;
 	import anyway.utils.AWMathUtil;
 	
-	use namespace anyway_internal;
+	use namespace aw_ns;
 
 	public final class AWMonitor{
 		
@@ -32,11 +32,11 @@ package anyway.core{
 			_stage3D.addEventListener(ErrorEvent.ERROR, onError);
 		}
 		
-		anyway_internal function get camera():AWCamera {
+		aw_ns function get camera():AWCamera {
 			return _camera;
 		}
 		
-		anyway_internal function set camera(value:AWCamera):void{
+		aw_ns function set camera(value:AWCamera):void{
 			if (_camera == value)
 				return;
 			_camera = value;
@@ -47,9 +47,8 @@ package anyway.core{
 			}
 		}
 		
-		anyway_internal function render():void{
+		aw_ns function render():void{
 			_context3D.clear(0.94, 0.94, 0.94);
-			
 			
 			
 			_context3D.present();

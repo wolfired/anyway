@@ -7,9 +7,7 @@ package anyway.model {
 		public function AWModelParser() {
 		}
 
-		protected var _bytes:ByteArray;
-
-		public function parser(bytes:ByteArray):void {
+		public function parser(bytes:ByteArray):AWModelStruct {
 			SWITCH::debug {
 				throw new Error("override by subclass");
 			}

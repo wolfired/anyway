@@ -1,15 +1,15 @@
 package anyway.display {
 
-	import anyway.core.ns.anyway_internal_display;
+	import anyway.core.aw_ns;
 
-	use namespace anyway_internal_display;
+	use namespace aw_ns;
 
 	public class AWDisplayObjectContainer extends AWDisplayObject {
 
 		public function AWDisplayObjectContainer() {
 		}
 
-		anyway_internal_display const _children:Vector.<AWDisplayObject> = new Vector.<AWDisplayObject>();
+		aw_ns const _children:Vector.<AWDisplayObject> = new Vector.<AWDisplayObject>();
 
 		public function addChildAt(child:AWDisplayObject, index:uint = uint.MAX_VALUE):uint {
 			if(_children.length <= index) {
