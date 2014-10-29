@@ -10,6 +10,11 @@
 
 	<target name="custom">
 		<!-- write custom code -->
+		<copy todir="${dot.lib}">
+			<fileset dir="${config.dir.ext}/swc_pkg">
+				<include name="**/ocore/bin/*.swc"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<import file="../../project.xml" />
