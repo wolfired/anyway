@@ -1,18 +1,18 @@
-package anyway.display {
+package anyway.visual {
 
 	import anyway.core.ns_aw;
 
 	use namespace ns_aw;
 
-	public class AWDisplayObjectContainer extends AWDisplayObject {
+	public class AWVisualContainer extends AWVisualObject {
 
-		public function AWDisplayObjectContainer() {
+		public function AWVisualContainer() {
 			_pre = _nxt = this;
 		}
 		
 		ns_aw var _count:uint = 0;
 		
-		public function addChild(child:AWDisplayObject):void{
+		public function addChild(child:AWVisualObject):void{
 			child.delSelf();
 			
 			child._parent = this;
@@ -26,12 +26,12 @@ package anyway.display {
 			++_count;
 		}
 
-		public function addChildAt(child:AWDisplayObject, idx:uint = uint.MAX_VALUE):void {
+		public function addChildAt(child:AWVisualObject, idx:uint = uint.MAX_VALUE):void {
 			child.delSelf();
 			
-			var target:AWDisplayObject;
+			var target:AWVisualObject;
 			if(0 < _count && idx < _count){
-				this.forward(function(member:AWDisplayObject):Boolean{
+				this.forward(function(member:AWVisualObject):Boolean{
 					if(0 == idx--){
 						target = member;
 						return true;
@@ -52,7 +52,7 @@ package anyway.display {
 			++_count;
 		}
 		
-		public function delChild(child:AWDisplayObject):void{
+		public function delChild(child:AWVisualObject):void{
 			SWITCH::debug{
 				if(child._parent == null || child._parent != this){
 					throw new Error("");
@@ -68,11 +68,11 @@ package anyway.display {
 			--_count;
 		}
 
-		public function delChildAt(idx:uint = uint.MAX_VALUE):AWDisplayObject {
-			var child:AWDisplayObject = null;
+		public function delChildAt(idx:uint = uint.MAX_VALUE):AWVisualObject {
+			var child:AWVisualObject = null;
 			if(0 < _count){
 				if(idx < _count){
-					this.forward(function(member:AWDisplayObject):Boolean{
+					this.forward(function(member:AWVisualObject):Boolean{
 						if(0 == idx--){
 							child = member;
 							return true;
@@ -94,18 +94,18 @@ package anyway.display {
 			return child;
 		}
 		
-		public function swapChild(fst:AWDisplayObject, snd:AWDisplayObject):void{
+		public function swapChild(fst:AWVisualObject, snd:AWVisualObject):void{
 			SWITCH::debug{
 				if(fst == snd || fst._parent != this || snd._parent != this){
 					throw new Error("");
 				}
 			}
 				
-			var fst_pre:AWDisplayObject = fst._pre;
-			var fst_nxt:AWDisplayObject = fst._nxt;
+			var fst_pre:AWVisualObject = fst._pre;
+			var fst_nxt:AWVisualObject = fst._nxt;
 			
-			var snd_pre:AWDisplayObject = snd._pre;
-			var snd_nxt:AWDisplayObject = snd._nxt;
+			var snd_pre:AWVisualObject = snd._pre;
+			var snd_nxt:AWVisualObject = snd._nxt;
 			
 			fst_pre._nxt = snd;
 			snd._pre = fst_pre;
@@ -126,11 +126,11 @@ package anyway.display {
 		public function swapChildAt(fst:uint, snd:uint):void{
 		}
 
-		public function getChildAt(idx:uint = uint.MAX_VALUE):AWDisplayObject {
-			var child:AWDisplayObject = null;
+		public function getChildAt(idx:uint = uint.MAX_VALUE):AWVisualObject {
+			var child:AWVisualObject = null;
 			if(0 < _count){
 				if(idx < _count){
-					this.forward(function(member:AWDisplayObject):Boolean{
+					this.forward(function(member:AWVisualObject):Boolean{
 						if(0 == idx--){
 							child = member;
 							return true;
@@ -149,7 +149,7 @@ package anyway.display {
 		}
 		
 		public function foreach(handler:Function):void{
-			var nxt:AWDisplayObject = _nxt;
+			var nxt:AWVisualObject = _nxt;
 			while(nxt != this){
 				handler(nxt);
 				nxt = nxt._nxt;
@@ -157,7 +157,7 @@ package anyway.display {
 		}
 		
 		public function forward(handler:Function):void{
-			var nxt:AWDisplayObject = _nxt;
+			var nxt:AWVisualObject = _nxt;
 			while(nxt != this){
 				if(handler(nxt)){
 					return;

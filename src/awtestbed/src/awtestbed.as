@@ -7,10 +7,10 @@ package {
 	import anyway.core.AWMonitor;
 	import anyway.core.AWScene;
 	import anyway.core.Anyway;
-	import anyway.display.AWQuad;
 	import anyway.model.AWModelStruct;
 	import anyway.model.obj.AWModelParser4Obj;
 	import anyway.model.obj.AWModelStruct4Obj;
+	import anyway.visual.AWQuad;
 	
 	import ocore.manager.asset.AssetBase;
 	import ocore.manager.asset.AssetManager;
@@ -61,15 +61,13 @@ package {
 			
 			var ai:AssetIMG = AssetManager.ins.gainAsset(AssetRegister.ins.getAssetUrl("box", "png"), true) as AssetIMG;
 			
-			Anyway.ins.setup(this.stage, this.stage.stageWidth, this.stage.stageHeight).go();
 			
-			var camera:AWCamera = Anyway.ins.getCamera(0).setup(90, 0.1, 1000.0);
+			Anyway.ins.setup(this.stage);
 			
-			var monitor:AWMonitor = Anyway.ins.getMonitor(0);
-			Anyway.ins.connect(0, 0);
 			
+			var monitor:AWMonitor = new AWMonitor().setup(this.stage.stage3Ds[0], this.stage.stageWidth, this.stage.stageHeight);
+			var camera:AWCamera = new AWCamera().setup();
 			var scene:AWScene = new AWScene();
-			camera.scene = scene;
 
 			var q:AWQuad = new AWQuad();
 			q.z = 2;

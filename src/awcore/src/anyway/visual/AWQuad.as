@@ -1,11 +1,11 @@
-package anyway.display{
+package anyway.visual{
 	import flash.display.BitmapData;
 	
 	import anyway.core.ns_aw;
 	
 	use namespace ns_aw;
 
-	public class AWQuad extends AWDisplayObject{
+	public class AWQuad extends AWVisualObject{
 		ns_aw var _vertexData:Vector.<Number>;
 		ns_aw var _indexData:Vector.<uint>;
 		public var ttt:BitmapData;

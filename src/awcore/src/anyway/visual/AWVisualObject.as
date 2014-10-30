@@ -1,4 +1,4 @@
-package anyway.display {
+package anyway.visual {
 
 	import anyway.constant.AWCoordinateConst;
 	import anyway.core.ns_aw;
@@ -6,9 +6,9 @@ package anyway.display {
 
 	use namespace ns_aw;
 
-	public class AWDisplayObject {
+	public class AWVisualObject {
 
-		public function AWDisplayObject() {
+		public function AWVisualObject() {
 		}
 
 		protected var _rx:Number = 0.0;
@@ -21,12 +21,12 @@ package anyway.display {
 		protected var _sy:Number = 1.0;
 		protected var _sz:Number = 1.0;
 		
-		private const _transform:AWMatrix = new AWMatrix();
+		private var _transform:AWMatrix = new AWMatrix();
 		private var _transformDirty:Boolean = true;
 		
-		ns_aw var _parent:AWDisplayObjectContainer = null;
-		ns_aw var _pre:AWDisplayObject = null;
-		ns_aw var _nxt:AWDisplayObject = null;
+		ns_aw var _parent:AWVisualContainer = null;
+		ns_aw var _pre:AWVisualObject = null;
+		ns_aw var _nxt:AWVisualObject = null;
 
 		public function get rx():Number {
 			return _rx;

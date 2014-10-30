@@ -1,9 +1,9 @@
 package anyway.core {
-	import anyway.display.AWDisplayObjectContainer;
+	import anyway.visual.AWVisualContainer;
 	
 	use namespace ns_aw;
 
-	public final class AWScene extends AWDisplayObjectContainer{
+	public final class AWScene extends AWVisualContainer{
 		public function AWScene() {
 		}
 	}
