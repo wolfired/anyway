@@ -2,11 +2,11 @@ package anyway.utils {
 
 	import anyway.constant.AWCoordinateConst;
 	import anyway.constant.AWMathConst;
-	import anyway.core.aw_ns;
+	import anyway.core.ns_aw;
 	import anyway.geometry.AWMatrix;
 	import anyway.geometry.AWVector;
 
-	use namespace aw_ns;
+	use namespace ns_aw;
 
 	public class AWMathUtil {
 		/**
@@ -78,61 +78,64 @@ package anyway.utils {
 			return result;
 		}
 
-		public static function lookAtLH(eye_at_pos:AWVector, point_to_pos:AWVector, up_vec:AWVector):AWMatrix {
-			var eye:AWVector = new AWVector(eye_at_pos.x, eye_at_pos.y, eye_at_pos.z);
-
-			var naxis:AWVector = AWMathUtil.makeVectorFromPoint(eye_at_pos, point_to_pos).normalize();
-			var uaxis:AWVector = AWMathUtil.vectorCrossProduct(up_vec, naxis).normalize();
-			var vaxis:AWVector = AWMathUtil.vectorCrossProduct(naxis, uaxis);
-			var waxis:AWVector = new AWVector(-eye.dotProduct(uaxis), -eye.dotProduct(vaxis), -eye.dotProduct(naxis), 1);
-
+		public static function makeUVNMatrix(place_at:AWVector, point_to:AWVector, up_vector:AWVector):AWMatrix {
+			var n:AWVector = new AWVector(point_to.x - place_at.x, point_to.y - place_at.y, point_to.z - place_at.z);
+			n.normalize();
+			
+			var u:AWVector = new AWVector();
+			u.copyRawData(up_vector._raw_data);
+			u.crossProduct(n);
+			u.normalize();
+			
+			var v:AWVector = new AWVector();
+			v.copyRawData(n._raw_data);
+			v.crossProduct(u);
+			v.normalize();
+			
+			var t:AWVector = new AWVector(place_at.x, place_at.y, place_at.z);
+			var tx:Number = - t.dotProduct(u);
+			var ty:Number = - t.dotProduct(v);
+			var tz:Number = - t.dotProduct(n);
+			var tt:AWVector = new AWVector(tx, ty, tz, 1);
+			
 			var result:AWMatrix = new AWMatrix();
-			result.copyColumnFrom(0, uaxis._raw_data);
-			result.copyColumnFrom(1, vaxis._raw_data);
-			result.copyColumnFrom(2, naxis._raw_data);
-			result.copyRowFrom(3, waxis._raw_data);
+			
+			result.copyColumnFrom(0, u._raw_data);
+			result.copyColumnFrom(1, v._raw_data);
+			result.copyColumnFrom(2, n._raw_data);
+			result.copyRowFrom(3, tt._raw_data);
+			
 			return result;
 		}
 
-		public static function perspectiveFieldOfViewLH(fieldOfViewY:Number,
-														aspectRatio:Number,
-														zNear:Number,
-														zFar:Number):AWMatrix {
-			var yScale:Number = 1.0 / Math.tan(fieldOfViewY / 2.0);
-			var xScale:Number = yScale / aspectRatio;
-
+		public static function makeProjectionMatrix(fovx_deg:Number, aspectRatio:Number, near:Number, far:Number):AWMatrix {
+			var zoom_x:Number = 1 / Math.tan(fovx_deg * AWMathConst.DEG_2_RAD / 2);
+			var zoom_y:Number = aspectRatio * zoom_x;
+			
 			var result:AWMatrix = new AWMatrix();
 			result.copyRawData(Vector.<Number>([
-											   xScale, 0.0, 0.0, 0.0,
-											   0.0, yScale, 0.0, 0.0,
-											   0.0, 0.0, (zFar) / (zFar - zNear), 1.0,
-											   0.0, 0.0, (zNear * zFar) / (zNear - zFar), 0.0
-											   ]));
+				zoom_x, 0.0, 0.0, 0.0,
+				0.0, zoom_y, 0.0, 0.0,
+				0.0, 0.0, (far)/(far - near), 1.0,
+				0.0, 0.0, (- far * near)/(far - near), 0.0
+			]));
+			
 			return result;
 		}
-
-		public static function makeVectorFromPoint(from:AWVector, to:AWVector):AWVector {
-			return new AWVector(to._raw_data[0] - from._raw_data[0], to._raw_data[1] - from._raw_data[1], to._raw_data[2] - from._raw_data[2]);
-		}
-
-		public static function vectorNormalize(target:AWVector):AWVector {
-			var len:Number = target.length;
-			return new AWVector(target._raw_data[0] / len, target._raw_data[1] / len, target._raw_data[2] / len);
-		}
-
-		public static function vectorAddition(left:AWVector, right:AWVector):AWVector {
-			return new AWVector(left._raw_data[0] + right._raw_data[0], left._raw_data[1] + right._raw_data[1], left._raw_data[2] + right._raw_data[2]);
-		}
-
-		public static function vectorSubtraction(left:AWVector, right:AWVector):AWVector {
-			return new AWVector(left._raw_data[0] - right._raw_data[0], left._raw_data[1] - right._raw_data[1], left._raw_data[2] - right._raw_data[2]);
-		}
-
-		public static function vectorCrossProduct(left:AWVector, right:AWVector):AWVector {
-			var x:Number = left._raw_data[1] * right._raw_data[2] - right._raw_data[1] * left._raw_data[2];
-			var y:Number = -left._raw_data[0] * right._raw_data[2] + right._raw_data[0] * left._raw_data[2];
-			var z:Number = left._raw_data[0] * right._raw_data[1] - right._raw_data[0] * left._raw_data[1];
-			return new AWVector(x, y, z);
+		
+		public static function makeScreenMatrix(view_port_width:Number, view_port_original_width:Number, view_port_height:Number, view_port_original_height:Number, aspectRatio:Number):AWMatrix{
+			var half_width:Number = (view_port_width - 1) / 2;
+			var half_height:Number = (view_port_height - 1) / 2;
+			
+			var result:AWMatrix = new AWMatrix();
+			result.copyRawData(Vector.<Number>([
+				half_width * view_port_original_width / view_port_width, 0.0, 0.0, 0.0,
+				0.0, -half_height * view_port_original_height / (view_port_height * aspectRatio), 0.0, 0.0,
+				0.0, 0.0, 1.0, 0.0,
+				half_width, half_height, 0.0, 1.0
+			]));
+			
+			return result;
 		}
 	}
 }

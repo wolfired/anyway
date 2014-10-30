@@ -7,7 +7,7 @@ package {
 	import anyway.core.AWMonitor;
 	import anyway.core.AWScene;
 	import anyway.core.Anyway;
-	import anyway.display.AWDisplayObject;
+	import anyway.display.AWQuad;
 	import anyway.model.AWModelStruct;
 	import anyway.model.obj.AWModelParser4Obj;
 	import anyway.model.obj.AWModelStruct4Obj;
@@ -19,7 +19,7 @@ package {
 	import ocore.manager.log.LogManager;
 	import ocore.util.Callback;
 
-	[SWF(width = 500, height = 500, frameRate = "24")]
+	[SWF(width = 400, height = 400, frameRate = "24")]
 	public class awtestbed extends Sprite {
 
 		public function awtestbed() {
@@ -61,15 +61,22 @@ package {
 			
 			var ai:AssetIMG = AssetManager.ins.gainAsset(AssetRegister.ins.getAssetUrl("box", "png"), true) as AssetIMG;
 			
-			Anyway.ready(this.stage, this.stage.stageWidth, this.stage.stageHeight).go();
-			var camera:AWCamera = Anyway.sington.getCamera(0);
-			var monitor:AWMonitor = Anyway.sington.getMonitor(0);
-			Anyway.sington.connect(0, 0);
+			Anyway.ins.setup(this.stage, this.stage.stageWidth, this.stage.stageHeight).go();
+			
+			var camera:AWCamera = Anyway.ins.getCamera(0).setup(90, 0.1, 1000.0);
+			
+			var monitor:AWMonitor = Anyway.ins.getMonitor(0);
+			Anyway.ins.connect(0, 0);
+			
 			var scene:AWScene = new AWScene();
 			camera.scene = scene;
+
+			var q:AWQuad = new AWQuad();
+			q.z = 2;
+			q.setSize(2, 2);
+			q.ttt = ai.real_data;
 			
-			var o:AWDisplayObject = new AWDisplayObject();
-			scene.addChildAt(o);
+			scene.addChild(q);
 		}
 	}
 }

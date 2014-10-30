@@ -6,12 +6,12 @@ package anyway.core{
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	
-	import anyway.constant.AWMathConst;
+	import anyway.display.AWQuad;
 	import anyway.geometry.AWMatrix;
-	import anyway.shader.TextureShader;
+	import anyway.shader.TexturedRender;
 	import anyway.utils.AWMathUtil;
 	
-	use namespace aw_ns;
+	use namespace ns_aw;
 
 	public final class AWMonitor{
 		
@@ -32,11 +32,11 @@ package anyway.core{
 			_stage3D.addEventListener(ErrorEvent.ERROR, onError);
 		}
 		
-		aw_ns function get camera():AWCamera {
+		ns_aw function get camera():AWCamera {
 			return _camera;
 		}
 		
-		aw_ns function set camera(value:AWCamera):void{
+		ns_aw function set camera(value:AWCamera):void{
 			if (_camera == value)
 				return;
 			_camera = value;
@@ -47,15 +47,35 @@ package anyway.core{
 			}
 		}
 		
-		aw_ns function render():void{
+		private var sh:TexturedRender = new TexturedRender();
+		
+		ns_aw function render():void{
 			_context3D.clear(0.94, 0.94, 0.94);
 			
+			var q:AWQuad = _camera.scene.getChildAt(0) as AWQuad;
 			
+			sh.upload(_context3D);
+			sh.setGeometry(q._vertexData, q._indexData, q.ttt);
+			
+//			var t:AWMatrix = new AWMatrix();
+//			t.identity();
+//			t.multiply(q.transform);
+//			t.multiply(_camera.cameraMatrix());
+//			t.multiply(perspectiveMatrix());
+			var mw:AWMatrix = q.transform.transpose();
+			var c:AWMatrix = _camera.cameraMatrix().transpose();
+			var p:AWMatrix = perspectiveMatrix().transpose();
+			
+			sh.render(mw._raw_data, c._raw_data, p._raw_data);
 			_context3D.present();
 		}
 		
 		private function perspectiveMatrix():AWMatrix {
-			return AWMathUtil.perspectiveFieldOfViewLH(_camera._fovy * AWMathConst.DEG_2_RAD, _monitor_width / _monitor_height, _camera._zNear, _camera._zFar);
+			return AWMathUtil.makeProjectionMatrix(_camera._fovx_deg, _monitor_width / _monitor_height, _camera._near, _camera._far);
+		}
+		
+		private function screenMatrix():AWMatrix{
+			return AWMathUtil.makeScreenMatrix(_monitor_width, _monitor_width, _monitor_height, _monitor_height, _monitor_width / _monitor_height);
 		}
 		
 		private function onContext3DCreate(event:Event):void {

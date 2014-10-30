@@ -1,9 +1,9 @@
 package anyway.geometry {
 
-	import anyway.core.aw_ns;
+	import anyway.core.ns_aw;
 	import anyway.utils.AWFormatUtil;
 
-	use namespace aw_ns;
+	use namespace ns_aw;
 
 	/**
 	 * 向量
@@ -16,7 +16,7 @@ package anyway.geometry {
 			_raw_data[3] = w;
 		}
 
-		aw_ns const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
+		ns_aw const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
 
 		/**
 		 * 向量长度（模）
@@ -35,14 +35,12 @@ package anyway.geometry {
 		/**
 		 * 归一化
 		 */
-		public function normalize():AWVector {
+		public function normalize():void {
 			var len:Number = this.length;
 
 			_raw_data[0] /= len;
 			_raw_data[1] /= len;
 			_raw_data[2] /= len;
-
-			return this;
 		}
 
 		/**
@@ -50,11 +48,10 @@ package anyway.geometry {
 		 * @param target
 		 * @return
 		 */
-		public function addition(right:AWVector):AWVector {
+		public function addition(right:AWVector):void {
 			_raw_data[0] += right._raw_data[0];
 			_raw_data[1] += right._raw_data[1];
 			_raw_data[2] += right._raw_data[2];
-			return this;
 		}
 
 		/**
@@ -62,11 +59,10 @@ package anyway.geometry {
 		 * @param target
 		 * @return
 		 */
-		public function subtraction(right:AWVector):AWVector {
+		public function subtraction(right:AWVector):void {
 			_raw_data[0] -= right._raw_data[0];
 			_raw_data[1] -= right._raw_data[1];
 			_raw_data[2] -= right._raw_data[2];
-			return this;
 		}
 
 		/**
@@ -88,14 +84,13 @@ package anyway.geometry {
 		 * 向量叉积（向量积）
 		 * @param target
 		 */
-		public function crossProduct(right:AWVector):AWVector {
+		public function crossProduct(right:AWVector):void {
 			var x:Number = _raw_data[1] * right._raw_data[2] - right._raw_data[1] * _raw_data[2];
 			var y:Number = -_raw_data[0] * right._raw_data[2] + right._raw_data[0] * _raw_data[2];
 			var z:Number = _raw_data[0] * right._raw_data[1] - right._raw_data[0] * _raw_data[1];
 			_raw_data[0] = x;
 			_raw_data[1] = y;
 			_raw_data[2] = z;
-			return this;
 		}
 
 		public function copyRawData(raw_data:Vector.<Number>):void {
@@ -130,11 +125,12 @@ package anyway.geometry {
 			if(_raw_data[3] != target._raw_data[3]) {
 				return false;
 			}
+			
 			return true;
 		}
 
-		public function toString():String {
-			return AWFormatUtil.format_vector(this);
+		public function format():void {
+			trace(AWFormatUtil.format_vector(this));
 		}
 
 		public function get x():Number {

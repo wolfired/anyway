@@ -1,11 +1,10 @@
 package anyway.display {
 
 	import anyway.constant.AWCoordinateConst;
-	import anyway.core.aw_ns;
+	import anyway.core.ns_aw;
 	import anyway.geometry.AWMatrix;
 
-	use namespace aw_ns;
-
+	use namespace ns_aw;
 
 	public class AWDisplayObject {
 
@@ -21,11 +20,13 @@ package anyway.display {
 		protected var _sx:Number = 1.0;
 		protected var _sy:Number = 1.0;
 		protected var _sz:Number = 1.0;
-
-		aw_ns var _parent:AWDisplayObjectContainer;
-		aw_ns var _index:uint;
-		aw_ns const _transform:AWMatrix = new AWMatrix();
-		aw_ns var _transformDirty:Boolean = true;
+		
+		private const _transform:AWMatrix = new AWMatrix();
+		private var _transformDirty:Boolean = true;
+		
+		ns_aw var _parent:AWDisplayObjectContainer = null;
+		ns_aw var _pre:AWDisplayObject = null;
+		ns_aw var _nxt:AWDisplayObject = null;
 
 		public function get rx():Number {
 			return _rx;
@@ -133,6 +134,10 @@ package anyway.display {
 			_sz = value;
 
 			_transformDirty = true;
+		}
+		
+		public function delSelf():void{
+			_parent && _parent.delChild(this);
 		}
 
 		public final function get transform():AWMatrix {

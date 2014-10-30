@@ -8,39 +8,40 @@ package anyway.core {
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	
-	import anyway.events.AWEventRouter;
-	
-	use namespace aw_ns;
+	use namespace ns_aw;
 
 	public final class Anyway {
 		private static var _instance:Anyway;
 
-		public static function get sington():Anyway {
-			return _instance;
-		}
-
-		public static function ready(stage:Stage, screen_width:Number, screen_height:Number):Anyway {
-			new AWEventRouter();
-			new Anyway(new ForceSington(), stage, screen_width, screen_height);
-
-			return _instance;
-		}
-
-		public function Anyway(fs:ForceSington, stage:Stage, screen_width:Number, screen_height:Number) {
-			SWITCH::debug {
-				if(null != _instance) {
-					throw new Error("Duplicate instance: Anyway");
-				}
-				if(null == fs){
-					throw new Error("Can not instance manually: Anyway");
-				}
+		public static function get ins():Anyway {
+			if(null == _instance){
+				_instance = new Anyway();
 			}
+			return _instance;
+		}
 
+		public function Anyway() {
+
+		}
+		
+		public function setup(stage:Stage, screen_width:Number, screen_height:Number):Anyway {
 			_stage = stage;
 			_screen_width = screen_width;
 			_screen_height = screen_height;
 			
-			_instance = this;
+			return this;
+		}
+		
+		public function go():void {
+			_stage.align = StageAlign.TOP;
+			_stage.quality = StageQuality.BEST;
+			_stage.scaleMode = StageScaleMode.NO_SCALE;
+			
+			_stage.addEventListener(MouseEvent.CLICK, onMouseClick);
+			_stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			_stage.addEventListener(Event.RESIZE, onResize);
+			_stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 
 		private var _stage:Stage;
@@ -51,18 +52,6 @@ package anyway.core {
 		private const _cameras:Vector.<AWCamera> = new Vector.<AWCamera>(4, true);
 		private const _monitors:Vector.<AWMonitor> = new Vector.<AWMonitor>(4, true);
 
-		public function go():void {
-			_stage.align = StageAlign.TOP;
-			_stage.quality = StageQuality.BEST;
-			_stage.scaleMode = StageScaleMode.NO_SCALE;
-
-			_stage.addEventListener(MouseEvent.CLICK, onMouseClick);
-			_stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-			_stage.addEventListener(Event.RESIZE, onResize);
-			_stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-		}
-		
 		public function getCamera(camera_no:uint):AWCamera{
 			if(null == _cameras[camera_no]){
 				_cameras[camera_no] = new AWCamera();
@@ -112,8 +101,4 @@ package anyway.core {
 			
 		}
 	}
-}
-
-class ForceSington {
-	
 }
