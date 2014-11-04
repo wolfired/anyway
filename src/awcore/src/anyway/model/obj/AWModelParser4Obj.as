@@ -19,6 +19,7 @@ package anyway.model.obj {
 		private const _handler_map:Array = [];
 		
 		public function AWModelParser4Obj() {
+			_handler_map[SIGN_POUND] = handler_comment;
 			_handler_map[SIGN_V] = handler_vertex;
 			_handler_map[SIGN_T] = handler_triangle;
 		}
@@ -36,6 +37,16 @@ package anyway.model.obj {
 			}
 			
 			return struct;
+		}
+		
+		private function handler_comment(bytes:ByteArray, struct:AWModelStruct4Obj):void{
+			var byte:uint;
+			while(true){
+				byte = bytes.readUnsignedByte();
+				if(SIGN_CR == byte || SIGN_LF == byte){
+					break;
+				}
+			}
 		}
 
 		private function handler_vertex(bytes:ByteArray, struct:AWModelStruct4Obj):void {

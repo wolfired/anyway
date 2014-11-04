@@ -9,14 +9,14 @@ package anyway.geometry {
 	 * 向量
 	 */
 	public final class AWVector {
+		ns_aw const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
+		
 		public function AWVector(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0, w:Number = 0.0) {
 			_raw_data[0] = x;
 			_raw_data[1] = y;
 			_raw_data[2] = z;
 			_raw_data[3] = w;
 		}
-
-		ns_aw const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
 
 		/**
 		 * 向量长度（模）

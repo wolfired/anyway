@@ -8,31 +8,28 @@ package anyway.core{
 	public final class AWMonitor{
 		private static var IDX:uint = 0;
 		
-		private var _monitor_x:Number;
-		private var _monitor_y:Number;
-		private var _monitor_width:Number;
-		private var _monitor_height:Number;
+		ns_aw var _monitor_x:Number;
+		ns_aw var _monitor_y:Number;
+		ns_aw var _monitor_width:Number;
+		ns_aw var _monitor_height:Number;
 		
-		private const _idx:uint = ++IDX;
-		private const _perspectiveMatrix:AWMatrix = new AWMatrix();
-		private var _isPerspectiveMatrixDirty:Boolean = true;
-		private const _screenMatrix:AWMatrix = new AWMatrix();
-		private var _isScreenMatrix:Boolean = true;
+		ns_aw const _idx:uint = ++IDX;
+		
+		ns_aw const _perspectiveMatrix:AWMatrix = new AWMatrix();
+		ns_aw var _isPerspectiveMatrixDirty:Boolean = true;
+		ns_aw const _screenMatrix:AWMatrix = new AWMatrix();
+		ns_aw var _isScreenMatrix:Boolean = true;
 		
 		public function AWMonitor(){
 		}
 		
-		public function setup(monitor_x:Number, monitor_y:Number, monitor_width:Number, monitor_height:Number):AWMonitor{
-			_monitor_x = monitor_x;
-			_monitor_y = monitor_y;
+		public function setup(monitor_width:Number, monitor_height:Number, monitor_x:Number = 0, monitor_y:Number = 0):AWMonitor{
 			_monitor_width = monitor_width;
 			_monitor_height = monitor_height;
+			_monitor_x = monitor_x;
+			_monitor_y = monitor_y;
 			
 			return this;
-		}
-		
-		public function get idx():uint{
-			return _idx;
 		}
 		
 		public function getPerspectiveMatrix(camera:AWCamera):AWMatrix {

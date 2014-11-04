@@ -6,8 +6,8 @@ package anyway.visual3d{
 	use namespace ns_aw;
 
 	public class AWQuad extends AWVisualObject{
-		ns_aw var _vertexData:Vector.<Number>;
-		ns_aw var _indexData:Vector.<uint>;
+		public var _vertexData:Vector.<Number>;
+		public var _indexData:Vector.<uint>;
 		public var ttt:BitmapData;
 		
 		public var original_width:Number = 400;

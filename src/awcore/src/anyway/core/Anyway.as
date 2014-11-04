@@ -13,7 +13,6 @@ package anyway.core {
 	
 	import anyway.shader.TexturedRender;
 	import anyway.visual3d.AWQuad;
-	import anyway.visual3d.AWVisualObject;
 	
 	use namespace ns_aw;
 
@@ -32,7 +31,9 @@ package anyway.core {
 		private var _stage3D:Stage3D;
 		private var _context3D:Context3D;
 		
-		public const _scenes:Array = [];
+		private const _scenes:Array = [];
+		private const _cameras:Array = [];
+		private const _monitors:Array = [];
 		private var tr:TexturedRender = new TexturedRender();
 		
 		public function Anyway() {
@@ -57,7 +58,7 @@ package anyway.core {
 		}
 		
 		public function addScene(scene:AWScene):uint{
-			var idx:uint = scene.idx;
+			var idx:uint = scene._idx;
 			_scenes[idx] = scene;
 			return idx;
 		}
@@ -67,6 +68,31 @@ package anyway.core {
 			delete _scenes[idx];
 			return scene;
 		}
+		
+		public function addMonitor(monitor:AWMonitor):uint{
+			var idx:uint = monitor._idx;
+			_monitors[idx] = monitor;
+			return idx;
+		}
+		
+		public function delMonitor(idx:uint):AWMonitor{
+			var monitor:AWMonitor = _monitors[idx];
+			delete _monitors[idx];
+			return monitor;
+		}
+		
+		public function addCamera(camera:AWCamera):uint{
+			var idx:uint = camera._idx;
+			_cameras[idx] = camera;
+			return idx;
+		}
+		
+		public function delCamera(idx:uint):AWCamera{
+			var camera:AWCamera = _cameras[idx];
+			delete _cameras[idx];
+			return camera;
+		}
+
 		
 		private function onKeyDown(event:KeyboardEvent):void {
 			
@@ -87,20 +113,7 @@ package anyway.core {
 		private function onEnterFrame(event:Event):void {
 			_context3D.clear(0.94, 0.94, 0.94);
 			
-			var q:AWQuad;
-			for each (var scene:AWScene in _scenes) {
-				scene.foreachCamera(function(monitor:AWMonitor, camera:AWCamera):void{
-					scene.foreach(function(vo:AWVisualObject):void{
-						q = vo as AWQuad;
-						
-						tr.setGeometry(q._vertexData, q._indexData, q.ttt);
-						tr.render(q.transform.copy.transpose()._raw_data, 
-							camera.getCameraMatrix().copy.transpose()._raw_data, 
-							monitor.getPerspectiveMatrix(camera).copy.transpose()._raw_data,
-							Vector.<Number>([_stage.stageWidth / q.original_width, _stage.stageHeight / q.original_height, 1, 1]));
-					});
-				});
-			}
+			tr.render();
 			
 			_context3D.present();
 		}
@@ -109,13 +122,26 @@ package anyway.core {
 			_context3D = _stage3D.context3D;
 			tr.upload(_context3D);
 			
+			if(_scenes[1]){
+				var s:AWScene = _scenes[1] as AWScene;
+				var c:AWCamera = _cameras[1] as AWCamera;
+				var m:AWMonitor = _monitors[1] as AWMonitor;
+				
+				var q:AWQuad = s.getChildAt(0) as AWQuad;
+				tr.setGeometry(q._vertexData, q._indexData, q.ttt);
+				tr.preRender(q.transform.copy.transpose()._raw_data, 
+					c.getCameraMatrix().copy.transpose()._raw_data, 
+					m.getPerspectiveMatrix(c).copy.transpose()._raw_data,
+					Vector.<Number>([1, 1, 1, 1]));
+			}
+			
 			this.reset3DContext();
 			
 			_stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
 		private function reset3DContext():void{
-			_context3D.configureBackBuffer(_stage.stageWidth, _stage.stageHeight, 8);
+			_context3D.configureBackBuffer(_stage.stageWidth, _stage.stageHeight, 32);
 		}
 		
 		private function onError(event:ErrorEvent):void {

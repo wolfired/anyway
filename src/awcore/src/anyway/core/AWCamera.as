@@ -16,12 +16,12 @@ package anyway.core {
 		ns_aw var _near:Number = 0.01;
 		ns_aw var _far:Number = 1000;
 		
-		private const _idx:uint = ++IDX;
-		private const _monitors:Array = [];
-		private const _camera_place_at:AWVector = new AWVector(0.0, 0.0, 0.0);
-		private const _camera_point_to:AWVector = new AWVector(0.0, 0.0, 1.0);
-		private const _cameraMatrix:AWMatrix = new AWMatrix();
-		private var _isCameraMatrixDirty:Boolean = true;
+		ns_aw const _idx:uint = ++IDX;
+		
+		ns_aw const _camera_place_at:AWVector = new AWVector(0.0, 0.0, 0.0);
+		ns_aw const _camera_point_to:AWVector = new AWVector(0.0, 0.0, 1.0);
+		ns_aw const _cameraMatrix:AWMatrix = new AWMatrix();
+		ns_aw var _isCameraMatrixDirty:Boolean = true;
 		
 		public function setup(fovx_deg:Number = 90.0, near:Number = 0.01, far:Number = 1000.0):AWCamera{
 			_fovx_deg = fovx_deg;
@@ -29,22 +29,6 @@ package anyway.core {
 			_far = far;
 			
 			return this;
-		}
-		
-		public function get idx():uint{
-			return _idx;
-		}
-		
-		public function connect(monitor:AWMonitor):uint{
-			var idx:uint = monitor.idx;
-			_monitors[idx] = monitor;
-			return idx;
-		}
-		
-		public function disconnect(idx:uint):AWMonitor{
-			var monitor:AWMonitor = _monitors[idx];
-			delete _monitors[idx];
-			return monitor;
 		}
 		
 		public function place_at(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0):AWCamera {
@@ -65,12 +49,6 @@ package anyway.core {
 				AWMathUtil.makeUVNMatrix(_camera_place_at, _camera_point_to, new AWVector(0.0, 1.0, 0.0)).copyToMatrix(_cameraMatrix);
 			}
 			return _cameraMatrix;
-		}
-		
-		public function foreachMonitor(handler:Function, camera:AWCamera):void{
-			for each (var monitor:AWMonitor in _monitors) {
-				handler(monitor, camera);
-			}
 		}
 	}
 }

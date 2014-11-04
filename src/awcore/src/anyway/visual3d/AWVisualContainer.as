@@ -5,12 +5,11 @@ package anyway.visual3d {
 	use namespace ns_aw;
 
 	public class AWVisualContainer extends AWVisualObject {
+		ns_aw var _count:uint = 0;
 
 		public function AWVisualContainer() {
 			_pre = _nxt = this;
 		}
-		
-		ns_aw var _count:uint = 0;
 		
 		public function addChild(child:AWVisualObject):void{
 			child.delSelf();

@@ -7,26 +7,25 @@ package anyway.visual3d {
 	use namespace ns_aw;
 
 	public class AWVisualObject {
-
-		public function AWVisualObject() {
-		}
-
-		protected var _rx:Number = 0.0;
-		protected var _ry:Number = 0.0;
-		protected var _rz:Number = 0.0;
-		protected var _x:Number = 0.0;
-		protected var _y:Number = 0.0;
-		protected var _z:Number = 0.0;
-		protected var _sx:Number = 1.0;
-		protected var _sy:Number = 1.0;
-		protected var _sz:Number = 1.0;
+		ns_aw var _rx:Number = 0.0;
+		ns_aw var _ry:Number = 0.0;
+		ns_aw var _rz:Number = 0.0;
+		ns_aw var _x:Number = 0.0;
+		ns_aw var _y:Number = 0.0;
+		ns_aw var _z:Number = 0.0;
+		ns_aw var _sx:Number = 1.0;
+		ns_aw var _sy:Number = 1.0;
+		ns_aw var _sz:Number = 1.0;
 		
-		private var _transform:AWMatrix = new AWMatrix();
-		private var _transformDirty:Boolean = true;
+		ns_aw const _transform:AWMatrix = new AWMatrix();
+		ns_aw var _transformDirty:Boolean = true;
 		
 		ns_aw var _parent:AWVisualContainer = null;
 		ns_aw var _pre:AWVisualObject = null;
 		ns_aw var _nxt:AWVisualObject = null;
+
+		public function AWVisualObject() {
+		}
 
 		public function get rx():Number {
 			return _rx;

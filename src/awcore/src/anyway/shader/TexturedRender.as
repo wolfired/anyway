@@ -24,12 +24,10 @@ package anyway.shader{
 		/// x, y, z, u, v
 		public const DATA32_PER_VERTEX:uint = 5;
 		
-		
 		public function TexturedRender() {
 			// Passing true here means we'll assemble the shader in debug mode
 			super(true);
 		}
-		
 		
 		override protected function _vertexShader():void {
 			comment("Apply a 4x4 matrix to transform vertices to clip-space");
@@ -42,13 +40,11 @@ package anyway.shader{
 			move(VARYING[0], ATTRIBUTE[1]);
 		}
 		
-		
 		override protected function _fragmentShader():void {
 			comment("Use UV coordinates passed from vertex shader to sample the texture");
 			sampleTexture(TEMP[1], VARYING[0], SAMPLER[0], [TextureFlag.TYPE_2D, TextureFlag.MODE_CLAMP, TextureFlag.FILTER_LINEAR]);
 			move(OUTPUT, TEMP[1]);
 		}
-		
 		
 		public function setGeometry(vertices:Vector.<Number>, indices:Vector.<uint>, textureBitmap:BitmapData):void {
 			// Upload vertex data
@@ -67,8 +63,7 @@ package anyway.shader{
 			texture3D.uploadFromBitmapData(textureBitmap);
 		}
 		
-		
-		public function render(mw:Vector.<Number>, c:Vector.<Number>, p:Vector.<Number>, s:Vector.<Number>):void {
+		public function preRender(mw:Vector.<Number>, c:Vector.<Number>, p:Vector.<Number>, s:Vector.<Number>):void {
 			// Tell the 3D context that this is the current shader program to be rendered
 			context.setProgram(program);
 			
@@ -87,9 +82,12 @@ package anyway.shader{
 			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 12, s);
 			
 			// Render the shader!
-			context.drawTriangles(indexBuffer);
+			
 		}
 		
+		public function render():void{
+			context.drawTriangles(indexBuffer);
+		}
 		
 		override public function dispose():void {
 			if (texture3D) {
@@ -106,8 +104,6 @@ package anyway.shader{
 			}
 			super.dispose();
 		}
-		
-		
 	}
 }
 

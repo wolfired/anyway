@@ -10,11 +10,11 @@ package anyway.geometry {
 	 * 矩阵
 	 */
 	public final class AWMatrix {
+		ns_aw const _raw_data:Vector.<Number> = new Vector.<Number>(16, true);
+		
 		public function AWMatrix() {
 		}
 		
-		ns_aw const _raw_data:Vector.<Number> = new Vector.<Number>(16, true);
-
 		public function identity():AWMatrix {
 			_raw_data[0] = 1;
 			_raw_data[1] = 0;

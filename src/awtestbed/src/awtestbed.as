@@ -19,7 +19,7 @@ package {
 	import ocore.manager.log.LogManager;
 	import ocore.util.Callback;
 
-	[SWF(width = 400, height = 400, frameRate = "60")]
+	[SWF(width = 600, height = 600, frameRate = 60)]
 	public class awtestbed extends Sprite {
 
 		public function awtestbed() {
@@ -60,23 +60,27 @@ package {
 			var obj:AWModelStruct = new AWModelParser4Obj().parser(ab.raw_data) as AWModelStruct4Obj;
 			
 			var ai:AssetIMG = AssetManager.ins.gainAsset(AssetRegister.ins.getAssetUrl("box", "png"), true) as AssetIMG;
-			
-			
+
 			Anyway.ins.setup(this.stage);
 			
-			var monitor:AWMonitor = new AWMonitor().setup(0, 0, 400, 400);
+			var monitor:AWMonitor = new AWMonitor().setup(600, 600);
+			Anyway.ins.addMonitor(monitor);
 			var camera:AWCamera = new AWCamera().setup();
-			camera.connect(monitor);
-			
+			camera.place_at(0, 1, -2);
+			camera.point_to(0, 0, 0);
+			Anyway.ins.addCamera(camera);
 			var scene:AWScene = new AWScene();
-			scene.connect(camera);
 			Anyway.ins.addScene(scene);
 
 			var q:AWQuad = new AWQuad();
-			q.z = 2;
-			q.setSize(2, 2);
+			q.z = -0.5;
+//			q.rx = 45;
+			q.ry = 45;
+//			q.rz = 45;
+			q._vertexData = obj.vertexData;
+			q._indexData = obj.indexData;
+//			q.setSize(2, 2);
 			q.ttt = ai.real_data;
-			
 			scene.addChild(q);
 		}
 	}
