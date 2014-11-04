@@ -10,7 +10,7 @@ package {
 	import anyway.model.AWModelStruct;
 	import anyway.model.obj.AWModelParser4Obj;
 	import anyway.model.obj.AWModelStruct4Obj;
-	import anyway.visual.AWQuad;
+	import anyway.visual3d.AWQuad;
 	
 	import ocore.manager.asset.AssetBase;
 	import ocore.manager.asset.AssetManager;
@@ -19,7 +19,7 @@ package {
 	import ocore.manager.log.LogManager;
 	import ocore.util.Callback;
 
-	[SWF(width = 400, height = 400, frameRate = "24")]
+	[SWF(width = 400, height = 400, frameRate = "60")]
 	public class awtestbed extends Sprite {
 
 		public function awtestbed() {
@@ -64,10 +64,13 @@ package {
 			
 			Anyway.ins.setup(this.stage);
 			
-			
-			var monitor:AWMonitor = new AWMonitor().setup(this.stage.stage3Ds[0], this.stage.stageWidth, this.stage.stageHeight);
+			var monitor:AWMonitor = new AWMonitor().setup(0, 0, 400, 400);
 			var camera:AWCamera = new AWCamera().setup();
+			camera.connect(monitor);
+			
 			var scene:AWScene = new AWScene();
+			scene.connect(camera);
+			Anyway.ins.addScene(scene);
 
 			var q:AWQuad = new AWQuad();
 			q.z = 2;

@@ -1,4 +1,4 @@
-package anyway.visual{
+package anyway.visual3d{
 	import flash.display.BitmapData;
 	
 	import anyway.core.ns_aw;
@@ -9,6 +9,9 @@ package anyway.visual{
 		ns_aw var _vertexData:Vector.<Number>;
 		ns_aw var _indexData:Vector.<uint>;
 		public var ttt:BitmapData;
+		
+		public var original_width:Number = 400;
+		public var original_height:Number = 400;
 		
 		public function AWQuad(){
 			_indexData = Vector.<uint>([0, 1, 2, 0, 2, 3]);

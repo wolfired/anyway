@@ -35,7 +35,8 @@ package anyway.shader{
 			comment("Apply a 4x4 matrix to transform vertices to clip-space");
 			multiply4x4(TEMP[0], ATTRIBUTE[0], CONST[0]);
 			multiply4x4(TEMP[1], TEMP[0], CONST[4]);
-			multiply4x4(OUTPUT, TEMP[1], CONST[8]);
+			multiply4x4(TEMP[2], TEMP[1], CONST[8]);
+			divide(OUTPUT, TEMP[2], CONST[12]);
 			
 			comment("Pass uv coordinates to fragment shader");
 			move(VARYING[0], ATTRIBUTE[1]);
@@ -67,7 +68,7 @@ package anyway.shader{
 		}
 		
 		
-		public function render(mw:Vector.<Number>, c:Vector.<Number>, p:Vector.<Number>):void {
+		public function render(mw:Vector.<Number>, c:Vector.<Number>, p:Vector.<Number>, s:Vector.<Number>):void {
 			// Tell the 3D context that this is the current shader program to be rendered
 			context.setProgram(program);
 			
@@ -83,6 +84,7 @@ package anyway.shader{
 			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, mw);
 			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, c);
 			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 8, p);
+			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 12, s);
 			
 			// Render the shader!
 			context.drawTriangles(indexBuffer);

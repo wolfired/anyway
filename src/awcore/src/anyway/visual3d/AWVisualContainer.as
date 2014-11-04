@@ -1,4 +1,4 @@
-package anyway.visual {
+package anyway.visual3d {
 
 	import anyway.core.ns_aw;
 
