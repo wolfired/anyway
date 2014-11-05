@@ -141,7 +141,7 @@ package anyway.core {
 		}
 		
 		private function reset3DContext():void{
-			_context3D.configureBackBuffer(_stage.stageWidth, _stage.stageHeight, 32);
+			_context3D.configureBackBuffer(_stage.stageWidth, _stage.stageHeight, 8);
 		}
 		
 		private function onError(event:ErrorEvent):void {

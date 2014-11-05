@@ -32,6 +32,10 @@ package anyway.utils{
 			return "<" + format_number(vector._raw_data[0]) + ", " + format_number(vector._raw_data[1]) + ", " + format_number(vector._raw_data[2]) + ">";
 		}
 		
+		public static function format_vector_in_raw_data(raw_data:Vector.<Number>):String{
+			return "<" + format_number(raw_data[0]) + ", " + format_number(raw_data[1]) + ", " + format_number(raw_data[2]) + ">";
+		}
+		
 		public static function format_matrix(matrix:AWMatrix):String {
 			var result:Vector.<String> = new Vector.<String>();
 			

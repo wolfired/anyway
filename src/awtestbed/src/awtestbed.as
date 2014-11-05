@@ -3,10 +3,12 @@ package {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
+	import anyway.constant.AWMathConst;
 	import anyway.core.AWCamera;
 	import anyway.core.AWMonitor;
 	import anyway.core.AWScene;
 	import anyway.core.Anyway;
+	import anyway.geometry.AWQuaternion;
 	import anyway.model.AWModelStruct;
 	import anyway.model.obj.AWModelParser4Obj;
 	import anyway.model.obj.AWModelStruct4Obj;
@@ -56,6 +58,12 @@ package {
 		private function wait4asset():void{
 			LogManager.ins.print();
 			
+			var c:Number = 90.0;
+			var pp:AWQuaternion = new AWQuaternion(0, 0, 1, 0);
+			var qq:AWQuaternion = new AWQuaternion(Math.sin(c / 2 * AWMathConst.DEG_2_RAD), 0, 0, Math.cos(c / 2 * AWMathConst.DEG_2_RAD));
+			var qq_:AWQuaternion = qq.inverse();
+//			qq.multiply(pp.multiply(qq_)).format();
+			
 			var ab:AssetBase = AssetManager.ins.gainAsset(AssetRegister.ins.getAssetUrl("box", "def", "res/"), true);
 			var obj:AWModelStruct = new AWModelParser4Obj().parser(ab.raw_data) as AWModelStruct4Obj;
 			
@@ -66,16 +74,16 @@ package {
 			var monitor:AWMonitor = new AWMonitor().setup(600, 600);
 			Anyway.ins.addMonitor(monitor);
 			var camera:AWCamera = new AWCamera().setup();
-			camera.place_at(0, 1, -2);
+			camera.place_at(0, 0, -2);
 			camera.point_to(0, 0, 0);
 			Anyway.ins.addCamera(camera);
 			var scene:AWScene = new AWScene();
 			Anyway.ins.addScene(scene);
 
 			var q:AWQuad = new AWQuad();
-			q.z = -0.5;
+			q.z = 0;
 //			q.rx = 45;
-			q.ry = 45;
+//			q.ry = 45;
 //			q.rz = 45;
 			q._vertexData = obj.vertexData;
 			q._indexData = obj.indexData;

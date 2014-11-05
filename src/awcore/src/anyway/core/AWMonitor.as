@@ -16,9 +16,9 @@ package anyway.core{
 		ns_aw const _idx:uint = ++IDX;
 		
 		ns_aw const _perspectiveMatrix:AWMatrix = new AWMatrix();
-		ns_aw var _isPerspectiveMatrixDirty:Boolean = true;
+		ns_aw var _perspectiveMatrixDirty:Boolean = true;
 		ns_aw const _screenMatrix:AWMatrix = new AWMatrix();
-		ns_aw var _isScreenMatrix:Boolean = true;
+		ns_aw var _screenMatrixDirty:Boolean = true;
 		
 		public function AWMonitor(){
 		}
@@ -33,16 +33,16 @@ package anyway.core{
 		}
 		
 		public function getPerspectiveMatrix(camera:AWCamera):AWMatrix {
-			if(_isPerspectiveMatrixDirty){
-				_isPerspectiveMatrixDirty = false;
+			if(_perspectiveMatrixDirty){
+				_perspectiveMatrixDirty = false;
 				AWMathUtil.makeProjectionMatrix(camera._fovx_deg, _monitor_width / _monitor_height, camera._near, camera._far).copyToMatrix(_perspectiveMatrix);
 			}
 			return _perspectiveMatrix;
 		}
 		
 		public function getScreenMatrix():AWMatrix{
-			if(_isScreenMatrix){
-				_isScreenMatrix = false;
+			if(_screenMatrixDirty){
+				_screenMatrixDirty = false;
 				AWMathUtil.makeScreenMatrix(_monitor_width, _monitor_width, _monitor_height, _monitor_height, _monitor_width / _monitor_height).copyToMatrix(_screenMatrix);
 			}
 			return _screenMatrix;

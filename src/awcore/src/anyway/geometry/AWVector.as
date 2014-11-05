@@ -66,11 +66,10 @@ package anyway.geometry {
 			_raw_data[0] -= right._raw_data[0];
 			_raw_data[1] -= right._raw_data[1];
 			_raw_data[2] -= right._raw_data[2];
-			_raw_data[3] -= right._raw_data[3];
 			
 			return this;
 		}
-
+		
 		/**
 		 * 向量点积（数量积，内积）
 		 * @return
