@@ -6,14 +6,10 @@ package anyway.core{
 	use namespace ns_aw;
 
 	public final class AWMonitor{
-		private static var IDX:uint = 0;
-		
 		ns_aw var _monitor_x:Number;
 		ns_aw var _monitor_y:Number;
 		ns_aw var _monitor_width:Number;
 		ns_aw var _monitor_height:Number;
-		
-		ns_aw const _idx:uint = ++IDX;
 		
 		ns_aw const _perspectiveMatrix:AWMatrix = new AWMatrix();
 		ns_aw var _perspectiveMatrixDirty:Boolean = true;

@@ -13,6 +13,7 @@ package anyway.core {
 	
 	import anyway.shader.TexturedRender;
 	import anyway.visual3d.AWQuad;
+	import anyway.visual3d.AWVisualObject;
 	
 	use namespace ns_aw;
 
@@ -31,15 +32,18 @@ package anyway.core {
 		private var _stage3D:Stage3D;
 		private var _context3D:Context3D;
 		
-		private const _scenes:Array = [];
-		private const _cameras:Array = [];
-		private const _monitors:Array = [];
+		private var _frame_rate:Number;
+		
+		private const _scene:AWScene = new AWScene();
+		private const _camera:AWCamera = new AWCamera();
+		private const _monitor:AWMonitor = new AWMonitor();
+		
 		private var tr:TexturedRender = new TexturedRender();
 		
 		public function Anyway() {
 		}
 		
-		public function setup(stage:Stage):void {
+		public function setup(stage:Stage, frame_rate:Number = 1 / 24):void {
 			_stage = stage;
 			_stage.align = StageAlign.TOP_LEFT;
 			_stage.quality = StageQuality.BEST;
@@ -48,6 +52,7 @@ package anyway.core {
 			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			_stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 			_stage.addEventListener(MouseEvent.CLICK, onMouseClick);
+			_stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 			_stage.addEventListener(Event.RESIZE, onResize);
 			
 			_stage3D = _stage.stage3Ds[0];
@@ -57,53 +62,28 @@ package anyway.core {
 			_stage3D.requestContext3D();
 		}
 		
-		public function addScene(scene:AWScene):uint{
-			var idx:uint = scene._idx;
-			_scenes[idx] = scene;
-			return idx;
+		public function get scene():AWScene{
+			return _scene;
 		}
 		
-		public function delScene(idx:uint):AWScene{
-			var scene:AWScene = _scenes[idx];
-			delete _scenes[idx];
-			return scene;
+		public function get camera():AWCamera{
+			return _camera;
 		}
 		
-		public function addMonitor(monitor:AWMonitor):uint{
-			var idx:uint = monitor._idx;
-			_monitors[idx] = monitor;
-			return idx;
+		public function get monitor():AWMonitor{
+			return _monitor;
 		}
-		
-		public function delMonitor(idx:uint):AWMonitor{
-			var monitor:AWMonitor = _monitors[idx];
-			delete _monitors[idx];
-			return monitor;
-		}
-		
-		public function addCamera(camera:AWCamera):uint{
-			var idx:uint = camera._idx;
-			_cameras[idx] = camera;
-			return idx;
-		}
-		
-		public function delCamera(idx:uint):AWCamera{
-			var camera:AWCamera = _cameras[idx];
-			delete _cameras[idx];
-			return camera;
-		}
-
 		
 		private function onKeyDown(event:KeyboardEvent):void {
-			
 		}
 
 		private function onKeyUp(event:KeyboardEvent):void {
-			
 		}
-
 		private function onMouseClick(event:MouseEvent):void {
-			
+			trace("[" + event.localX + ":" + event.localY + "]");
+			trace("[" + event.stageX + ":" + event.stageY + "]");
+		}
+		private function onMouseMove(event:MouseEvent):void {
 		}
 
 		private function onResize(event:Event):void {
@@ -113,7 +93,17 @@ package anyway.core {
 		private function onEnterFrame(event:Event):void {
 			_context3D.clear(0.94, 0.94, 0.94);
 			
-			tr.render();
+			_camera.rotate(-2, 0, 1, 0);
+			
+			_scene.foreach(function(vo:AWVisualObject):void{
+				var q:AWQuad = vo as AWQuad;
+				tr.setGeometry(q._vertexData, q._indexData, q.ttt);
+				tr.preRender(q.transform.copy.transpose()._raw_data, 
+					_camera.getCameraMatrix().copy.transpose()._raw_data, 
+					_monitor.getPerspectiveMatrix(_camera).copy.transpose()._raw_data,
+					Vector.<Number>([1, 1, 1, 1]));
+				tr.render();
+			});
 			
 			_context3D.present();
 		}
@@ -121,19 +111,6 @@ package anyway.core {
 		private function onContext3DCreate(event:Event):void {
 			_context3D = _stage3D.context3D;
 			tr.upload(_context3D);
-			
-			if(_scenes[1]){
-				var s:AWScene = _scenes[1] as AWScene;
-				var c:AWCamera = _cameras[1] as AWCamera;
-				var m:AWMonitor = _monitors[1] as AWMonitor;
-				
-				var q:AWQuad = s.getChildAt(0) as AWQuad;
-				tr.setGeometry(q._vertexData, q._indexData, q.ttt);
-				tr.preRender(q.transform.copy.transpose()._raw_data, 
-					c.getCameraMatrix().copy.transpose()._raw_data, 
-					m.getPerspectiveMatrix(c).copy.transpose()._raw_data,
-					Vector.<Number>([1, 1, 1, 1]));
-			}
 			
 			this.reset3DContext();
 			
