@@ -6,6 +6,8 @@ package anyway.core {
 	import flash.display.StageQuality;
 	import flash.display.StageScaleMode;
 	import flash.display3D.Context3D;
+	import flash.display3D.Context3DBlendFactor;
+	import flash.display3D.Context3DTriangleFace;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
@@ -76,12 +78,9 @@ package anyway.core {
 		
 		private function onKeyDown(event:KeyboardEvent):void {
 		}
-
 		private function onKeyUp(event:KeyboardEvent):void {
 		}
 		private function onMouseClick(event:MouseEvent):void {
-			trace("[" + event.localX + ":" + event.localY + "]");
-			trace("[" + event.stageX + ":" + event.stageY + "]");
 		}
 		private function onMouseMove(event:MouseEvent):void {
 		}
@@ -92,8 +91,6 @@ package anyway.core {
 
 		private function onEnterFrame(event:Event):void {
 			_context3D.clear(0.94, 0.94, 0.94);
-			
-			_camera.rotate(-2, 0, 1, 0);
 			
 			_scene.foreach(function(vo:AWVisualObject):void{
 				var q:AWQuad = vo as AWQuad;
@@ -110,6 +107,9 @@ package anyway.core {
 		
 		private function onContext3DCreate(event:Event):void {
 			_context3D = _stage3D.context3D;
+			_context3D.setCulling(Context3DTriangleFace.BACK);
+			_context3D.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
+			
 			tr.upload(_context3D);
 			
 			this.reset3DContext();

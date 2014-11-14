@@ -15,6 +15,7 @@ package anyway.core {
 		
 		ns_aw const _camera_place_at:AWVector = new AWVector(0.0, 0.0, 0.0);
 		ns_aw const _camera_point_to:AWVector = new AWVector(0.0, 0.0, 1.0);
+		ns_aw const _camera_up_vector:AWVector = new AWVector(0.0, 1.0, 0.0);
 		ns_aw const _cameraMatrix:AWMatrix = new AWMatrix();
 		ns_aw var _cameraMatrixDirty:Boolean = true;
 		
@@ -64,6 +65,12 @@ package anyway.core {
 			_camera_point_to.copyFromRawData(result_quaternion._raw_data);
 			_camera_point_to.w = 1;
 			
+			point_quaternion = point_quaternion.reset(_camera_up_vector._raw_data[0], _camera_up_vector._raw_data[1], _camera_up_vector._raw_data[2], 0);
+			result_quaternion = rotate_quaternion.copy;
+			result_quaternion.multiply(point_quaternion.multiply(rotate_quaternion_));
+			_camera_up_vector.copyFromRawData(result_quaternion._raw_data);
+			_camera_up_vector.w = 0;
+			
 			_cameraMatrixDirty = true;
 		}
 		
@@ -71,7 +78,7 @@ package anyway.core {
 			if(_cameraMatrixDirty){
 				_cameraMatrixDirty = false;
 				
-				AWMathUtil.makeUVNMatrix(_camera_place_at, _camera_point_to, new AWVector(0.0, 1.0, 0.0)).copyToMatrix(_cameraMatrix);
+				AWMathUtil.makeUVNMatrix(_camera_place_at, _camera_point_to, _camera_up_vector).copyToMatrix(_cameraMatrix);
 			}
 			return _cameraMatrix;
 		}
