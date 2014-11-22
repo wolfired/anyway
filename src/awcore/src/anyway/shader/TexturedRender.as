@@ -82,7 +82,6 @@ package anyway.shader{
 			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 12, s);
 			
 			// Render the shader!
-			
 		}
 		
 		public function render():void{

@@ -45,6 +45,14 @@ package anyway.geometry {
 			
 			return this;
 		}
+		
+		public function scale(v:Number):AWVector{
+			_raw_data[0] *= v;
+			_raw_data[1] *= v;
+			_raw_data[2] *= v;
+			
+			return this;
+		}
 
 		/**
 		 * 向量加法

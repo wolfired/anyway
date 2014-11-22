@@ -42,6 +42,39 @@ package anyway.core {
 			return this;
 		}
 		
+		public function translate_xyz(tx:Number, ty:Number, tz:Number):void{
+			_camera_place_at.x += tx;
+			_camera_place_at.y += ty;
+			_camera_place_at.z += tz;
+			
+			_camera_point_to.x += tx;
+			_camera_point_to.y += ty;
+			_camera_point_to.z += tz;
+			
+			_cameraMatrixDirty = true;
+		}
+		
+		public function translate_uvn(tu:Number, tv:Number, tn:Number):void{
+			var n:AWVector = _camera_point_to.copy.subtraction(_camera_place_at).normalize();
+			var u:AWVector = _camera_up_vector.copy.crossProduct(n).normalize();
+			var v:AWVector = n.copy.crossProduct(u);
+			
+			u.scale(tu);
+			v.scale(tv);
+			n.scale(tn);
+			_camera_place_at.addition(u).addition(v).addition(n);
+			_camera_point_to.addition(u).addition(v).addition(n);
+//			_camera_place_at.x += x;
+//			_camera_place_at.y += y;
+//			_camera_place_at.z += z;
+//			
+//			_camera_point_to.x += x;
+//			_camera_point_to.y += y;
+//			_camera_point_to.z += z;
+			
+			_cameraMatrixDirty = true;
+		}
+		
 		public function rotate(angle_deg:Number, x:Number, y:Number, z:Number):void{
 			var half_angle_rad:Number = angle_deg / 2.0 * AWMathConst.DEG_2_RAD;
 			var sin_:Number = Math.sin(half_angle_rad);
@@ -53,23 +86,25 @@ package anyway.core {
 			var point_quaternion:AWQuaternion = new AWQuaternion();
 			var result_quaternion:AWQuaternion;
 			
+			_camera_place_at.subtraction(_camera_point_to);
 			point_quaternion = point_quaternion.reset(_camera_place_at._raw_data[0], _camera_place_at._raw_data[1], _camera_place_at._raw_data[2], 0);
 			result_quaternion = rotate_quaternion.copy;
 			result_quaternion.multiply(point_quaternion.multiply(rotate_quaternion_));
 			_camera_place_at.copyFromRawData(result_quaternion._raw_data);
 			_camera_place_at.w = 1;
+			_camera_place_at.addition(_camera_point_to);
 			
-			point_quaternion = point_quaternion.reset(_camera_point_to._raw_data[0], _camera_point_to._raw_data[1], _camera_point_to._raw_data[2], 0);
-			result_quaternion = rotate_quaternion.copy;
-			result_quaternion.multiply(point_quaternion.multiply(rotate_quaternion_));
-			_camera_point_to.copyFromRawData(result_quaternion._raw_data);
-			_camera_point_to.w = 1;
+//			point_quaternion = point_quaternion.reset(_camera_point_to._raw_data[0], _camera_point_to._raw_data[1], _camera_point_to._raw_data[2], 0);
+//			result_quaternion = rotate_quaternion.copy;
+//			result_quaternion.multiply(point_quaternion.multiply(rotate_quaternion_));
+//			_camera_point_to.copyFromRawData(result_quaternion._raw_data);
+//			_camera_point_to.w = 1;
 			
-			point_quaternion = point_quaternion.reset(_camera_up_vector._raw_data[0], _camera_up_vector._raw_data[1], _camera_up_vector._raw_data[2], 0);
-			result_quaternion = rotate_quaternion.copy;
-			result_quaternion.multiply(point_quaternion.multiply(rotate_quaternion_));
-			_camera_up_vector.copyFromRawData(result_quaternion._raw_data);
-			_camera_up_vector.w = 0;
+//			point_quaternion = point_quaternion.reset(_camera_up_vector._raw_data[0], _camera_up_vector._raw_data[1], _camera_up_vector._raw_data[2], 0);
+//			result_quaternion = rotate_quaternion.copy;
+//			result_quaternion.multiply(point_quaternion.multiply(rotate_quaternion_));
+//			_camera_up_vector.copyFromRawData(result_quaternion._raw_data);
+//			_camera_up_vector.w = 0;
 			
 			_cameraMatrixDirty = true;
 		}

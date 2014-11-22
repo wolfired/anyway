@@ -46,6 +46,7 @@ package {
 			urls.push(AssetRegister.ins.getAssetUrl("box", "png"));
 			urls.push(AssetRegister.ins.getAssetUrl("hero", "png"));
 			urls.push(AssetRegister.ins.getAssetUrl("box", "def", "res/"));
+			urls.push(AssetRegister.ins.getAssetUrl("map", "def", "res/"));
 			
 			AssetManager.ins.fetchPackage(urls, false, 1, Callback.create(wait4asset), true);
 		}
@@ -53,8 +54,11 @@ package {
 		private function wait4asset():void{
 			LogManager.ins.print();
 			
-			var ab:AssetBase = AssetManager.ins.gainAsset(AssetRegister.ins.getAssetUrl("box", "def", "res/"), true);
-			var obj:AWModelStruct = new AWModelParser4Obj().parser(ab.raw_data) as AWModelStruct4Obj;
+			var box_ab:AssetBase = AssetManager.ins.gainAsset(AssetRegister.ins.getAssetUrl("box", "def", "res/"), true);
+			var box_obj:AWModelStruct = new AWModelParser4Obj().parser(box_ab.raw_data) as AWModelStruct4Obj;
+			
+			var map_ab:AssetBase = AssetManager.ins.gainAsset(AssetRegister.ins.getAssetUrl("map", "def", "res/"), true);
+			var map_obj:AWModelStruct = new AWModelParser4Obj().parser(map_ab.raw_data) as AWModelStruct4Obj;
 			
 			var ai:AssetIMG = AssetManager.ins.gainAsset(AssetRegister.ins.getAssetUrl("box", "png"), true) as AssetIMG;
 
@@ -62,23 +66,31 @@ package {
 			
 			Anyway.ins.monitor.setup(600, 600);
 			
-			Anyway.ins.camera.place_at(0, 0, -4);
-			Anyway.ins.camera.point_to(0, 0, 0);
+			Anyway.ins.camera.place_at(0, .5, -4);
+			Anyway.ins.camera.point_to(0, .5, 0);
 //			Anyway.ins.camera.rotate(45, 0, 1, 0);
 
 			var q1:AWQuad = new AWQuad();
-			q1.x = -1;
-			q1._vertexData = obj.vertexData;
-			q1._indexData = obj.indexData;
+			q1.x = 0;
+			q1.y = .5;
+			q1._vertexData = box_obj.vertexData;
+			q1._indexData = box_obj.indexData;
 			q1.ttt = ai.real_data;
 			Anyway.ins.scene.addChild(q1);
 			
 			var q2:AWQuad = new AWQuad();
-			q2.x = 1;
-			q2._vertexData = obj.vertexData;
-			q2._indexData = obj.indexData;
+			q2.x = 2;
+			q2.y = .5;
+			q2._vertexData = box_obj.vertexData;
+			q2._indexData = box_obj.indexData;
 			q2.ttt = ai.real_data;
 			Anyway.ins.scene.addChild(q2);
+			
+			var q3:AWQuad = new AWQuad();
+			q3._vertexData = map_obj.vertexData;
+			q3._indexData = map_obj.indexData;
+			q3.ttt = ai.real_data;
+			Anyway.ins.scene.addChild(q3);
 		}
 	}
 }
