@@ -1,6 +1,7 @@
 package anyway.core {
 
 	import anyway.constant.AWMathConst;
+	import anyway.face.AWSpacePositionI;
 	import anyway.geometry.AWMatrix;
 	import anyway.geometry.AWQuaternion;
 	import anyway.geometry.AWVector;
@@ -8,7 +9,7 @@ package anyway.core {
 
 	use namespace ns_aw;
 
-	public final class AWCamera {
+	public final class AWCamera implements AWSpacePositionI{
 		ns_aw var _fovx_deg:Number = 90.0;
 		ns_aw var _near:Number = 0.01;
 		ns_aw var _far:Number = 1000;
@@ -29,6 +30,30 @@ package anyway.core {
 			
 			return this;
 		}
+		
+		public function get x():Number{
+			return 0;
+		}
+		
+		public function set x(value:Number):void{
+		}
+		
+		public function get y():Number{
+			return 0;
+		}
+		
+		public function set y(value:Number):void{
+			
+		}
+		
+		public function get z():Number{
+			return 0;
+		}
+		
+		public function set z(value:Number):void{
+			
+		}
+		
 		
 		public function place_at(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0):AWCamera {
 			_camera_place_at.reset(x, y, z);
