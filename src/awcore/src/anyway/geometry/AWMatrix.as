@@ -15,6 +15,16 @@ package anyway.geometry {
 		public function AWMatrix() {
 		}
 		
+		public function get copy():AWMatrix{
+			var dst:AWMatrix = new AWMatrix();
+			this.copyToRawData(dst._raw_data);
+			return dst;
+		}
+		
+		public function format():void {
+			trace(AWFormatUtil.format_matrix(this));
+		}
+		
 		public function identity():AWMatrix {
 			_raw_data[0] = 1;
 			_raw_data[1] = 0;
@@ -38,7 +48,10 @@ package anyway.geometry {
 			
 			return this;
 		}
-
+		/**
+		 * 矩阵转置
+		 * @return 
+		 */
 		public function transpose():AWMatrix {
 			var temp:Number = 0.0;
 			
@@ -205,12 +218,6 @@ package anyway.geometry {
 			dst._raw_data[15] = _raw_data[15];
 		}
 		
-		public function get copy():AWMatrix{
-			var dst:AWMatrix = new AWMatrix();
-			this.copyToRawData(dst._raw_data);
-			return dst;
-		}
-
 		public function copyRowFrom(row:uint, raw_data:Vector.<Number>):void {
 			var mark:uint = row << 2;
 			_raw_data[mark + 0] = raw_data[0];
@@ -239,10 +246,6 @@ package anyway.geometry {
 			raw_data[1] = _raw_data[cloumn + 4];
 			raw_data[2] = _raw_data[cloumn + 8];
 			raw_data[3] = _raw_data[cloumn + 12];
-		}
-
-		public function format():void {
-			trace(AWFormatUtil.format_matrix(this));
 		}
 	}
 }

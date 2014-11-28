@@ -11,9 +11,9 @@ package anyway.core{
 		ns_aw var _monitor_width:Number;
 		ns_aw var _monitor_height:Number;
 		
-		ns_aw const _perspectiveMatrix:AWMatrix = new AWMatrix();
+		ns_aw var _perspectiveMatrix:AWMatrix = new AWMatrix();
 		ns_aw var _perspectiveMatrixDirty:Boolean = true;
-		ns_aw const _screenMatrix:AWMatrix = new AWMatrix();
+		ns_aw var _screenMatrix:AWMatrix = new AWMatrix();
 		ns_aw var _screenMatrixDirty:Boolean = true;
 		
 		public function AWMonitor(){

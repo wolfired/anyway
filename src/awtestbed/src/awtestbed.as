@@ -64,8 +64,6 @@ package {
 
 			Anyway.ins.setup(this.stage);
 			
-			Anyway.ins.monitor.setup(600, 600);
-			
 			Anyway.ins.camera.place_at(0, .5, -4);
 			Anyway.ins.camera.point_to(0, .5, 0);
 //			Anyway.ins.camera.rotate(45, 0, 1, 0);
@@ -73,10 +71,15 @@ package {
 			var q1:AWQuad = new AWQuad();
 			q1.x = 0;
 			q1.y = .5;
+//			q1.z = 0.51;
+//			q1.sx = q1.sy = 0.02;
 			q1._vertexData = box_obj.vertexData;
 			q1._indexData = box_obj.indexData;
 			q1.ttt = ai.real_data;
 			Anyway.ins.scene.addChild(q1);
+			
+			Anyway.ins.translateController.lock(q1);
+			Anyway.ins.translateController.lock(Anyway.ins.camera);
 			
 			var q2:AWQuad = new AWQuad();
 			q2.x = 2;

@@ -8,7 +8,7 @@ package anyway.geometry {
 	/**
 	 * 向量
 	 */
-	public final class AWVector {
+	public final class AWVector{
 		ns_aw const _raw_data:Vector.<Number> = new Vector.<Number>(4, true);
 		
 		public function AWVector(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0, w:Number = 0.0) {
@@ -17,7 +17,26 @@ package anyway.geometry {
 			_raw_data[2] = z;
 			_raw_data[3] = w;
 		}
-
+		
+		public function reset(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0, w:Number = 0.0):AWVector{
+			_raw_data[0] = x;
+			_raw_data[1] = y;
+			_raw_data[2] = z;
+			_raw_data[3] = w;
+			
+			return this;
+		}
+		
+		public function get copy():AWVector{
+			var dst:AWVector = new AWVector();
+			this.copyToRawData(dst._raw_data);
+			return dst;
+		}
+		
+		public function format():void {
+			trace(AWFormatUtil.format_vector(this));
+		}
+		
 		/**
 		 * 向量长度（模）
 		 * @return 
@@ -45,11 +64,15 @@ package anyway.geometry {
 			
 			return this;
 		}
-		
-		public function scale(v:Number):AWVector{
-			_raw_data[0] *= v;
-			_raw_data[1] *= v;
-			_raw_data[2] *= v;
+		/**
+		 * 缩放
+		 * @param factor 缩放因子
+		 * @return 
+		 */		
+		public function zoom(factor:Number):AWVector{
+			_raw_data[0] *= factor;
+			_raw_data[1] *= factor;
+			_raw_data[2] *= factor;
 			
 			return this;
 		}
@@ -135,16 +158,6 @@ package anyway.geometry {
 			dst._raw_data[3] = _raw_data[3];
 		}
 		
-		public function get copy():AWVector{
-			var dst:AWVector = new AWVector();
-			this.copyToRawData(dst._raw_data);
-			return dst;
-		}
-
-		public function format():void {
-			trace(AWFormatUtil.format_vector(this));
-		}
-
 		public function get x():Number {
 			return _raw_data[0];
 		}
@@ -175,15 +188,6 @@ package anyway.geometry {
 
 		public function set w(value:Number):void {
 			_raw_data[3] = value;
-		}
-		
-		public function reset(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0, w:Number = 0.0):AWVector{
-			_raw_data[0] = x;
-			_raw_data[1] = y;
-			_raw_data[2] = z;
-			_raw_data[3] = w;
-			
-			return this;
 		}
 	}
 }

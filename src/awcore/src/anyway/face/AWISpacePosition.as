@@ -1,5 +1,5 @@
 package anyway.face{
-	public interface AWSpacePositionI{
+	public interface AWISpacePosition{
 		function get x():Number;
 		function set x(value:Number):void;
 		function get y():Number;

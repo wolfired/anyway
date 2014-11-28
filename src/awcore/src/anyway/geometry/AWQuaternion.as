@@ -18,7 +18,27 @@ package anyway.geometry{
 			_raw_data[3] = w;
 		}
 		
+		public function reset(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0, w:Number = 0.0):AWQuaternion{
+			_raw_data[0] = x;
+			_raw_data[1] = y;
+			_raw_data[2] = z;
+			_raw_data[3] = w;
+			
+			return this;
+		}
+		
+		public function get copy():AWQuaternion{
+			var dst:AWQuaternion = new AWQuaternion();
+			this.copyToRawData(dst._raw_data);
+			return dst;
+		}
+		
+		public function format():void {
+			trace(AWFormatUtil.format_vector_in_raw_data(_raw_data));
+		}
+		
 		/**
+		 * 四元数加法
 		 * @return
 		 */
 		public function addition(right:AWQuaternion):AWQuaternion {
@@ -30,6 +50,10 @@ package anyway.geometry{
 			return this;
 		}
 		
+		/**
+		 * 四元数减法
+		 * @return 
+		 */		
 		public function subtraction(right:AWQuaternion):AWQuaternion {
 			_raw_data[0] -= right._raw_data[0];
 			_raw_data[1] -= right._raw_data[1];
@@ -38,17 +62,24 @@ package anyway.geometry{
 			
 			return this;
 		}
-		
+		/**
+		 * 四元数求逆
+		 * @return 
+		 */		
 		public function inverse():AWQuaternion{
 			var N:Number = _raw_data[0] * _raw_data[0] + _raw_data[1] * _raw_data[1] + _raw_data[2] * _raw_data[2] + _raw_data[3] * _raw_data[3];
-			var result:AWQuaternion = new AWQuaternion();
-			result._raw_data[0] = -_raw_data[0] / N;
-			result._raw_data[1] = -_raw_data[1] / N;
-			result._raw_data[2] = -_raw_data[2] / N;
-			result._raw_data[3] = _raw_data[3] / N;
-			return result;
+			
+			_raw_data[0] = -_raw_data[0] / N;
+			_raw_data[1] = -_raw_data[1] / N;
+			_raw_data[2] = -_raw_data[2] / N;
+			_raw_data[3] = _raw_data[3] / N;
+			
+			return this;
 		}
-		
+		/**
+		 * 四元数乘法
+		 * @return 
+		 */		
 		public function multiply(right:AWQuaternion):AWQuaternion{
 			var x:Number = _raw_data[1] * right._raw_data[2] - right._raw_data[1] * _raw_data[2] + _raw_data[3] * right._raw_data[0] + right._raw_data[3] * _raw_data[0];
 			var y:Number = -_raw_data[0] * right._raw_data[2] + right._raw_data[0] * _raw_data[2] + _raw_data[3] * right._raw_data[1] + right._raw_data[3] * _raw_data[1];
@@ -63,30 +94,11 @@ package anyway.geometry{
 			return this;
 		}
 		
-		public function reset(x:Number = 0.0, y:Number = 0.0, z:Number = 0.0, w:Number = 0.0):AWQuaternion{
-			_raw_data[0] = x;
-			_raw_data[1] = y;
-			_raw_data[2] = z;
-			_raw_data[3] = w;
-			
-			return this;
-		}
-		
 		public function copyToRawData(raw_data:Vector.<Number>):void {
 			raw_data[0] = _raw_data[0];
 			raw_data[1] = _raw_data[1];
 			raw_data[2] = _raw_data[2];
 			raw_data[3] = _raw_data[3];
-		}
-		
-		public function get copy():AWQuaternion{
-			var dst:AWQuaternion = new AWQuaternion();
-			this.copyToRawData(dst._raw_data);
-			return dst;
-		}
-		
-		public function format():void {
-			trace(AWFormatUtil.format_vector_in_raw_data(_raw_data));
 		}
 	}
 }

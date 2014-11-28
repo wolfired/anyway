@@ -4,12 +4,12 @@ package anyway.core{
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	
-	import anyway.geometry.AWMatrix;
+	import anyway.face.AWIDispose;
 	import anyway.geometry.AWVector;
 	
 	use namespace ns_aw;
 
-	public class AWController{
+	public class AWCollector {
 		public static const KEY_STATUS_UP:uint = 0;
 		public static const KEY_STATUS_DOWN:uint = 1;
 		
@@ -17,11 +17,11 @@ package anyway.core{
 		
 		private var _key_status_map:Array;
 		
-		public function AWController(){
+		public function AWCollector(){
 			_key_status_map = [];
 		}
 		
-		public function setup(stage:Stage):AWController{
+		public function setup(stage:Stage):AWCollector{
 			_stage = stage;
 			
 			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
@@ -49,7 +49,7 @@ package anyway.core{
 			_stage.addEventListener(Event.DEACTIVATE, onDeactivate);
 			_stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 			
-			down_pos = new AWVector(event.stageX / 600 * 2 - 1, (600 - event.stageY) / 600 * 2 - 1);
+			down_pos = Anyway.ins.camera.screen2projection(new AWVector(event.stageX, event.stageY));
 		}
 		
 		private var up_pos:AWVector;
@@ -65,23 +65,22 @@ package anyway.core{
 		
 		
 		private function onMouseMove(event:MouseEvent):void {
-			up_pos = new AWVector(event.stageX / 600 * 2 - 1, (600 - event.stageY) / 600 * 2 - 1);
+			up_pos = Anyway.ins.camera.screen2projection(new AWVector(event.stageX, event.stageY));
 			
 			var d_vec:AWVector = up_pos.copy.subtraction(down_pos);
-			d_vec.normalize();
+			var len:Number = d_vec.length;
 			
-			var d_mat:AWMatrix = new AWMatrix();
-			d_mat.copyRowFrom(0, d_vec._raw_data);
-			var c:AWMatrix = Anyway.ins.camera.getCameraMatrix().copy.transpose();
-			d_mat.multiply(c);
-			d_mat.copyRowTo(0, d_vec._raw_data);
+			Anyway.ins.camera.projection2camera(d_vec);
+			d_vec.normalize();
 			
 			var n_vec:AWVector = Anyway.ins.camera._camera_point_to.copy.subtraction(Anyway.ins.camera._camera_place_at);
 			n_vec.normalize();
 			
 			n_vec.crossProduct(d_vec);
 			
-			Anyway.ins.camera.rotate(1, n_vec._raw_data[0], n_vec._raw_data[1], n_vec._raw_data[2]);
+			Anyway.ins.camera.rotate(len * 32, n_vec._raw_data[0], n_vec._raw_data[1], n_vec._raw_data[2]);
+			
+			down_pos = up_pos;
 		}
 	}
 }

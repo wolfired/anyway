@@ -2,10 +2,12 @@ package anyway.visual3d{
 	import flash.display.BitmapData;
 	
 	import anyway.core.ns_aw;
+	import anyway.face.AWIRotatable;
+	import anyway.face.AWITranslateable;
 	
 	use namespace ns_aw;
 
-	public class AWQuad extends AWVisualObject{
+	public class AWQuad extends AWVisualObject implements AWITranslateable, AWIRotatable{
 		public var _vertexData:Vector.<Number>;
 		public var _indexData:Vector.<uint>;
 		public var ttt:BitmapData;
@@ -26,6 +28,16 @@ package anyway.visual3d{
 				w, h, 0, 1, 1,
 				w, -h, 0, 1, 0
 			]);
+		}
+		
+		public function translate(tx:Number, ty:Number, tz:Number):void{
+			this.x += tx;
+			this.y += ty;
+			this.z += tz;
+		}
+		
+		public function rotate(angle_deg:Number, x:Number, y:Number, z:Number):void{
+			
 		}
 	}
 }
